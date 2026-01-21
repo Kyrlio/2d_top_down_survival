@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cno0dsrwmbhkj"]
+
+[ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="1_lmm88"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lmm88"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="SprintParticles" type="Node2D"]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_lmm88")
+amount = 1
+texture = ExtResource("1_lmm88")

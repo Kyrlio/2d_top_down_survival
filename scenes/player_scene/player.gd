@@ -2,9 +2,8 @@
 class_name Player
 extends CharacterBody2D
 
-enum STATE {IDLE, RUN, ROLL, JUMP}
+enum STATE {IDLE, RUN, WALK, ROLL, JUMP}
 
-const SPEED: float = 85.0
 const ROLL_SPEED: float = 95.0
 const ROLL_TIME: float = 0.45
 const ROLL_RELOAD_COST: float = 0.8
@@ -15,7 +14,9 @@ const HAIRS: Array[String] = ["uid://dq368mbpuuhrw", "uid://dxlwp0wm0s4wi", "uid
 @onready var visuals: Node2D = %Visuals
 @onready var tool: Sprite2D = %Tool
 @onready var hair: Sprite2D = %Hair
+@onready var running_particles: GPUParticles2D = %RunningParticles
 
+var SPEED: float = 85.0
 var active_state: STATE = STATE.IDLE
 var aim_vector: Vector2 = Vector2.RIGHT
 var roll_dir: Vector2 = Vector2.ZERO
@@ -23,6 +24,8 @@ var roll_timer: float
 var roll_reload_timer: float
 var actual_tool_index: int = 0
 var actual_hair_index: int = 0
+var is_sprinting: bool = false
+var is_walking: bool = false
 
 
 func _ready() -> void:
@@ -42,6 +45,10 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	update_tools(event)
 	update_hair(event)
+	if event.is_action_pressed("sprint"):
+		is_sprinting = true
+	if event.is_action_released("sprint"):
+		is_sprinting = false
 
 
 func update_tools(event: InputEvent) -> void:
@@ -70,9 +77,15 @@ func switch_state(to_state: STATE) -> void:
 	
 	match active_state:
 		STATE.IDLE:
+			is_walking = false
 			animation_player.play("idle")
 		
+		STATE.WALK:
+			is_walking = true
+			animation_player.play("walk")
+		
 		STATE.RUN:
+			is_walking = false
 			animation_player.play("run")
 		
 		STATE.ROLL:
@@ -105,7 +118,17 @@ func process_state(delta: float) -> void:
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
 		
-		STATE.RUN:
+		STATE.RUN, STATE.WALK:
+			if is_sprinting:
+				running_particles.emitting = true
+				SPEED = 125.0
+			elif is_walking:
+				running_particles.emitting = false
+				SPEED = 50.0
+			else:
+				running_particles.emitting = false
+				SPEED = 85.0
+			
 			var target_velocity = get_movement_vector() * SPEED
 			velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
 			
@@ -115,6 +138,10 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.ROLL)
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
+			if Input.is_action_pressed("walk"):
+				switch_state(STATE.WALK)
+			if Input.is_action_just_released("walk"):
+				switch_state(STATE.RUN)
 		
 		STATE.ROLL:
 			if roll_timer > 0.0:
