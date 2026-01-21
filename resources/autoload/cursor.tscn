@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8jmiydvcr3hu"]
+
+[ext_resource type="Script" uid="uid://bffuolhedcxb7" path="res://scripts/cursor.gd" id="1_775rp"]
+[ext_resource type="Texture2D" uid="uid://dvjkekydbib5l" path="res://assets/UI/cursor_04.png" id="2_775rp"]
+
+[node name="Cursor" type="CanvasLayer"]
+script = ExtResource("1_775rp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_775rp")
+offset = Vector2(5.5, 7)
