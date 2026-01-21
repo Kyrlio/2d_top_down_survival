@@ -7,8 +7,23 @@ enum STATE {IDLE, RUN, WALK, ROLL, JUMP}
 const ROLL_SPEED: float = 95.0
 const ROLL_TIME: float = 0.45
 const ROLL_RELOAD_COST: float = 0.8
-const TOOLS: Array[String] = ["uid://ion4fpq1baa2", "uid://coh1chcl1j7qk", "uid://c24jmm17ykbk4", "uid://cs646keppvhr2"]
-const HAIRS: Array[String] = ["uid://dq368mbpuuhrw", "uid://dxlwp0wm0s4wi", "uid://buaxhunol21f5", "uid://bp3rkeywnvr05", "uid://byqd85x02kol0", "uid://bnw8jhm42lhvn"]
+#const TOOLS: Array[String] = ["uid://ion4fpq1baa2", "uid://coh1chcl1j7qk", "uid://c24jmm17ykbk4", "uid://cs646keppvhr2"]
+#const HAIRS: Array[String] = ["uid://dq368mbpuuhrw", "uid://dxlwp0wm0s4wi", "uid://buaxhunol21f5", "uid://bp3rkeywnvr05", "uid://byqd85x02kol0", "uid://bnw8jhm42lhvn"]
+const TOOLS: Dictionary = {
+	"Hand": "uid://ion4fpq1baa2",
+	"Sword": "uid://coh1chcl1j7qk",
+	"Axe": "uid://c24jmm17ykbk4",
+	"Pickaxe": "uid://cs646keppvhr2"
+}
+
+const HAIRS: Dictionary = {
+	"Bowl": "uid://dq368mbpuuhrw",
+	"Long": "uid://dxlwp0wm0s4wi",
+	"Curly": "uid://buaxhunol21f5",
+	"Mop": "uid://bp3rkeywnvr05",
+	"Short": "uid://byqd85x02kol0",
+	"Spikey": "uid://bnw8jhm42lhvn"
+}
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = %Visuals
@@ -30,8 +45,8 @@ var is_walking: bool = false
 
 func _ready() -> void:
 	switch_state(STATE.IDLE)
-	tool.texture = load(TOOLS[actual_tool_index])
-	hair.texture = load(HAIRS[actual_hair_index])
+	tool.texture = load(TOOLS.Hand)
+	hair.texture = load(HAIRS.Bowl)
 
 
 ## Main processing loop for the player
@@ -54,19 +69,19 @@ func _input(event: InputEvent) -> void:
 func update_tools(event: InputEvent) -> void:
 	if event.is_action_pressed("scroll_down"):
 		actual_tool_index = (actual_tool_index + 1) % TOOLS.size()
-		tool.texture = load(TOOLS[actual_tool_index])
+		tool.texture = load(TOOLS.values()[actual_tool_index])
 	if event.is_action_pressed("scroll_up"):
 		actual_tool_index = (actual_tool_index - 1) % TOOLS.size()
-		tool.texture = load(TOOLS[actual_tool_index])
+		tool.texture = load(TOOLS.values()[actual_tool_index])
 
 
 func update_hair(event: InputEvent) -> void:
 	if event.is_action_pressed("next_hair"):
 		actual_hair_index = (actual_hair_index + 1) % HAIRS.size()
-		hair.texture = load(HAIRS[actual_hair_index])
+		hair.texture = load(HAIRS.values()[actual_hair_index])
 	if event.is_action_pressed("previous_hair"):
 		actual_hair_index = (actual_hair_index - 1) % HAIRS.size()
-		hair.texture = load(HAIRS[actual_hair_index])
+		hair.texture = load(HAIRS.values()[actual_hair_index])
 
 
 ## Switch the player to a new state
