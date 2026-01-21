@@ -2,7 +2,7 @@
 class_name Player
 extends CharacterBody2D
 
-enum STATE {IDLE, RUN, WALK, ROLL, JUMP}
+enum STATE {IDLE, RUN, WALK, ROLL, JUMP, ATTACK}
 
 const ROLL_SPEED: float = 95.0
 const ROLL_TIME: float = 0.45
@@ -27,6 +27,7 @@ const HAIRS: Dictionary = {
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = %Visuals
+@onready var hand_pivot: Node2D = %HandPivot
 @onready var tool: Sprite2D = %Tool
 @onready var hair: Sprite2D = %Hair
 @onready var running_particles: GPUParticles2D = %RunningParticles
@@ -93,6 +94,7 @@ func switch_state(to_state: STATE) -> void:
 	match active_state:
 		STATE.IDLE:
 			is_walking = false
+			running_particles.emitting = false
 			animation_player.play("idle")
 		
 		STATE.WALK:
@@ -117,6 +119,16 @@ func switch_state(to_state: STATE) -> void:
 		
 		STATE.JUMP:
 			animation_player.play("jump")
+		
+		STATE.ATTACK:
+			is_walking = false
+			velocity = Vector2.ZERO # On coupe le mouvement pendant l'attaque
+			animation_player.play("attack")
+			
+			# On fixe la direction du regard et de l'attaque au début
+			var mouse_pos = get_global_mouse_position()
+			visuals.scale = Vector2.ONE if (mouse_pos - global_position).x >= 0 else Vector2(-1, 1)
+			hand_pivot.look_at(mouse_pos)
 
 
 ## Process the logic for the current state every frame
@@ -132,6 +144,8 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.ROLL)
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
+			if Input.is_action_just_pressed("attack"):
+				switch_state(STATE.ATTACK)
 		
 		STATE.RUN, STATE.WALK:
 			if is_sprinting:
@@ -153,6 +167,8 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.ROLL)
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
+			if Input.is_action_just_pressed("attack"):
+				switch_state(STATE.ATTACK)
 			if Input.is_action_pressed("walk"):
 				switch_state(STATE.WALK)
 			if Input.is_action_just_released("walk"):
@@ -172,12 +188,25 @@ func process_state(delta: float) -> void:
 		STATE.JUMP:
 			await animation_player.animation_finished
 			switch_state(STATE.IDLE)
+		
+		STATE.ATTACK:
+			if not animation_player.is_playing():
+				if get_movement_vector() != Vector2.ZERO:
+					switch_state(STATE.RUN)
+				else:
+					switch_state(STATE.IDLE)
 
 
 ## Update the player's aiming direction and visual orientation (flip)
 func update_aim_and_visuals() -> void:
+	# On ne met pas à jour la direction pendant l'attaque (on lock la visée)
+	if active_state == STATE.ATTACK:
+		return
+
 	var aim_vec: Vector2 = get_effective_aim()
 	visuals.scale = Vector2.ONE if aim_vec.x >= 0 else Vector2(-1, 1)
+	
+	hand_pivot.rotation = 0.0
 
 
 ## Calculate the effective aiming direction based on mouse position
@@ -197,10 +226,6 @@ func get_effective_aim() -> Vector2:
 func update_roll_cooldown(delta) -> void:
 	if roll_reload_timer > 0.0:
 		roll_reload_timer -= delta
-
-
-
-
 
 
 # ---------------------------- GETTERS ----------------------------
