@@ -2,18 +2,19 @@
 class_name Player
 extends CharacterBody2D
 
-enum STATE {IDLE, RUN, ROLL}
+enum STATE {IDLE, RUN, ROLL, JUMP}
 
 const SPEED: float = 85.0
 const ROLL_SPEED: float = 95.0
 const ROLL_TIME: float = 0.45
 const ROLL_RELOAD_COST: float = 0.8
 const TOOLS: Array[String] = ["uid://ion4fpq1baa2", "uid://coh1chcl1j7qk", "uid://c24jmm17ykbk4", "uid://cs646keppvhr2"]
-
+const HAIRS: Array[String] = ["uid://dq368mbpuuhrw", "uid://dxlwp0wm0s4wi", "uid://buaxhunol21f5", "uid://bp3rkeywnvr05", "uid://byqd85x02kol0", "uid://bnw8jhm42lhvn"]
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var visuals: Node2D = $Visuals
+@onready var visuals: Node2D = %Visuals
 @onready var tool: Sprite2D = %Tool
+@onready var hair: Sprite2D = %Hair
 
 var active_state: STATE = STATE.IDLE
 var aim_vector: Vector2 = Vector2.RIGHT
@@ -21,11 +22,13 @@ var roll_dir: Vector2 = Vector2.ZERO
 var roll_timer: float
 var roll_reload_timer: float
 var actual_tool_index: int = 0
+var actual_hair_index: int = 0
 
 
 func _ready() -> void:
 	switch_state(STATE.IDLE)
 	tool.texture = load(TOOLS[actual_tool_index])
+	hair.texture = load(HAIRS[actual_hair_index])
 
 
 ## Main processing loop for the player
@@ -37,12 +40,26 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	update_tools(event)
+	update_hair(event)
+
+
+func update_tools(event: InputEvent) -> void:
 	if event.is_action_pressed("scroll_down"):
 		actual_tool_index = (actual_tool_index + 1) % TOOLS.size()
 		tool.texture = load(TOOLS[actual_tool_index])
-	elif event.is_action_pressed("scroll_up"):
+	if event.is_action_pressed("scroll_up"):
 		actual_tool_index = (actual_tool_index - 1) % TOOLS.size()
 		tool.texture = load(TOOLS[actual_tool_index])
+
+
+func update_hair(event: InputEvent) -> void:
+	if event.is_action_pressed("next_hair"):
+		actual_hair_index = (actual_hair_index + 1) % HAIRS.size()
+		hair.texture = load(HAIRS[actual_hair_index])
+	if event.is_action_pressed("previous_hair"):
+		actual_hair_index = (actual_hair_index - 1) % HAIRS.size()
+		hair.texture = load(HAIRS[actual_hair_index])
 
 
 ## Switch the player to a new state
@@ -69,6 +86,9 @@ func switch_state(to_state: STATE) -> void:
 			velocity = roll_dir * ROLL_SPEED
 			var anim_length = animation_player.get_animation("roll").length
 			animation_player.play("roll", -1, anim_length / ROLL_TIME)
+		
+		STATE.JUMP:
+			animation_player.play("jump")
 
 
 ## Process the logic for the current state every frame
@@ -82,6 +102,8 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.RUN)
 			if Input.is_action_just_pressed("roll") and roll_reload_timer <= 0.0:
 				switch_state(STATE.ROLL)
+			if Input.is_action_just_pressed("jump"):
+				switch_state(STATE.JUMP)
 		
 		STATE.RUN:
 			var target_velocity = get_movement_vector() * SPEED
@@ -91,6 +113,8 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.IDLE)
 			if Input.is_action_just_pressed("roll") and roll_reload_timer <= 0.0:
 				switch_state(STATE.ROLL)
+			if Input.is_action_just_pressed("jump"):
+				switch_state(STATE.JUMP)
 		
 		STATE.ROLL:
 			if roll_timer > 0.0:
@@ -102,6 +126,10 @@ func process_state(delta: float) -> void:
 					switch_state(STATE.RUN)
 				else:
 					switch_state(STATE.IDLE)
+		
+		STATE.JUMP:
+			await animation_player.animation_finished
+			switch_state(STATE.IDLE)
 
 
 ## Update the player's aiming direction and visual orientation (flip)
