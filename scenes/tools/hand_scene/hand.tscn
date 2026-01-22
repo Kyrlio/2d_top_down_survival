@@ -1,0 +1,106 @@
+[gd_scene load_steps=6 format=3 uid="uid://bue34yh8nhqm3"]
+
+[ext_resource type="Texture2D" uid="uid://ion4fpq1baa2" path="res://assets/Elements/Tools/Hand.png" id="1_hand"]
+[ext_resource type="Script" uid="uid://j8wq8ob4fb6" path="res://scenes/tools/hand_scene/hand.gd" id="1_rfpit"]
+
+[sub_resource type="Animation" id="Animation_rfpit"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_sygf0"]
+resource_name = "attack"
+length = 0.5555611
+step = 0.055555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2777778, 0.33333337, 0.3888889, 0.44444448, 0.5555556),
+"transitions": PackedFloat32Array(2, -2, 2, -0.5, 2, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(3, 0), Vector2(22, -3), Vector2(20, -3), Vector2(22, -3), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(2),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2777778, 0.33333337, 0.5555556),
+"transitions": PackedFloat32Array(2, 0.5, 2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 0.85), Vector2(2, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rcxm6"]
+_data = {
+&"RESET": SubResource("Animation_rfpit"),
+&"attack": SubResource("Animation_sygf0")
+}
+
+[node name="Hand" type="Node2D"]
+script = ExtResource("1_rfpit")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rcxm6")
+}
+
+[node name="CooldownTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_hand")
+offset = Vector2(1, -2)

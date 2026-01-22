@@ -7,13 +7,11 @@ enum STATE {IDLE, RUN, WALK, ROLL, JUMP, ATTACK}
 const ROLL_SPEED: float = 95.0
 const ROLL_TIME: float = 0.45
 const ROLL_RELOAD_COST: float = 0.8
-#const TOOLS: Array[String] = ["uid://ion4fpq1baa2", "uid://coh1chcl1j7qk", "uid://c24jmm17ykbk4", "uid://cs646keppvhr2"]
-#const HAIRS: Array[String] = ["uid://dq368mbpuuhrw", "uid://dxlwp0wm0s4wi", "uid://buaxhunol21f5", "uid://bp3rkeywnvr05", "uid://byqd85x02kol0", "uid://bnw8jhm42lhvn"]
 const TOOLS: Dictionary = {
-	"Hand": "uid://ion4fpq1baa2",
-	"Sword": "uid://coh1chcl1j7qk",
-	"Axe": "uid://c24jmm17ykbk4",
-	"Pickaxe": "uid://cs646keppvhr2"
+	"Hand": "uid://bue34yh8nhqm3",
+	"Sword": "uid://xdl4mrc4p3qy",
+	"Axe": "uid://cu2m18tv3r8a",
+	"Pickaxe": "uid://o11e5wuvomof"
 }
 
 const HAIRS: Dictionary = {
@@ -28,11 +26,12 @@ const HAIRS: Dictionary = {
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = %Visuals
 @onready var hand_pivot: Node2D = %HandPivot
-@onready var tool: Sprite2D = %Tool
+@onready var tool: Node2D = %Tool
 @onready var hair: Sprite2D = %Hair
 @onready var running_particles: GPUParticles2D = %RunningParticles
 
 var SPEED: float = 85.0
+var current_tool: Node2D
 var active_state: STATE = STATE.IDLE
 var aim_vector: Vector2 = Vector2.RIGHT
 var roll_dir: Vector2 = Vector2.ZERO
@@ -46,14 +45,14 @@ var is_walking: bool = false
 
 func _ready() -> void:
 	switch_state(STATE.IDLE)
-	tool.texture = load(TOOLS.Hand)
+	equip_tool(TOOLS.Hand)
 	hair.texture = load(HAIRS.Bowl)
 
 
 ## Main processing loop for the player
 func _process(delta: float) -> void:
 	process_state(delta)
-	update_aim_and_visuals()
+	update_aim_and_visuals(delta)
 	update_roll_cooldown(delta)
 	move_and_slide()
 
@@ -70,10 +69,23 @@ func _input(event: InputEvent) -> void:
 func update_tools(event: InputEvent) -> void:
 	if event.is_action_pressed("scroll_down"):
 		actual_tool_index = (actual_tool_index + 1) % TOOLS.size()
-		tool.texture = load(TOOLS.values()[actual_tool_index])
+		equip_tool(TOOLS.values()[actual_tool_index])
 	if event.is_action_pressed("scroll_up"):
 		actual_tool_index = (actual_tool_index - 1) % TOOLS.size()
-		tool.texture = load(TOOLS.values()[actual_tool_index])
+		equip_tool(TOOLS.values()[actual_tool_index])
+
+
+func equip_tool(scene_path: String) -> void:
+	# On vide le container Tool (on supprime l'arme précédente)
+	for child in tool.get_children():
+		child.queue_free()
+
+	var tool_scene = load(scene_path)
+	if tool_scene:
+		# On instancie la nouvelle arme comme ENFANT du container Tool
+		# Le container Tool est celui qui est animé (position, scale...) par l'AnimationPlayer
+		current_tool = tool_scene.instantiate()
+		tool.add_child(current_tool)
 
 
 func update_hair(event: InputEvent) -> void:
@@ -121,11 +133,22 @@ func switch_state(to_state: STATE) -> void:
 			animation_player.play("jump")
 		
 		STATE.ATTACK:
+			SPEED = 10
 			animation_player.speed_scale = 1.0
 			running_particles.emitting = false
 			is_walking = false
-			velocity = Vector2.ZERO # On coupe le mouvement pendant l'attaque
+			
+			#if current_tool.animation_player.is_playing():
+				#await current_tool.animation_player.animation_finished
+				#if Input.is_action_just_released("attack"):
+					#switch_state(previous_state)
+			
 			animation_player.play("attack")
+			current_tool.cooldown_timer.start()
+			if current_tool is Sword:
+				current_tool.animation_player.play("slash")
+			else:
+				current_tool.animation_player.play("attack")
 			
 			# On fixe la direction du regard et de l'attaque au début
 			var mouse_pos = get_global_mouse_position()
@@ -146,7 +169,7 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.ROLL)
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
-			if Input.is_action_pressed("attack"):
+			if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 				switch_state(STATE.ATTACK)
 		
 		STATE.RUN, STATE.WALK:
@@ -172,7 +195,7 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.ROLL)
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
-			if Input.is_action_pressed("attack"):
+			if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 				switch_state(STATE.ATTACK)
 			if Input.is_action_pressed("walk"):
 				switch_state(STATE.WALK)
@@ -195,15 +218,23 @@ func process_state(delta: float) -> void:
 			switch_state(STATE.IDLE)
 		
 		STATE.ATTACK:
+			if current_tool is Sword:
+				if not current_tool.combo_timer.is_stopped() and Input.is_action_pressed("attack"):
+					#current_tool.animation_player.stop()
+					current_tool.animation_player.play("slash2")
+			
 			if not animation_player.is_playing():
 				if get_movement_vector() != Vector2.ZERO:
 					switch_state(STATE.RUN)
 				else:
 					switch_state(STATE.IDLE)
+			
+			var target_velocity = get_movement_vector() * SPEED
+			velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
 
 
 ## Update the player's aiming direction and visual orientation (flip)
-func update_aim_and_visuals() -> void:
+func update_aim_and_visuals(delta: float) -> void:
 	# On ne met pas à jour la direction pendant l'attaque (on lock la visée)
 	if active_state == STATE.ATTACK:
 		return
@@ -211,7 +242,7 @@ func update_aim_and_visuals() -> void:
 	var aim_vec: Vector2 = get_effective_aim()
 	visuals.scale = Vector2.ONE if aim_vec.x >= 0 else Vector2(-1, 1)
 	
-	hand_pivot.rotation = 0.0
+	hand_pivot.rotation = lerp_angle(hand_pivot.rotation, 0.0, 25 * delta)
 
 
 ## Calculate the effective aiming direction based on mouse position
