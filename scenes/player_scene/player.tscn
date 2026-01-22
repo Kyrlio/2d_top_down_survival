@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://7jtamgi5g7r7"]
+[gd_scene load_steps=27 format=3 uid="uid://7jtamgi5g7r7"]
 
 [ext_resource type="Script" uid="uid://dsvde8v8bx5iv" path="res://scenes/player_scene/player.gd" id="1_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="1_w8ad2"]
@@ -9,9 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://b0peceqcjlcxx" path="res://assets/Characters/Human/WALKING/base_walk_strip8.png" id="6_8janr"]
 [ext_resource type="Texture2D" uid="uid://by7b7jd335lns" path="res://assets/Elements/VFX/running_particles.png" id="8_co4c6"]
 [ext_resource type="Texture2D" uid="uid://ckxyi5ij4b7sh" path="res://assets/Characters/Human/ROLL/base_roll_strip10.png" id="8_qaib3"]
-[ext_resource type="Texture2D" uid="uid://cs646keppvhr2" path="res://assets/Elements/Tools/Pickaxe.png" id="9_8janr"]
 [ext_resource type="Script" uid="uid://0xiw24qgohg4" path="res://scripts/camera_2d.gd" id="9_67qed"]
 [ext_resource type="Texture2D" uid="uid://cf8g4cybaphh0" path="res://assets/Characters/Human/ATTACK/slash.png" id="11_tlsmm"]
+[ext_resource type="Texture2D" uid="uid://coh1chcl1j7qk" path="res://assets/Elements/Tools/Sword.png" id="12_cs6j4"]
+[ext_resource type="Texture2D" uid="uid://dlfb1r7qx22b2" path="res://assets/Characters/Human/ATTACK/slash-no-impact.png" id="12_ee1a4"]
 [ext_resource type="Texture2D" uid="uid://dq368mbpuuhrw" path="res://assets/Characters/Human/all_hair_bowl.png" id="12_tlsmm"]
 
 [sub_resource type="Animation" id="Animation_rf8gt"]
@@ -160,11 +161,47 @@ tracks/11/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Visuals/HandPivot/Tool:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Visuals/HandPivot/VFX2:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Visuals/HandPivot/VFX2:frame")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_cs6j4"]
 resource_name = "attack"
-length = 0.66667336
-step = 0.06666667
+length = 0.5555611
+step = 0.055555556
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -196,7 +233,7 @@ tracks/2/path = NodePath("Visuals/Base:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.2, 0.26666668, 0.33333334, 0.4, 0.46666667, 0.53333336, 0.6),
+"times": PackedFloat32Array(0, 0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.33333334, 0.3888889, 0.44444445, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -208,7 +245,7 @@ tracks/3/path = NodePath("Visuals/Hair:frame_coords")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.2, 0.26666668, 0.33333334, 0.4, 0.46666667, 0.53333336, 0.6),
+"times": PackedFloat32Array(0, 0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.33333334, 0.3888889, 0.44444445, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [Vector2i(0, 14), Vector2i(1, 14), Vector2i(2, 14), Vector2i(3, 14), Vector2i(4, 14), Vector2i(5, 14), Vector2i(6, 14), Vector2i(7, 14), Vector2i(8, 14), Vector2i(9, 14)]
@@ -217,10 +254,10 @@ tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/path = NodePath("Visuals/HandPivot/Tool:position")
-tracks/4/interp = 0
+tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.2, 0.26666668, 0.33333334, 0.4, 0.46666667, 0.53333336, 0.6, 0.70000005),
+"times": PackedFloat32Array(0, 0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.33333334, 0.3888889, 0.44444445, 0.5, 0.5555556),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-6, -6), Vector2(-10, -7), Vector2(-10, -3), Vector2(-9, -2), Vector2(12, -6), Vector2(12, -2), Vector2(12, -4), Vector2(12, -3), Vector2(7, -5), Vector2(-2, -6), Vector2(-6, -6)]
@@ -229,10 +266,10 @@ tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/path = NodePath("Visuals/HandPivot/Tool:rotation")
-tracks/5/interp = 0
+tracks/5/interp = 2
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.06666667, 0.13333334, 0.2, 0.26666668, 0.33333334, 0.53333336, 0.6, 0.70000005),
+"times": PackedFloat32Array(0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.44444445, 0.5, 0.5555556),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [0.0, -0.7853982, -1.5707964, 0.7853982, 1.5707964, 0.7853982, 0.43633232, 0.0]
@@ -241,13 +278,13 @@ tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/path = NodePath("Visuals/HandPivot/Tool:scale")
-tracks/6/interp = 0
+tracks/6/interp = 2
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.2, 0.26666668, 0.4, 0.70000005),
-"transitions": PackedFloat32Array(1, 1, 2, 0.5, -2, 1),
+"times": PackedFloat32Array(0, 0.055555556, 0.16666667, 0.22222222, 0.33333334, 0.5555556),
+"transitions": PackedFloat32Array(1, 1, 2, 0.5, -2, 2),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1, 1), Vector2(0.95, 1.5), Vector2(1.25, 0.95), Vector2(0.95, 1.25), Vector2(1, 1)]
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(0.95, 1.75), Vector2(1.675, 1.15), Vector2(0.8, 1.5), Vector2(1, 1)]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
@@ -256,7 +293,7 @@ tracks/7/path = NodePath("Visuals/HandPivot/VFX:visible")
 tracks/7/interp = 0
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.26666668, 0.53333336),
+"times": PackedFloat32Array(0, 0.22222222, 0.44444445),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -268,7 +305,7 @@ tracks/8/path = NodePath("Visuals/HandPivot/VFX:frame")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0.26666668, 0.33333334, 0.40000004, 0.4666667),
+"times": PackedFloat32Array(0.22222222, 0.2777778, 0.3333334, 0.38888896),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
@@ -539,7 +576,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-4, -3), Vector2(-4, -4), Vector2(-5, -3), Vector2(-4, -11), Vector2(-2, -12), Vector2(7, -6), Vector2(-4, -1), Vector2(-5, -1), Vector2(-5, -2), Vector2(-4, -3)]
+"values": [Vector2(-4, -3), Vector2(-4, -4), Vector2(-5, -3), Vector2(-4, -11), Vector2(-2, -12), Vector2(7, -6), Vector2(-4, -1), Vector2(-5, 2), Vector2(-5, -2), Vector2(-4, -3)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -548,10 +585,10 @@ tracks/5/path = NodePath("Visuals/HandPivot/Tool:rotation")
 tracks/5/interp = 0
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.2, 0.3, 0.4, 0.5, 0.6, 0.8, 0.90000004),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 0.7853982, 1.3089969, 3.8397243, -1.5707963267948966, -0.4363323129985824, 0.0]
+"values": [0.0, 0.7853982, 1.3089969, 3.8397243, -1.5707963267948966, -1.3089969389957472, -0.4363323129985824, 0.0]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -560,10 +597,10 @@ tracks/6/path = NodePath("Visuals/HandPivot/Tool:skew")
 tracks/6/interp = 0
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.2, 0.3, 0.8, 0.90000004),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0.2, 0.3, 0.7, 0.8, 0.90000004),
+"transitions": PackedFloat32Array(1, 1, 1.2745608, 1, 1),
 "update": 0,
-"values": [0.0, 0.34906584, -0.17453292, 0.0]
+"values": [0.0, 0.34906584, 0.0, -0.17453292, 0.0]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
@@ -588,6 +625,18 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [Vector2i(0, 9), Vector2i(1, 9), Vector2i(2, 9), Vector2i(3, 9), Vector2i(4, 9), Vector2i(5, 9), Vector2i(6, 9), Vector2i(7, 9), Vector2i(8, 9)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Visuals/HandPivot/Tool:visible")
+tracks/9/interp = 0
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_tudx8"]
@@ -782,10 +831,124 @@ tracks/4/keys = {
 "values": [Vector2(-4, -3), Vector2(-3, -3), Vector2(-2, -4), Vector2(-2, -3), Vector2(-2, -2), Vector2(-3, -2), Vector2(-4, -3)]
 }
 
+[sub_resource type="Animation" id="Animation_iai0i"]
+resource_name = "attack_2"
+length = 0.5555611
+step = 0.055555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/HandPivot/Tool:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.11111111, 0.16666667, 0.33333334, 0.5555611),
+"transitions": PackedFloat32Array(2, 0.5, 1, 1, 1),
+"update": 0,
+"values": [Vector2(12, -2.0000002), Vector2(10, 4), Vector2(-11, -3), Vector2(-13, 0), Vector2(-6, -4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/HandPivot/Tool:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.11111111, 0.16666667, 0.33333334, 0.5555611),
+"transitions": PackedFloat32Array(2, 0.5, 1, 1, 1),
+"update": 0,
+"values": [1.5707963, 1.9198622, -1.5707964, -1.5707964, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/HandPivot/Tool:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.11111111, 0.16666667, 0.33333334, 0.5555611),
+"transitions": PackedFloat32Array(2, 0.5, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1.0457032, 1.3921875), Vector2(0.75, 1), Vector2(1.5, 1.5), Vector2(1, 1), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visuals/HandPivot/VFX2:visible")
+tracks/3/interp = 0
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visuals/HandPivot/VFX2:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.16666667, 0.22222222, 0.2777778),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visuals/Base:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_cs6j4")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visuals/Base:hframes")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Visuals/Base:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.055555552, 0.111111104, 0.16666667, 0.22222221, 0.2777778, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 3, 2, 1, 0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Visuals/Hair:frame_coords")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.055555552, 0.111111104, 0.16666667, 0.22222221, 0.2777778, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(4, 14), Vector2i(5, 14), Vector2i(6, 14), Vector2i(3, 14), Vector2i(2, 14), Vector2i(1, 14), Vector2i(0, 14)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rf8gt"]
 _data = {
 &"RESET": SubResource("Animation_rf8gt"),
 &"attack": SubResource("Animation_cs6j4"),
+&"attack_2": SubResource("Animation_iai0i"),
 &"idle": SubResource("Animation_w8ad2"),
 &"jump": SubResource("Animation_2q4ud"),
 &"roll": SubResource("Animation_ee1a4"),
@@ -863,19 +1026,27 @@ vframes = 20
 
 [node name="HandPivot" type="Node2D" parent="Visuals"]
 unique_name_in_owner = true
+position = Vector2(0, -3)
 
 [node name="VFX" type="Sprite2D" parent="Visuals/HandPivot"]
 visible = false
 texture = ExtResource("11_tlsmm")
-offset = Vector2(13, -10)
+offset = Vector2(13, -7)
+hframes = 4
+
+[node name="VFX2" type="Sprite2D" parent="Visuals/HandPivot"]
+visible = false
+texture = ExtResource("12_ee1a4")
+offset = Vector2(-15, -7)
+flip_h = true
 hframes = 4
 
 [node name="Tool" type="Sprite2D" parent="Visuals/HandPivot"]
 unique_name_in_owner = true
 position = Vector2(-4, -3)
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("9_8janr")
-offset = Vector2(1, -5)
+texture = ExtResource("12_cs6j4")
+offset = Vector2(1, -2)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

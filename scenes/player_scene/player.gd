@@ -121,6 +121,8 @@ func switch_state(to_state: STATE) -> void:
 			animation_player.play("jump")
 		
 		STATE.ATTACK:
+			animation_player.speed_scale = 1.0
+			running_particles.emitting = false
 			is_walking = false
 			velocity = Vector2.ZERO # On coupe le mouvement pendant l'attaque
 			animation_player.play("attack")
@@ -144,18 +146,21 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.ROLL)
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
-			if Input.is_action_just_pressed("attack"):
+			if Input.is_action_pressed("attack"):
 				switch_state(STATE.ATTACK)
 		
 		STATE.RUN, STATE.WALK:
 			if is_sprinting:
 				running_particles.emitting = true
 				SPEED = 125.0
+				animation_player.speed_scale = 1.3
 			elif is_walking:
 				running_particles.emitting = false
+				animation_player.speed_scale = 0.9
 				SPEED = 50.0
 			else:
 				running_particles.emitting = false
+				animation_player.speed_scale = 1
 				SPEED = 85.0
 			
 			var target_velocity = get_movement_vector() * SPEED
@@ -167,7 +172,7 @@ func process_state(delta: float) -> void:
 				switch_state(STATE.ROLL)
 			if Input.is_action_just_pressed("jump"):
 				switch_state(STATE.JUMP)
-			if Input.is_action_just_pressed("attack"):
+			if Input.is_action_pressed("attack"):
 				switch_state(STATE.ATTACK)
 			if Input.is_action_pressed("walk"):
 				switch_state(STATE.WALK)
