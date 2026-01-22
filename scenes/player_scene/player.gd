@@ -76,14 +76,11 @@ func update_tools(event: InputEvent) -> void:
 
 
 func equip_tool(scene_path: String) -> void:
-	# On vide le container Tool (on supprime l'arme précédente)
 	for child in tool.get_children():
 		child.queue_free()
 
 	var tool_scene = load(scene_path)
 	if tool_scene:
-		# On instancie la nouvelle arme comme ENFANT du container Tool
-		# Le container Tool est celui qui est animé (position, scale...) par l'AnimationPlayer
 		current_tool = tool_scene.instantiate()
 		tool.add_child(current_tool)
 
@@ -133,15 +130,10 @@ func switch_state(to_state: STATE) -> void:
 			animation_player.play("jump")
 		
 		STATE.ATTACK:
-			SPEED = 10
+			SPEED = 5
 			animation_player.speed_scale = 1.0
 			running_particles.emitting = false
 			is_walking = false
-			
-			#if current_tool.animation_player.is_playing():
-				#await current_tool.animation_player.animation_finished
-				#if Input.is_action_just_released("attack"):
-					#switch_state(previous_state)
 			
 			animation_player.play("attack")
 			current_tool.cooldown_timer.start()
