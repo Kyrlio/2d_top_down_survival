@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxv6m77ycdgc"]
+[gd_scene load_steps=18 format=3 uid="uid://bxv6m77ycdgc"]
 
 [ext_resource type="Script" uid="uid://cdaa8cx2b8t04" path="res://scenes/entities/enemy_scene/enemy.gd" id="1_qx6it"]
 [ext_resource type="Texture2D" uid="uid://c7bjjjean5tjn" path="res://assets/Characters/Skeleton/skeleton_idle_strip6.png" id="1_wb3li"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://d146s0230glem" path="res://components/hurtarea2d.gd" id="3_uqhqv"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="4_6e7i7"]
 [ext_resource type="Theme" uid="uid://o5luaxnidb4c" path="res://resources/theme.tres" id="4_uqhqv"]
+[ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="7_edex2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3y3vp"]
 radius = 4.0
@@ -48,6 +49,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [ExtResource("1_wb3li")]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("%HitGPUParticles:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_3y3vp"]
 resource_name = "hit"
@@ -88,6 +101,32 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("2_uqhqv")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("%HitGPUParticles:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("%HitGPUParticles")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_edex2"]
@@ -143,6 +182,33 @@ _data = {
 radius = 8.0
 height = 20.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dmdta"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_xsg5t"]
+_data = [Vector2(0, 0.4275229), 0.0, 0.0, 0, 0, Vector2(0.17026377, 0.99999994), 0.3108364, 0.3108364, 0, 0, Vector2(0.8105515, 0.041740656), -1.6306798, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_wagqe"]
+curve = SubResource("Curve_xsg5t")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4ebyg"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 8.0
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.29999998
+scale_max = 0.59999996
+scale_curve = SubResource("CurveTexture_wagqe")
+color = Color(0.89411765, 0.23137255, 0.26666668, 1)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 4
@@ -174,6 +240,7 @@ hframes = 6
 frame = 2
 
 [node name="HurtArea2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 258
 collision_mask = 256
 script = ExtResource("3_uqhqv")
@@ -205,3 +272,16 @@ show_percentage = false
 
 [node name="HitGPUParticles" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_dmdta")
+position = Vector2(0, -4)
+emitting = false
+amount = 6
+texture = ExtResource("7_edex2")
+lifetime = 0.25
+one_shot = true
+preprocess = 0.03
+explosiveness = 0.8
+randomness = 0.6
+fixed_fps = 0
+interpolate = false
+process_material = SubResource("ParticleProcessMaterial_4ebyg")

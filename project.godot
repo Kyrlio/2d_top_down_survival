@@ -13,7 +13,6 @@ config_version=5
 config/name="Another2DTopDownGame"
 run/main_scene="uid://beyrm1r2dm8i0"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
 
 [autoload]
 
