@@ -5,9 +5,11 @@ signal hit
 
 enum STATE {IDLE, HURT}
 
+@export var knockback_force: float = 75.0
+
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
-@onready var hp_progress_bar: ProgressBar = %HPProgressBar
 @onready var hit_gpu_particles: GPUParticles2D = %HitGPUParticles
+@onready var damage_spawning_point: Marker2D = %DamageSpawningPoint
 
 var active_state: STATE = STATE.IDLE
 var pushback_force: Vector2 = Vector2.ZERO
@@ -54,12 +56,14 @@ func process_state(delta: float) -> void:
 
 func take_damage(amount: int) -> void:
 	switch_state(STATE.HURT)
-	hp_progress_bar.value = max(0, hp_progress_bar.value - amount)
 	hit.emit()
-	if hp_progress_bar.value == 0:
-		queue_free()
+	
+	var label: Control = preload("uid://cdnp6bhgi0oys").instantiate()
+	label.position = damage_spawning_point.position
+	add_child(label)
+	label.set_damage(amount)
 
 
 func knock_back(source_position: Vector2) -> void:
 	hit_gpu_particles.rotation = get_angle_to(source_position) + PI
-	pushback_force = -global_position.direction_to(source_position) * 100
+	pushback_force = -global_position.direction_to(source_position) * knockback_force

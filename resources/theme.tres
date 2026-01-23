@@ -1,4 +1,7 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://o5luaxnidb4c"]
+[gd_resource type="Theme" load_steps=16 format=3 uid="uid://o5luaxnidb4c"]
+
+[ext_resource type="FontFile" uid="uid://b6ufirkgogsl7" path="res://assets/Fonts/TinyPixie2.ttf" id="1_d4nwg"]
+[ext_resource type="FontFile" uid="uid://cb37yagl0s7ks" path="res://assets/Fonts/KarenFat.ttf" id="2_7ct1h"]
 
 [sub_resource type="StyleBoxEmpty" id="6"]
 
@@ -101,6 +104,7 @@ corner_radius_bottom_left = 8
 
 [resource]
 default_font_size = 24
+Button/fonts/font = ExtResource("1_d4nwg")
 Button/styles/focus = SubResource("6")
 Button/styles/hover = SubResource("3")
 Button/styles/normal = SubResource("4")
@@ -112,6 +116,9 @@ HSlider/icons/tick = SubResource("11")
 HSlider/styles/grabber_area = SubResource("12")
 HSlider/styles/grabber_area_highlight = SubResource("13")
 HSlider/styles/slider = SubResource("10")
+Label/colors/font_shadow_color = Color(0.6509804, 0.12156863, 0.20392157, 1)
+Label/constants/shadow_offset_y = 3
+Label/fonts/font = ExtResource("2_7ct1h")
 LineEdit/styles/focus = SubResource("9")
 LineEdit/styles/normal = SubResource("8")
 Panel/styles/panel = SubResource("2")

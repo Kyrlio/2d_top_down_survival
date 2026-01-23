@@ -1,12 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://xdl4mrc4p3qy"]
+[gd_scene load_steps=15 format=3 uid="uid://xdl4mrc4p3qy"]
 
 [ext_resource type="Script" uid="uid://bc75j1ism3hem" path="res://scenes/tools/sword_scene/sword.gd" id="1_0o58g"]
 [ext_resource type="Texture2D" uid="uid://coh1chcl1j7qk" path="res://assets/Elements/Tools/Sword.png" id="1_mumg7"]
 [ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="2_4mytq"]
 [ext_resource type="Texture2D" uid="uid://dlfb1r7qx22b2" path="res://assets/Characters/Human/ATTACK/slash-no-impact.png" id="2_4s8gn"]
 [ext_resource type="Texture2D" uid="uid://cf8g4cybaphh0" path="res://assets/Characters/Human/ATTACK/slash.png" id="2_sa7wp"]
-[ext_resource type="Texture2D" uid="uid://bcbplp5pxr4hw" path="res://assets/Characters/Human/ATTACK/base_attack_strip10-no-VFX.png" id="4_thh7l"]
-[ext_resource type="Texture2D" uid="uid://dq368mbpuuhrw" path="res://assets/Characters/Human/all_hair_bowl.png" id="5_r0p6s"]
+[ext_resource type="Texture2D" uid="uid://h125toxei1hu" path="res://assets/Characters/Human/ATTACK/slash3.png" id="8_r0p6s"]
 
 [sub_resource type="Animation" id="Animation_4s8gn"]
 length = 0.001
@@ -153,6 +152,30 @@ tracks/11/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("VFX3:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("VFX3:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(13, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_1mmp0"]
@@ -510,71 +533,6 @@ tracks/12/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_sa7wp"]
-resource_name = "sword_return"
-length = 0.27778333
-step = 0.055555556
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.22222224),
-"transitions": PackedFloat32Array(-2, 0.5, 1),
-"update": 0,
-"values": [Vector2(4, 11), Vector2(-3, 2), Vector2(1, -3)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite:rotation")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.22222224, 0.2777778),
-"transitions": PackedFloat32Array(-2, 0.5, 1, 1),
-"update": 0,
-"values": [1.4049900478554354, -0.8726646259971648, 0.2617993877991494, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite:scale")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.22222224),
-"transitions": PackedFloat32Array(0.5, 0.5, 0.5),
-"update": 0,
-"values": [Vector2(0.8, 1.5), Vector2(1.2, 0.95), Vector2(1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite/HitArea2D/CollisionShape2D:disabled")
-tracks/3/interp = 0
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.055555556),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("VFX:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
 [sub_resource type="Animation" id="Animation_thh7l"]
 resource_name = "slash3"
 length = 0.7222278
@@ -622,7 +580,7 @@ tracks/3/path = NodePath("Sprite/HitArea2D:monitoring")
 tracks/3/interp = 0
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.38888887, 0.6666666),
+"times": PackedFloat32Array(0, 0.38888887, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -634,7 +592,7 @@ tracks/4/path = NodePath("Sprite/HitArea2D:monitorable")
 tracks/4/interp = 0
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.38888887, 0.6666666),
+"times": PackedFloat32Array(0, 0.38888887, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -646,7 +604,7 @@ tracks/5/path = NodePath("Sprite/HitArea2D/CollisionShape2D:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.38888887, 0.6666666),
+"times": PackedFloat32Array(0, 0.38888887, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
@@ -658,12 +616,131 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.3888889),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.055555556, 0.3888889, 0.6666667),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
+"args": [20],
+"method": &"add_damage"
+}, {
 "args": [],
 "method": &"slash3_dash"
+}, {
+"args": [-20],
+"method": &"add_damage"
 }]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("VFX3:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.33333334, 0.3888889, 0.5555556),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("VFX3:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.3888889, 0.44444445),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(6, 1), Vector2(18, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_sa7wp"]
+resource_name = "sword_return"
+length = 0.3333389
+step = 0.055555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.2777778),
+"transitions": PackedFloat32Array(0.5, 0.5, 1),
+"update": 0,
+"values": [Vector2(4, 11), Vector2(-3, 2), Vector2(1, -3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.2777778, 0.33333334),
+"transitions": PackedFloat32Array(0.5, 0.5, 1, 1),
+"update": 0,
+"values": [1.4049900478554354, -0.8726646259971648, 0.2617993877991494, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.2777778),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5),
+"update": 0,
+"values": [Vector2(0.8, 1.5), Vector2(1.2, 0.95), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite/HitArea2D/CollisionShape2D:disabled")
+tracks/3/interp = 0
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("VFX:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite/HitArea2D:monitoring")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprite/HitArea2D:monitorable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4s8gn"]
@@ -712,23 +789,11 @@ offset = Vector2(-15, -7)
 flip_h = true
 hframes = 4
 
-[node name="Base" type="Sprite2D" parent="."]
-unique_name_in_owner = true
+[node name="VFX3" type="Sprite2D" parent="."]
 visible = false
-texture_filter = 1
-position = Vector2(3, 6)
-texture = ExtResource("4_thh7l")
-offset = Vector2(0, -7)
-hframes = 10
-
-[node name="Hair" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-visible = false
-position = Vector2(3, 6)
-texture = ExtResource("5_r0p6s")
-offset = Vector2(0, -7)
-hframes = 23
-vframes = 20
+position = Vector2(13, 1)
+scale = Vector2(1.78125, 1)
+texture = ExtResource("8_r0p6s")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(1, -3)

@@ -6,6 +6,13 @@ enum STATE {IDLE, RUN, WALK, ROLL, JUMP, ATTACK}
 const ROLL_SPEED: float = 95.0
 const ROLL_TIME: float = 0.45
 const ROLL_RELOAD_COST: float = 0.8
+
+# Movement Settings
+const SPEED_WALK: float = 50.0
+const SPEED_RUN: float = 85.0
+const SPEED_SPRINT: float = 125.0
+const SPEED_ATTACK: float = 5.0
+
 const TOOLS: Dictionary = {
 	"Hand": "uid://bue34yh8nhqm3",
 	"Sword": "uid://xdl4mrc4p3qy",
@@ -29,7 +36,7 @@ const HAIRS: Dictionary = {
 @onready var hair: Sprite2D = %Hair
 @onready var running_particles: GPUParticles2D = %RunningParticles
 
-var SPEED: float = 85.0
+var speed: float = SPEED_RUN
 var current_tool: Node2D
 var active_state: STATE = STATE.IDLE
 var aim_vector: Vector2 = Vector2.RIGHT
@@ -42,13 +49,14 @@ var is_sprinting: bool = false
 var is_walking: bool = false
 
 
+## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	switch_state(STATE.IDLE)
 	equip_tool(TOOLS.Hand)
 	hair.texture = load(HAIRS.Bowl)
 
 
-## Main processing loop for the player
+## Main processing loop for the player (Physics synchronized)
 func _process(delta: float) -> void:
 	process_state(delta)
 	update_aim_and_visuals(delta)
@@ -56,6 +64,7 @@ func _process(delta: float) -> void:
 	move_and_slide()
 
 
+## Processes input events, such as tool switching and hair changing.
 func _input(event: InputEvent) -> void:
 	update_tools(event)
 	update_hair(event)
@@ -65,6 +74,7 @@ func _input(event: InputEvent) -> void:
 		is_sprinting = false
 
 
+## Updates the current tool based on scroll input.
 func update_tools(event: InputEvent) -> void:
 	if event.is_action_pressed("scroll_down"):
 		actual_tool_index = (actual_tool_index + 1) % TOOLS.size()
@@ -74,6 +84,7 @@ func update_tools(event: InputEvent) -> void:
 		equip_tool(TOOLS.values()[actual_tool_index])
 
 
+## Instantiates and equips a tool from the given scene path.
 func equip_tool(scene_path: String) -> void:
 	for child in tool.get_children():
 		child.queue_free()
@@ -84,6 +95,7 @@ func equip_tool(scene_path: String) -> void:
 		tool.add_child(current_tool)
 
 
+## Updates the current hair style based on input.
 func update_hair(event: InputEvent) -> void:
 	if event.is_action_pressed("next_hair"):
 		actual_hair_index = (actual_hair_index + 1) % HAIRS.size()
@@ -96,147 +108,198 @@ func update_hair(event: InputEvent) -> void:
 ## Switch the player to a new state
 ## Handles entrance logic for the new state
 func switch_state(to_state: STATE) -> void:
-	var previous_state: STATE = active_state
+	# var _previous_state: STATE = active_state # Unused
 	active_state = to_state
 	
 	match active_state:
-		STATE.IDLE:
-			is_walking = false
-			running_particles.emitting = false
-			animation_player.play("idle")
-		
-		STATE.WALK:
-			is_walking = true
-			animation_player.play("walk")
-		
-		STATE.RUN:
-			is_walking = false
-			animation_player.play("run")
-		
-		STATE.ROLL:
-			roll_reload_timer = ROLL_RELOAD_COST
-			roll_timer = ROLL_TIME
-			
-			roll_dir = get_movement_vector()
-			if roll_dir.length_squared() == 0:
-				roll_dir = get_effective_aim()
-			
-			velocity = roll_dir * ROLL_SPEED
-			var anim_length = animation_player.get_animation("roll").length
-			animation_player.play("roll", -1, anim_length / ROLL_TIME)
-		
-		STATE.JUMP:
-			animation_player.play("jump")
-		
-		STATE.ATTACK:
-			SPEED = 5
-			animation_player.speed_scale = 1.0
-			running_particles.emitting = false
-			is_walking = false
-			
-			animation_player.play("attack")
-			current_tool.cooldown_timer.stop()
-			current_tool.cooldown_timer.start()
-			if current_tool is Sword:
-				current_tool.combo_stage = 1
-				current_tool.animation_player.play("slash")
-			else:
-				current_tool.animation_player.play("attack")
-			
-			# On fixe la direction du regard et de l'attaque au début
-			var mouse_pos = get_global_mouse_position()
-			visuals.scale = Vector2.ONE if (mouse_pos - global_position).x >= 0 else Vector2(-1, 1)
-			hand_pivot.look_at(mouse_pos)
+		STATE.IDLE: _enter_state_idle()
+		STATE.WALK: _enter_state_walk()
+		STATE.RUN: _enter_state_run()
+		STATE.ROLL: _enter_state_roll()
+		STATE.JUMP: _enter_state_jump()
+		STATE.ATTACK: _enter_state_attack()
 
 
 ## Process the logic for the current state every frame
 ## Handles transitions between states based on input and conditions
 func process_state(delta: float) -> void:
 	match active_state:
-		STATE.IDLE:
-			velocity = velocity.lerp(Vector2.ZERO, 1 - exp(-25 * delta))
-			
-			if get_movement_vector() != Vector2.ZERO:
-				switch_state(STATE.RUN)
-			if Input.is_action_just_pressed("roll") and roll_reload_timer <= 0.0:
-				switch_state(STATE.ROLL)
-			if Input.is_action_just_pressed("jump"):
-				switch_state(STATE.JUMP)
-			if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
-				switch_state(STATE.ATTACK)
-		
-		STATE.RUN, STATE.WALK:
-			if is_sprinting:
-				running_particles.emitting = true
-				SPEED = 125.0
-				animation_player.speed_scale = 1.3
-			elif is_walking:
-				running_particles.emitting = false
-				animation_player.speed_scale = 0.9
-				SPEED = 50.0
-			else:
-				running_particles.emitting = false
-				animation_player.speed_scale = 1
-				SPEED = 85.0
-			
-			var target_velocity = get_movement_vector() * SPEED
-			velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
-			
-			if is_equal_approx(get_movement_vector().length_squared(), 0):
-				switch_state(STATE.IDLE)
-			if Input.is_action_just_pressed("roll") and roll_reload_timer <= 0.0:
-				switch_state(STATE.ROLL)
-			if Input.is_action_just_pressed("jump"):
-				switch_state(STATE.JUMP)
-			if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
-				switch_state(STATE.ATTACK)
-			if Input.is_action_pressed("walk"):
-				switch_state(STATE.WALK)
-			if Input.is_action_just_released("walk"):
-				switch_state(STATE.RUN)
-		
-		STATE.ROLL:
-			if roll_timer > 0.0:
-				roll_timer -= delta
-				velocity = roll_dir * ROLL_SPEED
-				move_and_slide()
-			else: # Roll end
-				if get_movement_vector().length_squared() > 0:
-					switch_state(STATE.RUN)
-				else:
-					switch_state(STATE.IDLE)
-		
-		STATE.JUMP:
-			await animation_player.animation_finished
+		STATE.IDLE: _update_state_idle(delta)
+		STATE.RUN, STATE.WALK: _update_state_move(delta)
+		STATE.ROLL: _update_state_roll(delta)
+		STATE.JUMP: _update_state_jump(delta)
+		STATE.ATTACK: _update_state_attack(delta)
+
+
+# ---------------------------- STATE ENTRY LOGIC ----------------------------
+
+## Handles logic when entering the IDLE state.
+func _enter_state_idle() -> void:
+	is_walking = false
+	running_particles.emitting = false
+	animation_player.play("idle")
+
+
+## Handles logic when entering the WALK state.
+func _enter_state_walk() -> void:
+	is_walking = true
+	animation_player.play("walk")
+
+
+## Handles logic when entering the RUN state.
+func _enter_state_run() -> void:
+	is_walking = false
+	animation_player.play("run")
+
+
+## Handles logic when entering the ROLL state.
+func _enter_state_roll() -> void:
+	roll_reload_timer = ROLL_RELOAD_COST
+	roll_timer = ROLL_TIME
+	
+	roll_dir = get_movement_vector()
+	if roll_dir.length_squared() == 0:
+		roll_dir = get_effective_aim()
+	
+	velocity = roll_dir * ROLL_SPEED
+	var anim_length = animation_player.get_animation("roll").length
+	animation_player.play("roll", -1, anim_length / ROLL_TIME)
+
+
+## Handles logic when entering the JUMP state.
+func _enter_state_jump() -> void:
+	animation_player.play("jump")
+
+
+## Handles logic when entering the ATTACK state.
+func _enter_state_attack() -> void:
+	speed = SPEED_ATTACK
+	animation_player.speed_scale = 1.0
+	running_particles.emitting = false
+	is_walking = false
+	
+	animation_player.play("attack")
+	current_tool.cooldown_timer.stop()
+	current_tool.cooldown_timer.start()
+	
+	if current_tool is Sword:
+		current_tool.combo_stage = 1
+		current_tool.animation_player.play("slash")
+	else:
+		current_tool.animation_player.play("attack")
+	
+	# Lock aim direction and update visuals
+	var mouse_pos = get_global_mouse_position()
+	visuals.scale = Vector2.ONE if (mouse_pos - global_position).x >= 0 else Vector2(-1, 1)
+	hand_pivot.look_at(mouse_pos)
+
+
+# ---------------------------- STATE UPDATE LOGIC ----------------------------
+
+## Updates logic for the IDLE state.
+func _update_state_idle(delta: float) -> void:
+	velocity = velocity.lerp(Vector2.ZERO, 1 - exp(-25 * delta))
+	
+	if get_movement_vector() != Vector2.ZERO:
+		switch_state(STATE.RUN)
+	
+	_check_common_state_transitions()
+
+
+## Updates logic for RUN and WALK states.
+func _update_state_move(delta: float) -> void:
+	if is_sprinting:
+		running_particles.emitting = true
+		speed = SPEED_SPRINT
+		animation_player.speed_scale = 1.3
+	elif is_walking:
+		running_particles.emitting = false
+		animation_player.speed_scale = 0.9
+		speed = SPEED_WALK
+	else:
+		running_particles.emitting = false
+		animation_player.speed_scale = 1
+		speed = SPEED_RUN
+	
+	var target_velocity = get_movement_vector() * speed
+	velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
+	
+	if is_equal_approx(get_movement_vector().length_squared(), 0):
+		switch_state(STATE.IDLE)
+	
+	if Input.is_action_pressed("walk") and active_state == STATE.RUN:
+		switch_state(STATE.WALK)
+	if Input.is_action_just_released("walk") and active_state == STATE.WALK:
+		switch_state(STATE.RUN)
+
+	_check_common_state_transitions()
+
+
+## Updates logic for the ROLL state.
+func _update_state_roll(_delta: float) -> void:
+	if roll_timer > 0.0:
+		roll_timer -= _delta
+		velocity = roll_dir * ROLL_SPEED
+		move_and_slide()
+	else:
+		if get_movement_vector().length_squared() > 0:
+			switch_state(STATE.RUN)
+		else:
 			switch_state(STATE.IDLE)
-		
-		STATE.ATTACK:
-			if current_tool is Sword:
-				if not current_tool.combo_timer.is_stopped() and Input.is_action_pressed("attack"):
-					if current_tool.combo_stage == 1:
-						current_tool.cooldown_timer.stop()
-						current_tool.cooldown_timer.start()
-						current_tool.combo_timer.stop()
-						current_tool.combo_stage = 2
-						current_tool.animation_player.play("slash2")
-						animation_player.play("attack_2")
-					elif current_tool.combo_stage == 2:
-						current_tool.cooldown_timer.stop()
-						current_tool.cooldown_timer.start()
-						current_tool.combo_timer.stop()
-						current_tool.combo_stage = 3
-						current_tool.animation_player.stop()
-						current_tool.animation_player.play("slash3")
-						animation_player.play("attack")
-			
-			if not animation_player.is_playing():
-				if get_movement_vector() != Vector2.ZERO:
-					switch_state(STATE.RUN)
-				else:
-					switch_state(STATE.IDLE)
-			
-			var target_velocity = get_movement_vector() * SPEED
-			velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
+
+
+## Updates logic for the JUMP state.
+func _update_state_jump(_delta: float) -> void:
+	if not animation_player.is_playing():
+		switch_state(STATE.IDLE)
+
+
+## Updates logic for the ATTACK state.
+func _update_state_attack(delta: float) -> void:
+	_handle_attack_combo()
+	
+	if not animation_player.is_playing():
+		if get_movement_vector() != Vector2.ZERO:
+			switch_state(STATE.RUN)
+		else:
+			switch_state(STATE.IDLE)
+	
+	var target_velocity = get_movement_vector() * speed
+	velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
+
+
+## Handles the attack combo logic for weapons that support it (e.g., Sword).
+func _handle_attack_combo() -> void:
+	if current_tool is Sword:
+		if not current_tool.combo_timer.is_stopped() and Input.is_action_pressed("attack"):
+			if current_tool.combo_stage == 1:
+				_trigger_combo_stage(2, "slash2", "attack_2")
+			elif current_tool.combo_stage == 2:
+				_trigger_combo_stage(3, "slash3", "attack_3")
+
+
+## Triggers a specific combo stage animation.
+func _trigger_combo_stage(stage: int, tool_anim: String, player_anim: String) -> void:
+	current_tool.cooldown_timer.stop()
+	current_tool.cooldown_timer.start()
+	current_tool.combo_timer.stop()
+	current_tool.combo_stage = stage
+	
+	if stage == 3:
+		current_tool.animation_player.stop()
+	
+	current_tool.animation_player.play(tool_anim)
+	animation_player.play(player_anim)
+
+
+## Common transitions checked in Idle and Move states (Roll, Jump, Attack)
+func _check_common_state_transitions() -> void:
+	if Input.is_action_just_pressed("roll") and roll_reload_timer <= 0.0:
+		switch_state(STATE.ROLL)
+	if Input.is_action_just_pressed("jump"):
+		switch_state(STATE.JUMP)
+	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
+		switch_state(STATE.ATTACK)
 
 
 ## Update the player's aiming direction and visual orientation (flip)

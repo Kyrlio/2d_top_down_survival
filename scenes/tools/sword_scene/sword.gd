@@ -1,8 +1,10 @@
 @icon("uid://cd083uunbism8")
 class_name Sword extends Node2D
 
+@export var slash3_dash_speed: int = 600
+
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
-@onready var hitbox: Area2D = $Sprite/HitArea2D
+@onready var hit_area: HitArea2D = $Sprite/HitArea2D
 @onready var combo_timer: Timer = $ComboTimer
 @onready var cooldown_timer: Timer = $CooldownTimer
 
@@ -28,5 +30,13 @@ func slash3_dash() -> void:
 			player_node = node
 			break
 	
-	player_node.velocity = player_node.get_effective_aim() * 600
+	player_node.velocity = player_node.get_effective_aim() * slash3_dash_speed
 	player_node.move_and_slide()
+
+
+func set_damage(amount: int) -> void:
+	hit_area.set_damage(amount)
+	
+	
+func add_damage(amount: int) -> void:
+	hit_area.damage += amount

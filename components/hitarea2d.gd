@@ -5,4 +5,8 @@ class_name HitArea2D extends Area2D
 
 
 func get_damage() -> int:
-	return damage + randi() % 7 - 3
+	return damage + randi() % 6 - 2
+
+
+func set_damage(amount: int) -> void:
+	damage = amount

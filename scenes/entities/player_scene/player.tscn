@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://7jtamgi5g7r7"]
+[gd_scene load_steps=26 format=3 uid="uid://7jtamgi5g7r7"]
 
 [ext_resource type="Script" uid="uid://dsvde8v8bx5iv" path="res://scenes/entities/player_scene/player.gd" id="1_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="1_w8ad2"]
@@ -145,6 +145,30 @@ tracks/10/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Visuals/Base:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Visuals/Hair:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_cs6j4"]
@@ -706,6 +730,30 @@ tracks/9/keys = {
 "update": 0,
 "values": [Vector2(0, -7)]
 }
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Visuals/Base:scale")
+tracks/10/interp = 2
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.5, 0.8),
+"transitions": PackedFloat32Array(0.5, 2, -2, 0.5, 2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 0.95), Vector2(0.95, 1.05), Vector2(1.05, 0.95), Vector2(1, 0.9999933)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Visuals/Hair:scale")
+tracks/11/interp = 2
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.5, 0.8),
+"transitions": PackedFloat32Array(1, 2, -2, 0.5, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 0.95), Vector2(0.95, 1.05), Vector2(1.05, 0.95), Vector2(1, 0.9999933)]
+}
 
 [sub_resource type="Animation" id="Animation_co4c6"]
 resource_name = "walk"
@@ -773,11 +821,65 @@ tracks/4/keys = {
 "values": [Vector2(-4, -1), Vector2(-3, -1), Vector2(-2, -2), Vector2(-2, -1), Vector2(-2, 0), Vector2(-3, 0), Vector2(-4, -1)]
 }
 
+[sub_resource type="Animation" id="Animation_2783h"]
+resource_name = "attack_3"
+length = 0.7222278
+step = 0.055555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Base:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_cs6j4")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Base:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Base:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.055555556, 0.16666667, 0.22222222, 0.33333334, 0.44444445, 0.5, 0.5555556, 0.61111116, 0.66666675, 0.7222222),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visuals/Hair:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.055555556, 0.16666667, 0.22222222, 0.33333334, 0.44444445, 0.5, 0.5555556, 0.61111116, 0.66666675, 0.7222222),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 14), Vector2i(1, 14), Vector2i(2, 14), Vector2i(3, 14), Vector2i(4, 14), Vector2i(5, 14), Vector2i(6, 14), Vector2i(7, 14), Vector2i(8, 14), Vector2i(9, 14)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rf8gt"]
 _data = {
 &"RESET": SubResource("Animation_rf8gt"),
 &"attack": SubResource("Animation_cs6j4"),
 &"attack_2": SubResource("Animation_iai0i"),
+&"attack_3": SubResource("Animation_2783h"),
 &"idle": SubResource("Animation_w8ad2"),
 &"jump": SubResource("Animation_2q4ud"),
 &"roll": SubResource("Animation_ee1a4"),
