@@ -1,0 +1,183 @@
+[gd_scene load_steps=11 format=3 uid="uid://bxv6m77ycdgc"]
+
+[ext_resource type="Script" uid="uid://cdaa8cx2b8t04" path="res://scenes/entities/enemy_scene/enemy.gd" id="1_qx6it"]
+[ext_resource type="Texture2D" uid="uid://c7bjjjean5tjn" path="res://assets/Characters/Skeleton/skeleton_idle_strip6.png" id="1_wb3li"]
+[ext_resource type="Texture2D" uid="uid://ul7qw88g8181" path="res://assets/Characters/Skeleton/skeleton_hurt_strip7.png" id="2_uqhqv"]
+[ext_resource type="Script" uid="uid://d146s0230glem" path="res://components/hurtarea2d.gd" id="3_uqhqv"]
+[ext_resource type="Theme" uid="uid://o5luaxnidb4c" path="res://resources/theme.tres" id="4_uqhqv"]
+
+[sub_resource type="Animation" id="Animation_3y3vp"]
+resource_name = "hit"
+length = 0.46667334
+step = 0.06666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.20000002, 0.26666668, 0.33333334, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_uqhqv")]
+}
+
+[sub_resource type="Animation" id="Animation_6e7i7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_wb3li")]
+}
+
+[sub_resource type="Animation" id="Animation_edex2"]
+resource_name = "idle"
+length = 0.60001004
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_wb3li")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_edex2"]
+_data = {
+&"RESET": SubResource("Animation_6e7i7"),
+&"hit": SubResource("Animation_3y3vp"),
+&"idle": SubResource("Animation_edex2")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3y3vp"]
+radius = 8.0
+height = 20.0
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_qx6it")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../Sprite2D")
+libraries = {
+&"": SubResource("AnimationLibrary_edex2")
+}
+autoplay = "idle"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_wb3li")
+hframes = 7
+frame = 2
+
+[node name="HurtArea2D" type="Area2D" parent="."]
+script = ExtResource("3_uqhqv")
+metadata/_custom_type_script = "uid://d146s0230glem"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D"]
+shape = SubResource("CapsuleShape2D_3y3vp")
+debug_color = Color(0.13725491, 0.7254902, 0.20392157, 0.41960785)
+
+[node name="HPProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(25, 2.5)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -15.0
+offset_right = 12.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_uqhqv")
+value = 100.0
+show_percentage = false

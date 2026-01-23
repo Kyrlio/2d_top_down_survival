@@ -31,7 +31,11 @@ window/stretch/scale_mode="integer"
 [file_customization]
 
 folder_colors={
-"res://assets/": "green"
+"res://assets/": "green",
+"res://components/": "yellow",
+"res://resources/": "purple",
+"res://scenes/": "blue",
+"res://scripts/": "red"
 }
 
 [input]

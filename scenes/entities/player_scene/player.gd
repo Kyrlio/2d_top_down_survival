@@ -1,6 +1,5 @@
 @icon("uid://bih7pe3f5ef4g")
-class_name Player
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 enum STATE {IDLE, RUN, WALK, ROLL, JUMP, ATTACK}
 
