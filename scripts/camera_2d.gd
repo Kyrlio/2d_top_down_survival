@@ -1,3 +1,4 @@
+@icon("uid://d1ugg8acbjdv6")
 extends Camera2D
 
 @onready var player: Player = $".."

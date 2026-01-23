@@ -1,11 +1,47 @@
-@icon("uid://dwf1k45bakykj")
+@icon("uid://bkl8ritive7gb")
 class_name HurtArea2D extends Area2D
 
 
 func _ready() -> void:
 	area_entered.connect(_on_area_entered)
+	monitorable = false
 
 
 func _on_area_entered(hit_area: HitArea2D) -> void:
-	if hit_area != null and owner.has_method("take_damage"):
-		owner.take_damage(hit_area.damage)
+	if hit_area == null:
+		return
+
+	if owner.has_method("take_damage"):
+		owner.take_damage(hit_area.get_damage())
+	
+	if owner.has_method("knock_back"):
+		apply_knock_back(hit_area)
+
+
+func apply_knock_back(hit_area: HitArea2D) -> void:
+	var source_position = hit_area.global_position
+		
+	# Vérifier si l'attaque vient du joueur
+	var node = hit_area
+	var attack_from_player = false
+	var player_node: Player = null
+	
+	# On remonte la hiérarchie pour trouver le Player
+	for i in range(10):
+		node = node.get_parent()
+		if not node:
+			break
+		if node is Player:
+			attack_from_player = true
+			player_node = node
+			break
+	
+	if attack_from_player and player_node:
+		# Si c'est le joueur, le knockback suit la direction Player -> Souris
+		var direction = (get_global_mouse_position() - player_node.global_position).normalized()
+		# On place la "source" à l'opposé de la direction voulue par rapport à l'ennemi
+		# Knockback va de Source vers Ennemi. Donc on veut (Ennemi - Source) = Direction
+		# Source = Ennemi - Direction
+		source_position = owner.global_position - direction * 50.0
+		
+	owner.knock_back(source_position)

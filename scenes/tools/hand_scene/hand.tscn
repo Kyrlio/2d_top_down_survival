@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bue34yh8nhqm3"]
+[gd_scene load_steps=8 format=3 uid="uid://bue34yh8nhqm3"]
 
 [ext_resource type="Texture2D" uid="uid://ion4fpq1baa2" path="res://assets/Elements/Tools/Hand.png" id="1_hand"]
 [ext_resource type="Script" uid="uid://j8wq8ob4fb6" path="res://scenes/tools/hand_scene/hand.gd" id="1_rfpit"]
+[ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="3_rcxm6"]
 
 [sub_resource type="Animation" id="Animation_rfpit"]
 length = 0.001
@@ -40,6 +41,42 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite/HitArea2D/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite/HitArea2D:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite/HitArea2D:monitorable")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_sygf0"]
@@ -82,12 +119,51 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.5, 0.85), Vector2(2, 1), Vector2(1, 1)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite/HitArea2D/CollisionShape2D:disabled")
+tracks/3/interp = 0
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.16666667, 0.22222222, 0.5, 0.5555556),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, false, false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite/HitArea2D:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.16666667, 0.22222222, 0.5, 0.5555556),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, true, true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite/HitArea2D:monitorable")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.16666667, 0.22222222, 0.5, 0.5555556),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, true, true, false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rcxm6"]
 _data = {
 &"RESET": SubResource("Animation_rfpit"),
 &"attack": SubResource("Animation_sygf0")
 }
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0d3n1"]
+radius = 6.0
 
 [node name="Hand" type="Node2D"]
 script = ExtResource("1_rfpit")
@@ -104,3 +180,18 @@ one_shot = true
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_hand")
 offset = Vector2(1, -2)
+
+[node name="HitArea2D" type="Area2D" parent="Sprite"]
+collision_layer = 256
+collision_mask = 256
+monitoring = false
+monitorable = false
+script = ExtResource("3_rcxm6")
+damage = 2
+metadata/_custom_type_script = "uid://cmy826k35rpkn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/HitArea2D"]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_0d3n1")
+disabled = true
+debug_color = Color(0.96862745, 0, 0.16078432, 0.41960785)
