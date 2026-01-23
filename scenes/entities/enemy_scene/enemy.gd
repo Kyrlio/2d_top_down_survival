@@ -1,6 +1,8 @@
 @icon("uid://47471th1ui0o")
 class_name Enemy extends CharacterBody2D
 
+signal hit
+
 enum STATE {IDLE, HURT}
 
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
@@ -36,6 +38,8 @@ func switch_state(to_state: STATE) -> void:
 			if animation_player.is_playing():
 				animation_player.stop()
 			animation_player.play("hit")
+			GameCamera.shake(1)
+			
 
 
 func process_state(delta: float) -> void:
@@ -51,6 +55,7 @@ func process_state(delta: float) -> void:
 func take_damage(amount: int) -> void:
 	switch_state(STATE.HURT)
 	hp_progress_bar.value = max(0, hp_progress_bar.value - amount)
+	hit.emit()
 	if hp_progress_bar.value == 0:
 		queue_free()
 

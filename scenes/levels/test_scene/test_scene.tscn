@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=4 uid="uid://beyrm1r2dm8i0"]
+[gd_scene load_steps=7 format=4 uid="uid://beyrm1r2dm8i0"]
 
+[ext_resource type="Script" uid="uid://d1nidmgi2fv0a" path="res://scenes/levels/level.gd" id="1_88e55"]
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_widsn"]
 [ext_resource type="PackedScene" uid="uid://7jtamgi5g7r7" path="res://scenes/entities/player_scene/player.tscn" id="2_88e55"]
 [ext_resource type="PackedScene" uid="uid://bxv6m77ycdgc" path="res://scenes/entities/enemy_scene/enemy.tscn" id="3_di761"]
@@ -1744,6 +1745,7 @@ physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_1x7oe")
 
 [node name="TestScene" type="Node2D"]
+script = ExtResource("1_88e55")
 
 [node name="Ground" type="TileMapLayer" parent="."]
 texture_filter = 1
@@ -1763,5 +1765,15 @@ texture_filter = 1
 tile_map_data = PackedByteArray("AAAJAP//AAAzAAYAAAAJAAAAAAAzAAcAAAAJAAEAAAAzAAgAAAAKAP//AAA0AAYAAAAKAAAAAAA0AAcAAAAKAAEAAAA0AAgAAAAMAAMAAAAxAAgAAAAGAAQAAAAfAAUAAAANAAEAAAAfAAQAAAACAAMAAAAfAAQAAAAEAP//AAABABwAAAAEAAAAAAABAB0AAAAEAAEAAAABAB4AAAAEAAIAAAABACAAAAAFAP//AAACABwAAAAFAAAAAAACAB0AAAAFAAEAAAACAB4AAAAFAAIAAAACACAAAAAGAP//AAADABwAAAAGAAAAAAADAB0AAAAGAAEAAAADAB4AAAAGAAIAAAADACAAAAA=")
 tile_set = SubResource("TileSet_l4ihe")
 
-[node name="Enemy" parent="YSort" instance=ExtResource("3_di761")]
+[node name="Enemies" type="Node2D" parent="YSort"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Enemy" parent="YSort/Enemies" instance=ExtResource("3_di761")]
 position = Vector2(63, -45)
+
+[node name="Enemy2" parent="YSort/Enemies" instance=ExtResource("3_di761")]
+position = Vector2(-59, -27)
+
+[node name="Enemy3" parent="YSort/Enemies" instance=ExtResource("3_di761")]
+position = Vector2(-41, 59)

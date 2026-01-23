@@ -1,5 +1,8 @@
 @icon("uid://d1ugg8acbjdv6")
-extends Camera2D
+class_name GameCamera extends Camera2D
+
+const NOISE_GROWTH: float = 750
+const SHAKE_DECAY_RATE: float = 10
 
 @onready var player: Player = $".."
 
@@ -10,10 +13,24 @@ extends Camera2D
 ## Vitesse de lissage du lookahead souris (plus bas = plus smooth)
 @export var lookahead_smoothing_speed: float = 5.0
 
+@export_category("Camera Shake")
+@export var noise_texture: FastNoiseLite
+@export var shake_strength: float
+
+static var instance: GameCamera
+
 var _current_lookahead_offset: Vector2 = Vector2.ZERO
+var noise_offset_x: float
+var noise_offset_y: float
+var current_shake_percentage: float
+
+
+func _ready() -> void:
+	instance = self
 
 
 func _process(delta: float) -> void:
+	_apply_shake(delta)
 	# Calculer l'offset de lookahead basé sur la position de la souris
 	var target_lookahead_offset := _calculate_mouse_lookahead_offset()
 	
@@ -46,3 +63,22 @@ func _calculate_mouse_lookahead_offset() -> Vector2:
 	
 	# Appliquer la distance de lookahead
 	return offset_direction * mouse_lookahead_distance
+
+
+static func shake(shake_percent: float) -> void:
+	instance.current_shake_percentage = clamp(shake_percent, 0, 1)
+
+
+func _apply_shake(delta: float):
+	if current_shake_percentage == 0:
+		return
+	
+	noise_offset_x += NOISE_GROWTH * delta
+	noise_offset_y += NOISE_GROWTH * delta
+	
+	var offset_sample_x := noise_texture.get_noise_2d(noise_offset_x, 0)
+	var offset_sample_y := noise_texture.get_noise_2d(0, noise_offset_y)
+	
+	offset = Vector2(offset_sample_x, offset_sample_y) * shake_strength * current_shake_percentage * current_shake_percentage
+	
+	current_shake_percentage = max(current_shake_percentage - (SHAKE_DECAY_RATE * delta), 0)

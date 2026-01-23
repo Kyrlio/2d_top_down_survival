@@ -135,8 +135,10 @@ func switch_state(to_state: STATE) -> void:
 			is_walking = false
 			
 			animation_player.play("attack")
+			current_tool.cooldown_timer.stop()
 			current_tool.cooldown_timer.start()
 			if current_tool is Sword:
+				current_tool.combo_stage = 1
 				current_tool.animation_player.play("slash")
 			else:
 				current_tool.animation_player.play("attack")
@@ -211,8 +213,21 @@ func process_state(delta: float) -> void:
 		STATE.ATTACK:
 			if current_tool is Sword:
 				if not current_tool.combo_timer.is_stopped() and Input.is_action_pressed("attack"):
-					#current_tool.animation_player.stop()
-					current_tool.animation_player.play("slash2")
+					if current_tool.combo_stage == 1:
+						current_tool.cooldown_timer.stop()
+						current_tool.cooldown_timer.start()
+						current_tool.combo_timer.stop()
+						current_tool.combo_stage = 2
+						current_tool.animation_player.play("slash2")
+						animation_player.play("attack_2")
+					elif current_tool.combo_stage == 2:
+						current_tool.cooldown_timer.stop()
+						current_tool.cooldown_timer.start()
+						current_tool.combo_timer.stop()
+						current_tool.combo_stage = 3
+						current_tool.animation_player.stop()
+						current_tool.animation_player.play("slash3")
+						animation_player.play("attack")
 			
 			if not animation_player.is_playing():
 				if get_movement_vector() != Vector2.ZERO:

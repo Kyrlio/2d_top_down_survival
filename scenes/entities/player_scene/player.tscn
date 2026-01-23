@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://7jtamgi5g7r7"]
+[gd_scene load_steps=25 format=3 uid="uid://7jtamgi5g7r7"]
 
 [ext_resource type="Script" uid="uid://dsvde8v8bx5iv" path="res://scenes/entities/player_scene/player.gd" id="1_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="1_w8ad2"]
@@ -207,82 +207,46 @@ step = 0.055555556
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/HandPivot/Tool:position")
-tracks/0/interp = 2
+tracks/0/path = NodePath("Visuals/Base:texture")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.11111111, 0.16666667, 0.33333334, 0.5555611),
-"transitions": PackedFloat32Array(2, 0.5, 1, 1, 1),
-"update": 0,
-"values": [Vector2(12, -2.0000002), Vector2(10, 4), Vector2(-11, -3), Vector2(-13, 0), Vector2(-6, -4)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/HandPivot/Tool:rotation")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.11111111, 0.16666667, 0.33333334, 0.5555611),
-"transitions": PackedFloat32Array(2, 0.5, 1, 1, 1),
-"update": 0,
-"values": [1.5707963, 1.9198622, -1.5707964, -1.5707964, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visuals/HandPivot/Tool:scale")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.11111111, 0.16666667, 0.33333334, 0.5555611),
-"transitions": PackedFloat32Array(2, 0.5, 1, 1, 1),
-"update": 0,
-"values": [Vector2(1.0457032, 1.3921875), Vector2(0.75, 1), Vector2(1.5, 1.5), Vector2(1, 1), Vector2(1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visuals/Base:texture")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("3_cs6j4")]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Visuals/Base:hframes")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Base:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [10]
 }
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Visuals/Base:frame")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Base:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.055555552, 0.111111104, 0.16666667, 0.22222221, 0.2777778, 0.33333334),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [4, 5, 6, 3, 2, 1, 0]
 }
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Visuals/Hair:frame_coords")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visuals/Hair:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.055555552, 0.111111104, 0.16666667, 0.22222221, 0.2777778, 0.33333334),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
@@ -837,6 +801,9 @@ scale_min = 0.79999995
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2783h"]
+noise_type = 3
+
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 4
 motion_mode = 1
@@ -905,3 +872,5 @@ script = ExtResource("9_67qed")
 mouse_lookahead_distance = 25.0
 camera_smoothing_speed = 75.0
 lookahead_smoothing_speed = 50.0
+noise_texture = SubResource("FastNoiseLite_2783h")
+shake_strength = 10.0
