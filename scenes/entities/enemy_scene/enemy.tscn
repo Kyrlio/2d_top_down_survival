@@ -1,10 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://bxv6m77ycdgc"]
+[gd_scene load_steps=23 format=3 uid="uid://bxv6m77ycdgc"]
 
 [ext_resource type="Script" uid="uid://cdaa8cx2b8t04" path="res://scenes/entities/enemy_scene/enemy.gd" id="1_qx6it"]
 [ext_resource type="Texture2D" uid="uid://c7bjjjean5tjn" path="res://assets/Characters/Skeleton/skeleton_idle_strip6.png" id="1_wb3li"]
 [ext_resource type="Texture2D" uid="uid://ul7qw88g8181" path="res://assets/Characters/Skeleton/skeleton_hurt_strip7.png" id="2_uqhqv"]
 [ext_resource type="Script" uid="uid://d146s0230glem" path="res://components/hurtarea2d.gd" id="3_uqhqv"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="4_6e7i7"]
+[ext_resource type="Texture2D" uid="uid://cd2pcy1oevoba" path="res://assets/Characters/Skeleton/skeleton_death_strip10.png" id="4_dmdta"]
+[ext_resource type="Texture2D" uid="uid://y5x2c4v2t5pt" path="res://assets/Characters/Skeleton/skeleton_walk_strip8.png" id="5_xsg5t"]
+[ext_resource type="Texture2D" uid="uid://csmbkb0xmugma" path="res://assets/Characters/Skeleton/skeleton_attack_strip7.png" id="6_xsg5t"]
 [ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="7_edex2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3y3vp"]
@@ -130,9 +133,9 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_edex2"]
 resource_name = "idle"
-length = 0.60001004
+length = 0.7500125
 loop_mode = 1
-step = 0.1
+step = 0.125
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -164,17 +167,144 @@ tracks/2/path = NodePath(".:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
 }
 
+[sub_resource type="Animation" id="Animation_wagqe"]
+resource_name = "death"
+length = 0.8333417
+step = 0.083333336
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_dmdta")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.083333336, 0.16666667, 0.25, 0.33333334, 0.4166667, 0.5, 0.5833334, 0.6666667, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+
+[sub_resource type="Animation" id="Animation_4ebyg"]
+resource_name = "walk"
+length = 0.80001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_xsg5t")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_ji48u"]
+resource_name = "attack"
+length = 0.46667334
+step = 0.06666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_xsg5t")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.20000002, 0.26666668, 0.33333334, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_edex2"]
 _data = {
 &"RESET": SubResource("Animation_6e7i7"),
+&"attack": SubResource("Animation_ji48u"),
+&"death": SubResource("Animation_wagqe"),
 &"hit": SubResource("Animation_3y3vp"),
-&"idle": SubResource("Animation_edex2")
+&"idle": SubResource("Animation_edex2"),
+&"walk": SubResource("Animation_4ebyg")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3y3vp"]
@@ -243,6 +373,7 @@ hframes = 6
 frame = 2
 
 [node name="HurtArea2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 258
 collision_mask = 256
 script = ExtResource("3_uqhqv")

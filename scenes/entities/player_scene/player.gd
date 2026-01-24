@@ -1,17 +1,25 @@
 @icon("uid://bih7pe3f5ef4g")
 class_name Player extends CharacterBody2D
 
-enum STATE {IDLE, RUN, WALK, ROLL, JUMP, ATTACK}
+enum STATE {
+	IDLE, 
+	RUN, 
+	WALK, 
+	ROLL, 
+	JUMP, 
+	ATTACK, 
+	PARRY
+}
 
 const ROLL_SPEED: float = 95.0
-const ROLL_TIME: float = 0.45
+const ROLL_TIME: float = 0.3
 const ROLL_RELOAD_COST: float = 0.8
 
 # Movement Settings
 const SPEED_WALK: float = 50.0
 const SPEED_RUN: float = 85.0
 const SPEED_SPRINT: float = 125.0
-const SPEED_ATTACK: float = 5.0
+const SPEED_ATTACK: float = 8.0
 
 const TOOLS: Dictionary = {
 	"Hand": "uid://bue34yh8nhqm3",
@@ -118,6 +126,7 @@ func switch_state(to_state: STATE) -> void:
 		STATE.ROLL: _enter_state_roll()
 		STATE.JUMP: _enter_state_jump()
 		STATE.ATTACK: _enter_state_attack()
+		STATE.PARRY: _enter_state_parry()
 
 
 ## Process the logic for the current state every frame
@@ -129,6 +138,7 @@ func process_state(delta: float) -> void:
 		STATE.ROLL: _update_state_roll(delta)
 		STATE.JUMP: _update_state_jump(delta)
 		STATE.ATTACK: _update_state_attack(delta)
+		STATE.PARRY: _update_state_parry(delta)
 
 
 # ---------------------------- STATE ENTRY LOGIC ----------------------------
@@ -194,6 +204,13 @@ func _enter_state_attack() -> void:
 	hand_pivot.look_at(mouse_pos)
 
 
+func _enter_state_parry() -> void:
+	speed = SPEED_ATTACK
+	if current_tool is Sword:
+		current_tool as Sword
+		current_tool.animation_player.play("parry")
+
+
 # ---------------------------- STATE UPDATE LOGIC ----------------------------
 
 ## Updates logic for the IDLE state.
@@ -254,6 +271,11 @@ func _update_state_jump(_delta: float) -> void:
 		switch_state(STATE.IDLE)
 
 
+func _update_state_parry(delta) -> void:
+	if Input.is_action_just_released("parry"):
+		switch_state(STATE.IDLE)
+
+
 ## Updates logic for the ATTACK state.
 func _update_state_attack(delta: float) -> void:
 	_handle_attack_combo()
@@ -300,6 +322,8 @@ func _check_common_state_transitions() -> void:
 		switch_state(STATE.JUMP)
 	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 		switch_state(STATE.ATTACK)
+	if Input.is_action_pressed("parry"):
+		switch_state(STATE.PARRY)
 
 
 ## Update the player's aiming direction and visual orientation (flip)

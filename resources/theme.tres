@@ -117,7 +117,6 @@ HSlider/styles/grabber_area = SubResource("12")
 HSlider/styles/grabber_area_highlight = SubResource("13")
 HSlider/styles/slider = SubResource("10")
 Label/colors/font_shadow_color = Color(0.6509804, 0.12156863, 0.20392157, 1)
-Label/constants/shadow_offset_y = 3
 Label/fonts/font = ExtResource("2_7ct1h")
 LineEdit/styles/focus = SubResource("9")
 LineEdit/styles/normal = SubResource("8")

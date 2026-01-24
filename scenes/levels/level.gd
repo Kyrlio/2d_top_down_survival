@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var freeze_slow := 0.07
+@export var freeze_slow := 0.06
 @export var freeze_time := 0.15
 
 @onready var enemies: Node2D = %Enemies
