@@ -10,3 +10,6 @@ func get_damage() -> int:
 
 func set_damage(amount: int) -> void:
 	damage = amount
+
+
+var knockback_power: float = 1.0

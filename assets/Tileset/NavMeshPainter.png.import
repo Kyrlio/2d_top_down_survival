@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpljod2m3on3i"
-path="res://.godot/imported/spr_tileset_sunnysideworld_water_16px.png-ba807fe8d14dca541cb879d32c84b582.ctex"
+uid="uid://ca2ln6642p02e"
+path="res://.godot/imported/NavMeshPainter.png-c85bbe1d6d5dc3d896d6654f6cb45a7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tileset/spr_tileset_sunnysideworld_water_16px.png"
-dest_files=["res://.godot/imported/spr_tileset_sunnysideworld_water_16px.png-ba807fe8d14dca541cb879d32c84b582.ctex"]
+source_file="res://assets/Tileset/NavMeshPainter.png"
+dest_files=["res://.godot/imported/NavMeshPainter.png-c85bbe1d6d5dc3d896d6654f6cb45a7f.ctex"]
 
 [params]
 

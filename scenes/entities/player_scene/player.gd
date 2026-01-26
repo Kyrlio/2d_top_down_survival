@@ -1,14 +1,16 @@
 @icon("uid://bih7pe3f5ef4g")
 class_name Player extends CharacterBody2D
 
+signal hit
+
 enum STATE {
-	IDLE, 
-	RUN, 
-	WALK, 
-	ROLL, 
-	JUMP, 
-	ATTACK, 
-	PARRY
+	IDLE,
+	RUN,
+	WALK,
+	ROLL,
+	ATTACK,
+	PARRY,
+	HURT
 }
 
 const ROLL_SPEED: float = 95.0
@@ -20,6 +22,8 @@ const SPEED_WALK: float = 50.0
 const SPEED_RUN: float = 85.0
 const SPEED_SPRINT: float = 125.0
 const SPEED_ATTACK: float = 8.0
+const TOOL_SWITCH_COOLDOWN: float = 0.075
+
 
 const TOOLS: Dictionary = {
 	"Hand": "uid://bue34yh8nhqm3",
@@ -43,6 +47,9 @@ const HAIRS: Dictionary = {
 @onready var tool: Node2D = %Tool
 @onready var hair: Sprite2D = %Hair
 @onready var running_particles: GPUParticles2D = %RunningParticles
+@onready var hit_gpu_particles: GPUParticles2D = %HitGPUParticles
+
+var pushback_force: Vector2 = Vector2.ZERO
 
 var speed: float = SPEED_RUN
 var current_tool: Node2D
@@ -51,17 +58,19 @@ var aim_vector: Vector2 = Vector2.RIGHT
 var roll_dir: Vector2 = Vector2.ZERO
 var roll_timer: float
 var roll_reload_timer: float
+var tool_switch_timer: float = 0.0
 var actual_tool_index: int = 0
 var actual_hair_index: int = 0
 var is_sprinting: bool = false
 var is_walking: bool = false
-
+var can_take_damage: bool = true
 
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	switch_state(STATE.IDLE)
-	equip_tool(TOOLS.Hand)
+	add_to_group("player")
 	hair.texture = load(HAIRS.Bowl)
+	equip_tool(TOOLS.Hand)
+	switch_state(STATE.IDLE)
 
 
 ## Main processing loop for the player (Physics synchronized)
@@ -69,6 +78,8 @@ func _process(delta: float) -> void:
 	process_state(delta)
 	update_aim_and_visuals(delta)
 	update_roll_cooldown(delta)
+	update_tool_switch_timer(delta)
+
 	move_and_slide()
 
 
@@ -84,12 +95,17 @@ func _input(event: InputEvent) -> void:
 
 ## Updates the current tool based on scroll input.
 func update_tools(event: InputEvent) -> void:
+	if tool_switch_timer > 0.0:
+		return
+
 	if event.is_action_pressed("scroll_down"):
 		actual_tool_index = (actual_tool_index + 1) % TOOLS.size()
 		equip_tool(TOOLS.values()[actual_tool_index])
-	if event.is_action_pressed("scroll_up"):
+		tool_switch_timer = TOOL_SWITCH_COOLDOWN
+	elif event.is_action_pressed("scroll_up"):
 		actual_tool_index = (actual_tool_index - 1) % TOOLS.size()
 		equip_tool(TOOLS.values()[actual_tool_index])
+		tool_switch_timer = TOOL_SWITCH_COOLDOWN
 
 
 ## Instantiates and equips a tool from the given scene path.
@@ -124,9 +140,9 @@ func switch_state(to_state: STATE) -> void:
 		STATE.WALK: _enter_state_walk()
 		STATE.RUN: _enter_state_run()
 		STATE.ROLL: _enter_state_roll()
-		STATE.JUMP: _enter_state_jump()
 		STATE.ATTACK: _enter_state_attack()
 		STATE.PARRY: _enter_state_parry()
+		STATE.HURT: _enter_stater_hurt()
 
 
 ## Process the logic for the current state every frame
@@ -136,12 +152,42 @@ func process_state(delta: float) -> void:
 		STATE.IDLE: _update_state_idle(delta)
 		STATE.RUN, STATE.WALK: _update_state_move(delta)
 		STATE.ROLL: _update_state_roll(delta)
-		STATE.JUMP: _update_state_jump(delta)
 		STATE.ATTACK: _update_state_attack(delta)
 		STATE.PARRY: _update_state_parry(delta)
+		STATE.HURT: _update_state_hurt(delta)
 
 
-# ---------------------------- STATE ENTRY LOGIC ----------------------------
+func take_damage(amount: int, invincible_time: float = 0.0, ignore_invincible: bool = false) -> void:
+	if active_state == STATE.ROLL:
+		return
+	if not can_take_damage and not ignore_invincible:
+		return
+	switch_state(STATE.HURT)
+	if invincible_time > 0.0:
+		can_take_damage = false
+		var invincible_tween := get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
+		invincible_tween.tween_property(visuals, "modulate:a", 1.0, invincible_time / 4.0)
+		invincible_tween.chain().tween_property(visuals, "modulate:a", 0.5, invincible_time / 4.0)
+		invincible_tween.chain().chain().tween_property(visuals, "modulate:a", 1.0, invincible_time / 4.0)
+		invincible_tween.chain().chain().chain().tween_property(visuals, "modulate:a", 0.5, invincible_time / 4.0)
+		invincible_tween.chain().chain().chain().chain().tween_property(visuals, "modulate:a", 1.0, invincible_time / 4.0).finished.connect(
+			_reset_can_take_damage)
+
+
+func knock_back(source_position: Vector2, power: float = 1.0) -> void:
+	if active_state == STATE.ROLL:
+		return
+	hit_gpu_particles.rotation = get_angle_to(source_position) + PI
+	hit_gpu_particles.emitting = true
+	var knockback_strength = 200.0 * power
+	pushback_force = - global_position.direction_to(source_position) * knockback_strength
+
+
+func _reset_can_take_damage() -> void:
+	can_take_damage = true
+
+
+# ---------------------------- STATE ENTRY LOGIC ----------------------------------------------------------------------------------------------
 
 ## Handles logic when entering the IDLE state.
 func _enter_state_idle() -> void:
@@ -152,12 +198,14 @@ func _enter_state_idle() -> void:
 
 ## Handles logic when entering the WALK state.
 func _enter_state_walk() -> void:
+	speed = SPEED_WALK
 	is_walking = true
 	animation_player.play("walk")
 
 
 ## Handles logic when entering the RUN state.
 func _enter_state_run() -> void:
+	speed = SPEED_RUN
 	is_walking = false
 	animation_player.play("run")
 
@@ -176,11 +224,6 @@ func _enter_state_roll() -> void:
 	animation_player.play("roll", -1, anim_length / ROLL_TIME)
 
 
-## Handles logic when entering the JUMP state.
-func _enter_state_jump() -> void:
-	animation_player.play("jump")
-
-
 ## Handles logic when entering the ATTACK state.
 func _enter_state_attack() -> void:
 	speed = SPEED_ATTACK
@@ -194,24 +237,31 @@ func _enter_state_attack() -> void:
 	
 	if current_tool is Sword:
 		current_tool.combo_stage = 1
+		current_tool.hit_area.knockback_power = 1.0
 		current_tool.animation_player.play("slash")
 	else:
 		current_tool.animation_player.play("attack")
 	
 	# Lock aim direction and update visuals
 	var mouse_pos = get_global_mouse_position()
-	visuals.scale = Vector2.ONE if (mouse_pos - global_position).x >= 0 else Vector2(-1, 1)
+	update_facing_direction()
 	hand_pivot.look_at(mouse_pos)
 
 
 func _enter_state_parry() -> void:
 	speed = SPEED_ATTACK
 	if current_tool is Sword:
-		current_tool as Sword
 		current_tool.animation_player.play("parry")
 
 
-# ---------------------------- STATE UPDATE LOGIC ----------------------------
+func _enter_stater_hurt() -> void:
+	speed = SPEED_WALK
+	animation_player.play("hit")
+	GameCamera.shake(2)
+	hit.emit()
+	
+
+# ---------------------------- STATE UPDATE LOGIC ----------------------------------------------------------------------------------------------
 
 ## Updates logic for the IDLE state.
 func _update_state_idle(delta: float) -> void:
@@ -265,13 +315,7 @@ func _update_state_roll(_delta: float) -> void:
 			switch_state(STATE.IDLE)
 
 
-## Updates logic for the JUMP state.
-func _update_state_jump(_delta: float) -> void:
-	if not animation_player.is_playing():
-		switch_state(STATE.IDLE)
-
-
-func _update_state_parry(delta) -> void:
+func _update_state_parry(_delta) -> void:
 	if Input.is_action_just_released("parry"):
 		switch_state(STATE.IDLE)
 
@@ -289,6 +333,15 @@ func _update_state_attack(delta: float) -> void:
 	var target_velocity = get_movement_vector() * speed
 	velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
 
+
+func _update_state_hurt(delta) -> void:
+	pushback_force = pushback_force.lerp(Vector2.ZERO, delta * 10.0)
+	velocity = pushback_force
+	
+	if not animation_player.is_playing():
+		switch_state(STATE.IDLE)
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Handles the attack combo logic for weapons that support it (e.g., Sword).
 func _handle_attack_combo() -> void:
@@ -308,8 +361,17 @@ func _trigger_combo_stage(stage: int, tool_anim: String, player_anim: String) ->
 	current_tool.combo_stage = stage
 	
 	if stage == 3:
+		current_tool.hit_area.knockback_power = 5
+	else:
+		current_tool.hit_area.knockback_power = 1.0
+	
+	if stage == 3:
 		current_tool.animation_player.stop()
 	
+	var mouse_pos = get_global_mouse_position()
+	update_facing_direction()
+	hand_pivot.look_at(mouse_pos)
+
 	current_tool.animation_player.play(tool_anim)
 	animation_player.play(player_anim)
 
@@ -318,8 +380,6 @@ func _trigger_combo_stage(stage: int, tool_anim: String, player_anim: String) ->
 func _check_common_state_transitions() -> void:
 	if Input.is_action_just_pressed("roll") and roll_reload_timer <= 0.0:
 		switch_state(STATE.ROLL)
-	if Input.is_action_just_pressed("jump"):
-		switch_state(STATE.JUMP)
 	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 		switch_state(STATE.ATTACK)
 	if Input.is_action_pressed("parry"):
@@ -338,23 +398,21 @@ func update_aim_and_visuals(delta: float) -> void:
 	hand_pivot.rotation = lerp_angle(hand_pivot.rotation, 0.0, 25 * delta)
 
 
-## Calculate the effective aiming direction based on mouse position
-## Returns a normalized Vector2 pointing towards the mouse
-func get_effective_aim() -> Vector2:
-	var effective_aim: Vector2 = aim_vector
-	var mouse_position := get_global_mouse_position()
-	effective_aim = global_position.direction_to(mouse_position)
-	
-	if effective_aim.length_squared() < 0.0001:
-		effective_aim = Vector2.RIGHT
-	
-	return effective_aim.normalized()
+func update_facing_direction() -> void:
+	var mouse_pos = get_global_mouse_position()
+	visuals.scale = Vector2.ONE if (mouse_pos - global_position).x >= 0 else Vector2(-1, 1)
 
 
 ## Decrease the roll cooldown timer
 func update_roll_cooldown(delta) -> void:
 	if roll_reload_timer > 0.0:
 		roll_reload_timer -= delta
+
+
+## Decrease the tool switch cooldown timer
+func update_tool_switch_timer(delta: float) -> void:
+	if tool_switch_timer > 0.0:
+		tool_switch_timer -= delta
 
 
 # ---------------------------- GETTERS ----------------------------
@@ -369,3 +427,16 @@ func get_movement_vector() -> Vector2:
 ## Returns 1.0 for right, -1.0 for left
 func get_facing_direction():
 	return visuals.scale.x
+
+
+## Calculate the effective aiming direction based on mouse position
+## Returns a normalized Vector2 pointing towards the mouse
+func get_effective_aim() -> Vector2:
+	var effective_aim: Vector2 = aim_vector
+	var mouse_position := get_global_mouse_position()
+	effective_aim = global_position.direction_to(mouse_position)
+	
+	if effective_aim.length_squared() < 0.0001:
+		effective_aim = Vector2.RIGHT
+	
+	return effective_aim.normalized()

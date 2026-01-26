@@ -9,7 +9,11 @@ extends Node2D
 
 func _ready() -> void:
 	for enemy: CharacterBody2D in enemies.get_children():
-		enemy.hit.connect(freeze_engine)
+		if enemy.has_signal("hit"):
+			enemy.hit.connect(freeze_engine)
+	var player: Player = get_tree().get_first_node_in_group("player")
+	if player.has_signal("hit"):
+		player.hit.connect(freeze_engine)
 
 
 func freeze_engine() -> void:
