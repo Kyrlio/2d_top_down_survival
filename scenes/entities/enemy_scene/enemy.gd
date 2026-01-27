@@ -32,19 +32,25 @@ enum STATE {
 @onready var visuals: Node2D = %Visuals
 @onready var hit_area: HitArea2D = %HitArea2D
 @onready var navigation_agent: NavigationAgent2D = %NavigationAgent2D
+@onready var alert_sprite: Sprite2D = $AlertSprite
 
 
 var active_state: STATE = STATE.IDLE
 var pushback_force: Vector2 = Vector2.ZERO
 var attack_cooldown: float
+var alert_tween: Tween
+var is_alerted: bool = false
 
 
 func _ready() -> void:
 	switch_state(STATE.IDLE)
+	hit_area.top_level = true
+	alert_sprite.scale = Vector2.ZERO
 
 
 func _process(delta: float) -> void:
 	process_state(delta)
+	hit_area.global_position = global_position
 	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10.0)
 	velocity = pushback_force
 	
@@ -52,7 +58,6 @@ func _process(delta: float) -> void:
 	#print(distance_to_player())
 	#print(active_state)
 	
-	update_facing_direction()
 	move_and_slide()
 
 
@@ -63,9 +68,21 @@ func switch_state(to_state: STATE) -> void:
 	match active_state:
 		STATE.IDLE:
 			animation_player.play("idle")
+			if previous_state == STATE.RETURN:
+				is_alerted = false
 		
 		STATE.CHASE:
 			animation_player.play("walk")
+			
+			if alert_tween != null and alert_tween.is_valid():
+				alert_tween.kill()
+			
+			if not is_alerted:
+				alert_tween = create_tween()
+				alert_tween.tween_property(alert_sprite, "scale", Vector2.ONE, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TransitionType.TRANS_BACK)
+				alert_tween.tween_interval(0.2)
+				alert_tween.chain().tween_property(alert_sprite, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN).set_trans(Tween.TransitionType.TRANS_BACK)
+				is_alerted = true
 		
 		STATE.RETURN:
 			animation_player.play("walk")
@@ -79,7 +96,9 @@ func switch_state(to_state: STATE) -> void:
 				animation_player.stop()
 			animation_player.play("hit")
 			GameCamera.shake(1)
-			
+		
+		STATE.DEAD:
+			animation_player.play("death")
 
 func process_state(delta: float) -> void:
 	match active_state:
@@ -142,7 +161,7 @@ func update_facing_direction() -> void:
 	else:
 		var player_pos = player.global_position
 		visuals.scale = Vector2.ONE if (player_pos - global_position).x >= 0 else Vector2(-1, 1)
-		hit_area.rotation = get_angle_to(player_pos)
+		hit_area.look_at(player_pos)
 
 
 func update_attack_cooldown(delta: float) -> void:
@@ -160,6 +179,16 @@ func move(target_position: Vector2) -> void:
 	else:
 		_on_navigation_agent_2d_velocity_computed(velocity)
 	move_and_slide()
+
+
+func spawn_death_particles() -> void:
+	var die_particles: Node2D = death_packed.instantiate()
+	die_particles.global_position = get_parent().global_position
+	
+	#var background_node: Node = Main.background_effects
+	#if not is_instance_valid(background_node):
+		#background_node = get_parent()
+	#background_node.add_child(die_particles)
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:

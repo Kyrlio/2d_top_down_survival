@@ -165,6 +165,7 @@ func take_damage(amount: int, invincible_time: float = 0.0, ignore_invincible: b
 	switch_state(STATE.HURT)
 	if invincible_time > 0.0:
 		can_take_damage = false
+		await get_tree().create_timer(0.2).timeout
 		var invincible_tween := get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
 		invincible_tween.tween_property(visuals, "modulate:a", 1.0, invincible_time / 4.0)
 		invincible_tween.chain().tween_property(visuals, "modulate:a", 0.5, invincible_time / 4.0)
@@ -174,6 +175,10 @@ func take_damage(amount: int, invincible_time: float = 0.0, ignore_invincible: b
 			_reset_can_take_damage)
 
 
+func _reset_can_take_damage() -> void:
+	can_take_damage = true
+
+
 func knock_back(source_position: Vector2, power: float = 1.0) -> void:
 	if active_state == STATE.ROLL:
 		return
@@ -181,10 +186,6 @@ func knock_back(source_position: Vector2, power: float = 1.0) -> void:
 	hit_gpu_particles.emitting = true
 	var knockback_strength = 200.0 * power
 	pushback_force = - global_position.direction_to(source_position) * knockback_strength
-
-
-func _reset_can_take_damage() -> void:
-	can_take_damage = true
 
 
 # ---------------------------- STATE ENTRY LOGIC ----------------------------------------------------------------------------------------------

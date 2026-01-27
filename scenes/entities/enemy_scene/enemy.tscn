@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bxv6m77ycdgc"]
+[gd_scene format=3 uid="uid://bxv6m77ycdgc"]
 
 [ext_resource type="Script" uid="uid://cdaa8cx2b8t04" path="res://scenes/entities/enemy_scene/enemy.gd" id="1_qx6it"]
 [ext_resource type="Texture2D" uid="uid://c7bjjjean5tjn" path="res://assets/Characters/Skeleton/skeleton_idle_strip6.png" id="1_wb3li"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://y5x2c4v2t5pt" path="res://assets/Characters/Skeleton/skeleton_walk_strip8.png" id="5_xsg5t"]
 [ext_resource type="Texture2D" uid="uid://csmbkb0xmugma" path="res://assets/Characters/Skeleton/skeleton_attack_strip7.png" id="6_xsg5t"]
 [ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="7_edex2"]
+[ext_resource type="Texture2D" uid="uid://b1svvitam1nnb" path="res://assets/UI/expression_alerted.png" id="8_4ebyg"]
 [ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="8_wagqe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3y3vp"]
@@ -67,7 +68,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../../HitArea2D/CollisionShape2D:disabled")
+tracks/4/path = NodePath("../HandPivot/HitArea2D/CollisionShape2D:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -79,7 +80,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../../HitArea2D:monitoring")
+tracks/5/path = NodePath("../HandPivot/HitArea2D:monitoring")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -91,7 +92,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../../HitArea2D:monitorable")
+tracks/6/path = NodePath("../HandPivot/HitArea2D:monitorable")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -103,7 +104,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("%HitArea2D/CollisionShape2D:disabled")
+tracks/7/path = NodePath("../HandPivot/HitArea2D/CollisionShape2D:disabled")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -156,7 +157,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../../HitArea2D/CollisionShape2D:disabled")
+tracks/3/path = NodePath("../HandPivot/HitArea2D/CollisionShape2D:disabled")
 tracks/3/interp = 0
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -168,7 +169,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../../HitArea2D:monitoring")
+tracks/4/path = NodePath("../HandPivot/HitArea2D:monitoring")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -180,7 +181,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../../HitArea2D:monitorable")
+tracks/5/path = NodePath("../HandPivot/HitArea2D:monitorable")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -229,6 +230,17 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("%Visuals/..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
 }
 
 [sub_resource type="Animation" id="Animation_3y3vp"]
@@ -384,7 +396,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%HitArea2D/CollisionShape2D:disabled")
+tracks/3/path = NodePath("../HandPivot/HitArea2D/CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -405,7 +417,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wagqe"]
-size = Vector2(19, 14)
+size = Vector2(19, 13)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3y3vp"]
 radius = 8.0
@@ -438,28 +450,26 @@ color = Color(0.89411765, 0.23137255, 0.26666668, 1)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" unique_id=1573969078]
 collision_layer = 2
 collision_mask = 6
 script = ExtResource("1_qx6it")
 
-[node name="CollisionShape" type="CollisionShape2D" parent="."]
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=720628949]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_3y3vp")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1860985529]
 unique_name_in_owner = true
 root_node = NodePath("../Visuals/Sprite2D")
-libraries = {
-&"": SubResource("AnimationLibrary_edex2")
-}
-autoplay = "idle"
+libraries/ = SubResource("AnimationLibrary_edex2")
+autoplay = &"idle"
 
-[node name="DamageSpawningPoint" type="Marker2D" parent="."]
+[node name="DamageSpawningPoint" type="Marker2D" parent="." unique_id=821841481]
 unique_name_in_owner = true
 position = Vector2(0, -16)
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1620300336]
 unique_name_in_owner = true
 path_postprocessing = 1
 avoidance_enabled = true
@@ -469,55 +479,60 @@ max_speed = 128.0
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
-[node name="Shadow" type="Sprite2D" parent="."]
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1806923970]
 modulate = Color(1, 1, 1, 0.5882353)
 texture_filter = 1
 position = Vector2(8.940697e-08, 2.9802322e-08)
 scale = Vector2(0.85, 0.85)
 texture = ExtResource("4_6e7i7")
 
-[node name="HitArea2D" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 512
-script = ExtResource("8_wagqe")
-metadata/_custom_type_script = "uid://cmy826k35rpkn"
+[node name="AlertSprite" type="Sprite2D" parent="." unique_id=463250543]
+position = Vector2(0, -22)
+texture = ExtResource("8_4ebyg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea2D"]
-position = Vector2(9.5, -1)
-shape = SubResource("RectangleShape2D_wagqe")
-disabled = true
-debug_color = Color(0.96862745, 0, 0.25490198, 0.41960785)
-
-[node name="Visuals" type="Node2D" parent="."]
+[node name="Visuals" type="Node2D" parent="." unique_id=2107223252]
 unique_name_in_owner = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=907102379]
 texture = ExtResource("1_wb3li")
 offset = Vector2(0, -8)
 hframes = 6
 frame = 2
 
-[node name="HandPivot" type="Node2D" parent="Visuals"]
+[node name="HandPivot" type="Node2D" parent="Visuals" unique_id=991082097]
 unique_name_in_owner = true
 position = Vector2(0.5, -5)
 
-[node name="Tool" type="Node2D" parent="Visuals/HandPivot"]
+[node name="Tool" type="Node2D" parent="Visuals/HandPivot" unique_id=1798122706]
 unique_name_in_owner = true
 position = Vector2(-4, -3)
 scale = Vector2(0.75, 0.75)
 
-[node name="HurtArea2D" type="Area2D" parent="."]
+[node name="HitArea2D" type="Area2D" parent="Visuals/HandPivot" unique_id=1347668302]
+unique_name_in_owner = true
+position = Vector2(-0.5, 5)
+collision_layer = 512
+script = ExtResource("8_wagqe")
+metadata/_custom_type_script = "uid://cmy826k35rpkn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visuals/HandPivot/HitArea2D" unique_id=1359520043]
+position = Vector2(7.5, 0)
+shape = SubResource("RectangleShape2D_wagqe")
+disabled = true
+debug_color = Color(0.96862745, 0, 0.25490198, 0.41960785)
+
+[node name="HurtArea2D" type="Area2D" parent="." unique_id=1259344001]
 collision_layer = 2
 collision_mask = 256
 script = ExtResource("3_uqhqv")
 metadata/_custom_type_script = "uid://d146s0230glem"
 
-[node name="CollisionShape" type="CollisionShape2D" parent="HurtArea2D"]
+[node name="CollisionShape" type="CollisionShape2D" parent="HurtArea2D" unique_id=197404104]
 position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_3y3vp")
 debug_color = Color(0.13725491, 0.7254902, 0.20392157, 0.41960785)
 
-[node name="HitGPUParticles" type="GPUParticles2D" parent="."]
+[node name="HitGPUParticles" type="GPUParticles2D" parent="." unique_id=521605690]
 unique_name_in_owner = true
 material = SubResource("CanvasItemMaterial_dmdta")
 position = Vector2(0, -4)

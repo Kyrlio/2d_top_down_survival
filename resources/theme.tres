@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://o5luaxnidb4c"]
+[gd_resource type="Theme" format=3 uid="uid://o5luaxnidb4c"]
 
 [ext_resource type="FontFile" uid="uid://b6ufirkgogsl7" path="res://assets/Fonts/TinyPixie2.ttf" id="1_d4nwg"]
 [ext_resource type="FontFile" uid="uid://cb37yagl0s7ks" path="res://assets/Fonts/KarenFat.ttf" id="2_7ct1h"]
