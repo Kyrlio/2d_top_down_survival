@@ -10,14 +10,14 @@ var opacity_tween: Tween
 
 func setup_health_bar(max_val: float) -> void:
 	modulate.a = 0.0
+	max_value = max_val
 	value = max_val
-	progress_bar.value = max_val
 	progress_bar.max_value = max_val
+	progress_bar.value = max_val
 
 
 func change_value(new_value: float):
 	_change_opacity(1.0)
-	#await opacity_tween.finished
 	
 	value = new_value
 	

@@ -23,6 +23,7 @@ bg_color = Color(1, 0, 0.29411766, 1)
 bg_color = Color(1, 1, 1, 1)
 
 [node name="CustomHealthBar" type="ProgressBar" unique_id=846173630]
+z_index = 1
 offset_left = -8.0
 offset_top = 11.0
 offset_right = 72.0
@@ -40,12 +41,14 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxEmpty_u0lyc")
 theme_override_styles/fill = SubResource("StyleBoxFlat_x6vmw")
 show_percentage = false
 
 [node name="ResetVisibility" type="Timer" parent="." unique_id=1438916336]
-wait_time = 2.0
+wait_time = 1.5
 one_shot = true
 
 [connection signal="timeout" from="ResetVisibility" to="." method="_on_reset_visibility_timeout"]

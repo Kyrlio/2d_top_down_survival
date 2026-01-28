@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://xdl4mrc4p3qy"]
+[gd_scene format=3 uid="uid://xdl4mrc4p3qy"]
 
 [ext_resource type="Script" uid="uid://bc75j1ism3hem" path="res://scenes/tools/sword_scene/sword.gd" id="1_0o58g"]
 [ext_resource type="Texture2D" uid="uid://coh1chcl1j7qk" path="res://assets/Elements/Tools/Sword.png" id="1_mumg7"]
@@ -204,43 +204,43 @@ tracks/15/keys = {
 
 [sub_resource type="Animation" id="Animation_1mmp0"]
 resource_name = "parry"
-length = 0.055558335
-step = 0.055555556
+length = 0.44445
+step = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite:position")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.055555556),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.055555556, 0.27777776, 0.44444445),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1, -3), Vector2(10, -1)]
+"values": [Vector2(1, -3), Vector2(10, -1), Vector2(10, -1), Vector2(1, -3)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("Sprite:rotation")
-tracks/1/interp = 2
+tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.055555556),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.055555556, 0.27777776, 0.44444445),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 2.530727415391778]
+"values": [0.0, 2.530727415391778, 2.530727415391778, 0.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/path = NodePath("Sprite:scale")
-tracks/2/interp = 2
+tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.027777778, 0.055555556),
-"transitions": PackedFloat32Array(1, -2, 1),
+"times": PackedFloat32Array(0, 0.027777778, 0.055555556, 0.27777776, 0.44444445),
+"transitions": PackedFloat32Array(1, -2, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.245, 1.21), Vector2(1, 1)]
+"values": [Vector2(1, 1), Vector2(1.245, 1.21), Vector2(1, 1), Vector2(1, 1), Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_0o58g"]
@@ -805,31 +805,29 @@ _data = {
 radius = 6.0
 height = 16.0
 
-[node name="Sword" type="Node2D"]
+[node name="Sword" type="Node2D" unique_id=998686569]
 script = ExtResource("1_0o58g")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1075178897]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_4s8gn")
-}
+libraries/ = SubResource("AnimationLibrary_4s8gn")
 
-[node name="ComboTimer" type="Timer" parent="."]
+[node name="ComboTimer" type="Timer" parent="." unique_id=1112712386]
 wait_time = 0.1
 one_shot = true
 
-[node name="CooldownTimer" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="." unique_id=384808377]
 wait_time = 0.9
 one_shot = true
 
-[node name="VFX" type="Sprite2D" parent="."]
+[node name="VFX" type="Sprite2D" parent="." unique_id=1890280727]
 visible = false
 texture = ExtResource("2_sa7wp")
 offset = Vector2(20, 1)
 hframes = 4
 frame = 3
 
-[node name="VFX2" type="Sprite2D" parent="."]
+[node name="VFX2" type="Sprite2D" parent="." unique_id=375590144]
 visible = false
 rotation = 0.43633232
 texture = ExtResource("2_4s8gn")
@@ -837,17 +835,17 @@ offset = Vector2(-15, -7)
 flip_h = true
 hframes = 4
 
-[node name="VFX3" type="Sprite2D" parent="."]
+[node name="VFX3" type="Sprite2D" parent="." unique_id=290232331]
 visible = false
 position = Vector2(13, 1)
 scale = Vector2(1.78125, 1)
 texture = ExtResource("8_r0p6s")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=534186031]
 position = Vector2(1, -3)
 texture = ExtResource("1_mumg7")
 
-[node name="HitArea2D" type="Area2D" parent="Sprite"]
+[node name="HitArea2D" type="Area2D" parent="Sprite" unique_id=967937272]
 collision_layer = 256
 collision_mask = 2
 monitoring = false
@@ -856,7 +854,7 @@ script = ExtResource("2_4mytq")
 damage = 30
 metadata/_custom_type_script = "uid://cmy826k35rpkn"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/HitArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/HitArea2D" unique_id=1254902518]
 position = Vector2(0, -5)
 shape = SubResource("CapsuleShape2D_0o58g")
 disabled = true

@@ -9,6 +9,17 @@ class_name Sword extends Node2D
 @onready var cooldown_timer: Timer = $CooldownTimer
 
 var combo_stage: int = 0
+var player: Player
+
+
+func _ready() -> void:
+	# On cherche le Player dans la hiérarchie parente
+	var node = get_parent()
+	while node:
+		if node is Player:
+			player = node
+			break
+		node = node.get_parent()
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
@@ -17,21 +28,11 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 
 func slash3_dash() -> void:
-	# Vérifier si l'attaque vient du joueur
-	var node: Node2D = get_parent()
-	var player_node: Player = null
+	if not player:
+		return
 	
-	# On remonte la hiérarchie pour trouver le Player
-	for i in range(10):
-		node = node.get_parent()
-		if not node:
-			break
-		if node is Player:
-			player_node = node
-			break
-	
-	player_node.velocity = player_node.get_effective_aim() * slash3_dash_speed
-	player_node.move_and_slide()
+	player.velocity = player.get_effective_aim() * slash3_dash_speed
+	player.move_and_slide()
 
 
 func set_damage(amount: int) -> void:

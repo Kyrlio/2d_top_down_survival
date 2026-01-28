@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://d146s0230glem" path="res://components/hurtarea2d.gd" id="12_f1hbm"]
 [ext_resource type="Texture2D" uid="uid://dq368mbpuuhrw" path="res://assets/Characters/Human/all_hair_bowl.png" id="12_tlsmm"]
 [ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="15_51as7"]
+[ext_resource type="PackedScene" uid="uid://b6t2fl85tnm78" path="res://components/health_bar_component/custom_health_bar.tscn" id="17_mqlu3"]
 
 [sub_resource type="Animation" id="Animation_rf8gt"]
 length = 0.001
@@ -1084,7 +1085,7 @@ shape = SubResource("CircleShape2D_2q4ud")
 
 [node name="HealthComponent" parent="." unique_id=605682889 instance=ExtResource("8_51as7")]
 unique_name_in_owner = true
-max_health = 25
+max_health = 1000
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=345044178]
 modulate = Color(1, 1, 1, 0.5882353)
@@ -1172,3 +1173,9 @@ randomness = 0.6
 fixed_fps = 0
 interpolate = false
 process_material = SubResource("ParticleProcessMaterial_x1s51")
+
+[node name="CustomHealthBar" parent="." unique_id=846173630 instance=ExtResource("17_mqlu3")]
+offset_left = -9.0
+offset_top = -23.999996
+offset_right = 80.99999
+offset_bottom = -13.999996

@@ -145,6 +145,10 @@ func _process_state(delta: float) -> void:
 			move(spawn_point)
 			if global_position.distance_to(spawn_point) < 2.0:
 				_switch_state(STATE.IDLE)
+			
+			if distance_to_player() < aggro_range:
+				is_alerted = false
+				_switch_state(STATE.CHASE)
 		
 		STATE.ATTACK:
 			if not animation_player.is_playing():

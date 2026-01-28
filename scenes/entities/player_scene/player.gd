@@ -14,8 +14,8 @@ enum STATE {
 	DEAD
 }
 
-const ROLL_SPEED: float = 95.0
-const ROLL_TIME: float = 0.3
+const ROLL_SPEED: float = 80.0
+const ROLL_TIME: float = 0.25
 const ROLL_RELOAD_COST: float = 0.8
 const ROLL_BUFFER_TIME: float = 0.15
 
@@ -51,6 +51,7 @@ const HAIRS: Dictionary = {
 @onready var running_particles: GPUParticles2D = %RunningParticles
 @onready var hit_gpu_particles: GPUParticles2D = %HitGPUParticles
 @onready var health_component: HealthComponent = %HealthComponent
+@onready var health_bar: CustomHealthBar = $CustomHealthBar
 
 var pushback_force: Vector2 = Vector2.ZERO
 
@@ -68,6 +69,7 @@ var actual_hair_index: int = 0
 var is_sprinting: bool = false
 var is_walking: bool = false
 var can_take_damage: bool = true
+var can_parry: bool = true
 
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -75,6 +77,7 @@ func _ready() -> void:
 	hair.texture = load(HAIRS.Bowl)
 	equip_tool(TOOLS.Hand)
 	switch_state(STATE.IDLE)
+	health_bar.setup_health_bar(health_component.max_health)
 	
 	# Signals
 	health_component.died.connect(_died)
@@ -177,6 +180,8 @@ func take_damage(amount: int, invincible_time: float = 0.0, ignore_invincible: b
 	switch_state(STATE.HURT)
 	health_component.take_damage(amount)
 	
+	health_bar.change_value(health_component.current_health)
+	
 	if invincible_time > 0.0:
 		can_take_damage = false
 		await get_tree().create_timer(0.2).timeout
@@ -264,8 +269,9 @@ func _enter_state_attack() -> void:
 
 
 func _enter_state_parry() -> void:
-	speed = SPEED_ATTACK
 	if current_tool is Sword:
+		speed = SPEED_ATTACK
+		can_parry = false
 		current_tool.animation_player.play("parry")
 
 
@@ -278,6 +284,7 @@ func _enter_state_hurt() -> void:
 
 func _enter_state_dead() -> void:
 	Gamedata.is_player_dead = true
+	health_bar.visible = false
 	animation_player.call_deferred("stop")
 	animation_player.call_deferred("play", "death")
 	
@@ -336,9 +343,15 @@ func _update_state_roll(_delta: float) -> void:
 			switch_state(STATE.IDLE)
 
 
-func _update_state_parry(_delta) -> void:
+func _update_state_parry(delta) -> void:
+	if current_tool is not Sword:
+		switch_state(STATE.IDLE)
+		return
 	if Input.is_action_just_released("parry"):
 		switch_state(STATE.IDLE)
+	
+	var target_velocity = get_movement_vector() * speed
+	velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
 
 
 ## Updates logic for the ATTACK state.
@@ -413,7 +426,7 @@ func _check_common_state_transitions() -> void:
 		switch_state(STATE.ROLL)
 	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 		switch_state(STATE.ATTACK)
-	if Input.is_action_pressed("parry"):
+	if Input.is_action_just_pressed("parry"):
 		switch_state(STATE.PARRY)
 
 
