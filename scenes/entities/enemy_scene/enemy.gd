@@ -38,6 +38,7 @@ const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
 @onready var navigation_agent: NavigationAgent2D = %NavigationAgent2D
 @onready var alert_sprite: Sprite2D = $AlertSprite
 @onready var health_component: HealthComponent = %HealthComponent
+@onready var health_bar: CustomHealthBar = %CustomHealthBar
 
 
 var active_state: STATE = STATE.IDLE
@@ -48,6 +49,7 @@ var is_alerted: bool = false
 
 
 func _ready() -> void:
+	health_bar.setup_health_bar(health_component.max_health)
 	_switch_state(STATE.IDLE)
 	hit_area.top_level = true
 	alert_sprite.scale = Vector2.ZERO
@@ -108,6 +110,7 @@ func _switch_state(to_state: STATE) -> void:
 			GameCamera.shake(1)
 		
 		STATE.DEAD:
+			health_bar.visible = false
 			animation_player.call_deferred("stop")
 			animation_player.call_deferred("play", "death")
 
@@ -170,6 +173,8 @@ func take_damage(amount: int) -> void:
 	label.position = damage_spawning_point.position
 	add_child(label)
 	label.set_damage(amount)
+	
+	health_bar.change_value(health_component.current_health)
 
 
 func _died():

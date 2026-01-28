@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="8_r6ekq"]
 [ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="8_wagqe"]
 [ext_resource type="Texture2D" uid="uid://sjjhyuf1dtud" path="res://assets/UI/expression_confused.png" id="11_lbqto"]
+[ext_resource type="PackedScene" uid="uid://b6t2fl85tnm78" path="res://components/health_bar_component/custom_health_bar.tscn" id="15_rfdkc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3y3vp"]
 radius = 4.0
@@ -680,5 +681,10 @@ randomness = 0.6
 fixed_fps = 0
 interpolate = false
 process_material = SubResource("ParticleProcessMaterial_4ebyg")
+
+[node name="CustomHealthBar" parent="." unique_id=846173630 instance=ExtResource("15_rfdkc")]
+unique_name_in_owner = true
+offset_top = -22.999996
+offset_bottom = -12.999996
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

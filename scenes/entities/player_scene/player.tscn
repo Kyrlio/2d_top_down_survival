@@ -1084,7 +1084,7 @@ shape = SubResource("CircleShape2D_2q4ud")
 
 [node name="HealthComponent" parent="." unique_id=605682889 instance=ExtResource("8_51as7")]
 unique_name_in_owner = true
-max_health = 10
+max_health = 25
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=345044178]
 modulate = Color(1, 1, 1, 0.5882353)
