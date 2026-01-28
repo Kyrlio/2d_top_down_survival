@@ -1,13 +1,22 @@
-extends Node2D
+class_name Main extends Node2D
+
+static var corpse_layer: Node2D
 
 @export var freeze_slow := 0.06
 @export var freeze_time := 0.15
 
 @onready var enemies: Node2D = %Enemies
+@onready var navigation_layer: TileMapLayer = $Tilemap/NavigationLayer
+@onready var _corpse_layer: Node2D = %CorpseLayer
 
 
 
 func _ready() -> void:
+	corpse_layer = _corpse_layer
+	
+	if navigation_layer != null:
+		navigation_layer.visible = false
+		
 	for enemy: CharacterBody2D in enemies.get_children():
 		if enemy.has_signal("hit"):
 			enemy.hit.connect(freeze_engine)

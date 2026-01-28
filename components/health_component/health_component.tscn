@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bj1tq4yx1wf6i"]
+
+[ext_resource type="Script" uid="uid://chxv8gnoesq6a" path="res://components/health_component/health_component.gd" id="1_ol33d"]
+
+[node name="HealthComponent" type="Node2D" unique_id=605682889]
+script = ExtResource("1_ol33d")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1279768973]

@@ -10,12 +10,14 @@ enum STATE {
 	ROLL,
 	ATTACK,
 	PARRY,
-	HURT
+	HURT,
+	DEAD
 }
 
 const ROLL_SPEED: float = 95.0
 const ROLL_TIME: float = 0.3
 const ROLL_RELOAD_COST: float = 0.8
+const ROLL_BUFFER_TIME: float = 0.15
 
 # Movement Settings
 const SPEED_WALK: float = 50.0
@@ -48,6 +50,7 @@ const HAIRS: Dictionary = {
 @onready var hair: Sprite2D = %Hair
 @onready var running_particles: GPUParticles2D = %RunningParticles
 @onready var hit_gpu_particles: GPUParticles2D = %HitGPUParticles
+@onready var health_component: HealthComponent = %HealthComponent
 
 var pushback_force: Vector2 = Vector2.ZERO
 
@@ -58,6 +61,7 @@ var aim_vector: Vector2 = Vector2.RIGHT
 var roll_dir: Vector2 = Vector2.ZERO
 var roll_timer: float
 var roll_reload_timer: float
+var last_roll_input_time: int = 0
 var tool_switch_timer: float = 0.0
 var actual_tool_index: int = 0
 var actual_hair_index: int = 0
@@ -71,6 +75,9 @@ func _ready() -> void:
 	hair.texture = load(HAIRS.Bowl)
 	equip_tool(TOOLS.Hand)
 	switch_state(STATE.IDLE)
+	
+	# Signals
+	health_component.died.connect(_died)
 
 
 ## Main processing loop for the player (Physics synchronized)
@@ -91,6 +98,8 @@ func _input(event: InputEvent) -> void:
 		is_sprinting = true
 	if event.is_action_released("sprint"):
 		is_sprinting = false
+	if event.is_action_pressed("roll"):
+		last_roll_input_time = Time.get_ticks_msec()
 
 
 ## Updates the current tool based on scroll input.
@@ -142,7 +151,8 @@ func switch_state(to_state: STATE) -> void:
 		STATE.ROLL: _enter_state_roll()
 		STATE.ATTACK: _enter_state_attack()
 		STATE.PARRY: _enter_state_parry()
-		STATE.HURT: _enter_stater_hurt()
+		STATE.HURT: _enter_state_hurt()
+		STATE.DEAD: _enter_state_dead()
 
 
 ## Process the logic for the current state every frame
@@ -155,6 +165,7 @@ func process_state(delta: float) -> void:
 		STATE.ATTACK: _update_state_attack(delta)
 		STATE.PARRY: _update_state_parry(delta)
 		STATE.HURT: _update_state_hurt(delta)
+		STATE.DEAD: _update_state_dead(delta)
 
 
 func take_damage(amount: int, invincible_time: float = 0.0, ignore_invincible: bool = false) -> void:
@@ -162,7 +173,10 @@ func take_damage(amount: int, invincible_time: float = 0.0, ignore_invincible: b
 		return
 	if not can_take_damage and not ignore_invincible:
 		return
+	
 	switch_state(STATE.HURT)
+	health_component.take_damage(amount)
+	
 	if invincible_time > 0.0:
 		can_take_damage = false
 		await get_tree().create_timer(0.2).timeout
@@ -255,11 +269,17 @@ func _enter_state_parry() -> void:
 		current_tool.animation_player.play("parry")
 
 
-func _enter_stater_hurt() -> void:
+func _enter_state_hurt() -> void:
 	speed = SPEED_WALK
 	animation_player.play("hit")
 	GameCamera.shake(2)
 	hit.emit()
+
+
+func _enter_state_dead() -> void:
+	Gamedata.is_player_dead = true
+	animation_player.call_deferred("stop")
+	animation_player.call_deferred("play", "death")
 	
 
 # ---------------------------- STATE UPDATE LOGIC ----------------------------------------------------------------------------------------------
@@ -326,7 +346,11 @@ func _update_state_attack(delta: float) -> void:
 	_handle_attack_combo()
 	
 	if not animation_player.is_playing():
-		if get_movement_vector() != Vector2.ZERO:
+		var buffer_valid = Time.get_ticks_msec() - last_roll_input_time <= ROLL_BUFFER_TIME * 1000
+		if buffer_valid and roll_reload_timer <= 0.0:
+			last_roll_input_time = 0
+			switch_state(STATE.ROLL)
+		elif get_movement_vector() != Vector2.ZERO:
 			switch_state(STATE.RUN)
 		else:
 			switch_state(STATE.IDLE)
@@ -341,6 +365,10 @@ func _update_state_hurt(delta) -> void:
 	
 	if not animation_player.is_playing():
 		switch_state(STATE.IDLE)
+
+
+func _update_state_dead(delta) -> void:
+	velocity = Vector2.ZERO
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -379,7 +407,9 @@ func _trigger_combo_stage(stage: int, tool_anim: String, player_anim: String) ->
 
 ## Common transitions checked in Idle and Move states (Roll, Jump, Attack)
 func _check_common_state_transitions() -> void:
-	if Input.is_action_just_pressed("roll") and roll_reload_timer <= 0.0:
+	var buffer_valid = Time.get_ticks_msec() - last_roll_input_time <= ROLL_BUFFER_TIME * 1000
+	if buffer_valid and roll_reload_timer <= 0.0:
+		last_roll_input_time = 0
 		switch_state(STATE.ROLL)
 	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 		switch_state(STATE.ATTACK)
@@ -441,3 +471,9 @@ func get_effective_aim() -> Vector2:
 		effective_aim = Vector2.RIGHT
 	
 	return effective_aim.normalized()
+
+
+# --------------------- SIGNALS ----------------------------------------------------------------
+
+func _died() -> void:
+	switch_state(STATE.DEAD)

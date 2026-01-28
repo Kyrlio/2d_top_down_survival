@@ -6,11 +6,14 @@ signal hit
 enum STATE {
 	IDLE,
 	CHASE,
+	CONFUSED,
 	RETURN,
 	ATTACK,
 	HURT,
 	DEAD
 }
+
+const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
 
 @export_category("Stats")
 @export var speed: int = 25
@@ -23,6 +26,7 @@ enum STATE {
 
 @export_category("Related Scene")
 @export var death_packed: PackedScene
+@export var death_sprite: CompressedTexture2D
 
 @onready var spawn_point: Vector2 = global_position
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
@@ -33,6 +37,7 @@ enum STATE {
 @onready var hit_area: HitArea2D = %HitArea2D
 @onready var navigation_agent: NavigationAgent2D = %NavigationAgent2D
 @onready var alert_sprite: Sprite2D = $AlertSprite
+@onready var health_component: HealthComponent = %HealthComponent
 
 
 var active_state: STATE = STATE.IDLE
@@ -43,25 +48,27 @@ var is_alerted: bool = false
 
 
 func _ready() -> void:
-	switch_state(STATE.IDLE)
+	_switch_state(STATE.IDLE)
 	hit_area.top_level = true
 	alert_sprite.scale = Vector2.ZERO
+	
+	# Signals
+	health_component.died.connect(_died)
 
 
 func _process(delta: float) -> void:
-	process_state(delta)
+	_process_state(delta)
 	hit_area.global_position = global_position
 	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10.0)
 	velocity = pushback_force
 	
-	# DEBUG
-	#print(distance_to_player())
-	#print(active_state)
-	
 	move_and_slide()
 
 
-func switch_state(to_state: STATE) -> void:
+func _switch_state(to_state: STATE) -> void:
+	if active_state == STATE.DEAD:
+		return
+	
 	var previous_state := active_state
 	active_state = to_state
 	
@@ -84,6 +91,9 @@ func switch_state(to_state: STATE) -> void:
 				alert_tween.chain().tween_property(alert_sprite, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN).set_trans(Tween.TransitionType.TRANS_BACK)
 				is_alerted = true
 		
+		STATE.CONFUSED:
+			animation_player.play("confused")
+		
 		STATE.RETURN:
 			animation_player.play("walk")
 		
@@ -98,40 +108,51 @@ func switch_state(to_state: STATE) -> void:
 			GameCamera.shake(1)
 		
 		STATE.DEAD:
-			animation_player.play("death")
+			animation_player.call_deferred("stop")
+			animation_player.call_deferred("play", "death")
 
-func process_state(delta: float) -> void:
+
+func _process_state(delta: float) -> void:
 	match active_state:
 		STATE.IDLE:
 			update_attack_cooldown(delta)
 			if distance_to_player() <= attack_range and attack_cooldown <= 0.0 and can_see_player():
-				switch_state(STATE.ATTACK)
+				_switch_state(STATE.ATTACK)
 			elif distance_to_player() <= aggro_range:
-				switch_state(STATE.CHASE)
+				_switch_state(STATE.CHASE)
 		
 		STATE.CHASE:
 			update_facing_direction()
 			update_attack_cooldown(delta)
 			move(player.global_position)
 			if distance_to_player() <= attack_range and attack_cooldown <= 0.0 and can_see_player():
-				switch_state(STATE.ATTACK)
+				_switch_state(STATE.ATTACK)
 			if distance_to_player() > aggro_range * 1.5:
-				switch_state(STATE.RETURN)
+				_switch_state(STATE.CONFUSED)
+			if Gamedata.is_player_dead == true:
+				_switch_state(STATE.CONFUSED)
+		
+		STATE.CONFUSED:
+			await animation_player.animation_finished
+			_switch_state(STATE.RETURN)
 		
 		STATE.RETURN:
 			update_facing_direction()
 			update_attack_cooldown(delta)
 			move(spawn_point)
 			if global_position.distance_to(spawn_point) < 2.0:
-				switch_state(STATE.IDLE)
+				_switch_state(STATE.IDLE)
 		
 		STATE.ATTACK:
 			if not animation_player.is_playing():
-				switch_state(STATE.IDLE)
+				_switch_state(STATE.IDLE)
 		
 		STATE.HURT:
 			if not animation_player.is_playing():
-				switch_state(STATE.IDLE)
+				_switch_state(STATE.IDLE)
+		
+		STATE.DEAD:
+			velocity = Vector2.ZERO
 
 
 func distance_to_player() -> float:
@@ -140,14 +161,20 @@ func distance_to_player() -> float:
 
 
 func take_damage(amount: int) -> void:
-	call_deferred("switch_state", STATE.HURT)
+	call_deferred("_switch_state", STATE.HURT)
 	hit.emit()
+	
+	health_component.take_damage(amount)
 	
 	var label: Control = preload("uid://cdnp6bhgi0oys").instantiate()
 	label.position = damage_spawning_point.position
 	add_child(label)
 	label.set_damage(amount)
 
+
+func _died():
+	_switch_state(STATE.DEAD)
+	
 
 func knock_back(source_position: Vector2, power: float = 1.0) -> void:
 	hit_gpu_particles.rotation = get_angle_to(source_position) + PI
@@ -205,3 +232,17 @@ func can_see_player() -> bool:
 	if result:
 		return false
 	return true
+
+
+func spawn_corpse() -> void:
+	var corpse := CORPSE_SCENE.instantiate()
+	if corpse:
+		corpse.corpse_sprite = death_sprite
+		if corpse is RigidBody2D:
+			(corpse as RigidBody2D).global_position = global_position
+			(corpse as RigidBody2D).linear_velocity = velocity
+		else:
+			(corpse as Node2D).global_position = global_position
+		var target_parent: Node2D = Main.corpse_layer if Main.corpse_layer else get_parent()
+		if target_parent:
+			target_parent.add_child(corpse)

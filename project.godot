@@ -21,6 +21,7 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 [autoload]
 
 Cursor="*res://resources/autoload/cursor.tscn"
+Gamedata="*uid://cjcatwrccphv5"
 
 [display]
 

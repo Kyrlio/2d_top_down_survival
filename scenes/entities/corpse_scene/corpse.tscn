@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://mwfnfkya6aqp"]
+
+[ext_resource type="Script" uid="uid://cwhn3ccxdmbf5" path="res://scenes/entities/corpse_scene/corpse.gd" id="1_gjd8f"]
+[ext_resource type="Texture2D" uid="uid://clcl08r3a4srt" path="res://assets/Elements/Crops/skeleton_skull.png" id="1_tyhtv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gjd8f"]
+radius = 6.0
+
+[node name="Corpse" type="RigidBody2D" unique_id=1290740987]
+collision_mask = 261
+gravity_scale = 0.0
+linear_damp = 4.8
+angular_damp = 10.0
+script = ExtResource("1_gjd8f")
+corpse_sprite = ExtResource("1_tyhtv")
+push_impulse = 25.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=304708613]
+position = Vector2(0, -5)
+texture = ExtResource("1_tyhtv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1286562820]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_gjd8f")

@@ -1,11 +1,13 @@
-[gd_scene load_steps=34 format=3 uid="uid://7jtamgi5g7r7"]
+[gd_scene format=3 uid="uid://7jtamgi5g7r7"]
 
 [ext_resource type="Script" uid="uid://dsvde8v8bx5iv" path="res://scenes/entities/player_scene/player.gd" id="1_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="1_w8ad2"]
 [ext_resource type="Texture2D" uid="uid://bhy6xjkbtfqy5" path="res://assets/Characters/Human/IDLE/base_idle_strip9.png" id="2_rf8gt"]
 [ext_resource type="Texture2D" uid="uid://bcbplp5pxr4hw" path="res://assets/Characters/Human/ATTACK/base_attack_strip10-no-VFX.png" id="3_cs6j4"]
+[ext_resource type="Texture2D" uid="uid://w0r37wqcp4a5" path="res://assets/Characters/Human/DEATH/base_death_strip13.png" id="4_1hrif"]
 [ext_resource type="Texture2D" uid="uid://jdwllx12l8x" path="res://assets/Characters/Human/RUN/base_run_strip8.png" id="4_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://b0peceqcjlcxx" path="res://assets/Characters/Human/WALKING/base_walk_strip8.png" id="6_8janr"]
+[ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="8_51as7"]
 [ext_resource type="Texture2D" uid="uid://dkdkql5ljfpku" path="res://assets/Characters/Human/HURT/base_hurt_strip8.png" id="8_aqjvr"]
 [ext_resource type="Texture2D" uid="uid://by7b7jd335lns" path="res://assets/Elements/VFX/running_particles.png" id="8_co4c6"]
 [ext_resource type="Texture2D" uid="uid://ckxyi5ij4b7sh" path="res://assets/Characters/Human/ROLL/base_roll_strip10.png" id="8_qaib3"]
@@ -173,6 +175,18 @@ tracks/12/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Visuals/Hair:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_cs6j4"]
 resource_name = "attack"
@@ -333,6 +347,197 @@ tracks/3/keys = {
 "values": [Vector2i(0, 14), Vector2i(1, 14), Vector2i(2, 14), Vector2i(3, 14), Vector2i(4, 14), Vector2i(5, 14), Vector2i(6, 14), Vector2i(7, 14), Vector2i(8, 14), Vector2i(9, 14)]
 }
 
+[sub_resource type="Animation" id="Animation_mqlu3"]
+resource_name = "death"
+length = 1.0833417
+step = 0.083333336
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Base:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_1hrif")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Base:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [13]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Base:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.083333336, 0.16666667, 0.25, 0.33333334, 0.4166667, 0.5, 0.5833334, 0.6666667, 0.75, 0.8333334, 0.9166667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visuals/Hair:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.083333336, 0.16666667, 0.25, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visuals/HandPivot/Tool:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_1hrif"]
+resource_name = "hit"
+length = 0.38889444
+step = 0.055555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Base:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Base:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Base:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("8_aqjvr")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visuals/Hair:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 4), Vector2i(5, 4), Vector2i(6, 4)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visuals/HandPivot/Tool:position")
+tracks/4/interp = 0
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.11111111, 0.22222222, 0.2777778, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-4.5, -1), Vector2(-7.5, -5), Vector2(-5.5, -5), Vector2(-4.5, -2), Vector2(-4.5, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visuals/HandPivot/Tool:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visuals/HandPivot/Tool:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Visuals/HandPivot/Tool:visible")
+tracks/7/interp = 0
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.055555556, 0.11111111),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.3888889),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0],
+"method": &"switch_state"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_w8ad2"]
 resource_name = "idle"
 length = 0.90001
@@ -461,7 +666,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id="Animation_ee1a4"]
 resource_name = "roll"
-length = 0.90001
+length = 0.9
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -521,7 +726,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-4, -3), Vector2(-4, -4), Vector2(-5, -3), Vector2(-4, -11), Vector2(-2, -12), Vector2(7, -6), Vector2(-4, -1), Vector2(-5, 2), Vector2(-5, -2), Vector2(-4, -3)]
+"values": [Vector2(-4, -3), Vector2(-4, -4), Vector2(-5, -3), Vector2(-4, -11), Vector2(-2, -12), Vector2(7, -6), Vector2(-4, -1), Vector2(-5, 2), Vector2(-5, 1), Vector2(-4, -3)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -578,7 +783,7 @@ tracks/9/path = NodePath("Visuals/HandPivot/Tool:visible")
 tracks/9/interp = 0
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.8, 0.9),
+"times": PackedFloat32Array(0, 0.2, 0.70000005, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -800,127 +1005,13 @@ tracks/4/keys = {
 "values": [Vector2(-4, -1), Vector2(-3, -1), Vector2(-2, -2), Vector2(-2, -1), Vector2(-2, 0), Vector2(-3, 0), Vector2(-4, -1)]
 }
 
-[sub_resource type="Animation" id="Animation_1hrif"]
-resource_name = "hit"
-length = 0.38889444
-step = 0.055555556
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/Base:hframes")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [8]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/Base:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.33333334),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visuals/Base:texture")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("8_aqjvr")]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visuals/Hair:frame_coords")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.055555556, 0.11111111, 0.16666667, 0.22222222, 0.2777778, 0.33333334),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 4), Vector2i(5, 4), Vector2i(6, 4)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Visuals/HandPivot/Tool:position")
-tracks/4/interp = 0
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.11111111, 0.22222222, 0.2777778, 0.33333334),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(-4.5, -1), Vector2(-7.5, -5), Vector2(-5.5, -5), Vector2(-4.5, -2), Vector2(-4.5, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Visuals/HandPivot/Tool:rotation")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Visuals/HandPivot/Tool:scale")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Visuals/HandPivot/Tool:visible")
-tracks/7/interp = 0
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.055555556, 0.11111111),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/8/type = "method"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath(".")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0.3888889),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [0],
-"method": &"switch_state"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rf8gt"]
 _data = {
 &"RESET": SubResource("Animation_rf8gt"),
 &"attack": SubResource("Animation_cs6j4"),
 &"attack_2": SubResource("Animation_iai0i"),
 &"attack_3": SubResource("Animation_2783h"),
+&"death": SubResource("Animation_mqlu3"),
 &"hit": SubResource("Animation_1hrif"),
 &"idle": SubResource("Animation_w8ad2"),
 &"roll": SubResource("Animation_ee1a4"),
@@ -978,33 +1069,35 @@ color = Color(0.89411765, 0.23137255, 0.26666668, 1)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=1958998675 groups=["player"]]
 collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_2q4ud")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_rf8gt")
-}
-autoplay = "idle"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=723302207]
+libraries/ = SubResource("AnimationLibrary_rf8gt")
+autoplay = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=660777589]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_2q4ud")
 
-[node name="Shadow" type="Sprite2D" parent="."]
+[node name="HealthComponent" parent="." unique_id=605682889 instance=ExtResource("8_51as7")]
+unique_name_in_owner = true
+max_health = 10
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=345044178]
 modulate = Color(1, 1, 1, 0.5882353)
 texture_filter = 1
 position = Vector2(8.940697e-08, 2.9802322e-08)
 scale = Vector2(0.85, 0.85)
 texture = ExtResource("1_w8ad2")
 
-[node name="Visuals" type="Node2D" parent="."]
+[node name="Visuals" type="Node2D" parent="." unique_id=988820205]
 unique_name_in_owner = true
 texture_filter = 1
 
-[node name="RunningParticles" type="GPUParticles2D" parent="Visuals"]
+[node name="RunningParticles" type="GPUParticles2D" parent="Visuals" unique_id=360840233]
 unique_name_in_owner = true
 material = SubResource("CanvasItemMaterial_co4c6")
 position = Vector2(-5, -5)
@@ -1016,34 +1109,34 @@ fixed_fps = 0
 interpolate = false
 process_material = SubResource("ParticleProcessMaterial_qaib3")
 
-[node name="Base" type="Sprite2D" parent="Visuals"]
+[node name="Base" type="Sprite2D" parent="Visuals" unique_id=1486840954]
 unique_name_in_owner = true
 texture_filter = 1
 texture = ExtResource("2_rf8gt")
 offset = Vector2(0, -7)
 hframes = 9
 
-[node name="Hair" type="Sprite2D" parent="Visuals"]
+[node name="Hair" type="Sprite2D" parent="Visuals" unique_id=577618398]
 unique_name_in_owner = true
 texture = ExtResource("12_tlsmm")
 offset = Vector2(0, -7)
 hframes = 23
 vframes = 20
 
-[node name="HandPivot" type="Node2D" parent="Visuals"]
+[node name="HandPivot" type="Node2D" parent="Visuals" unique_id=308441372]
 unique_name_in_owner = true
 position = Vector2(0.5, -5)
 
-[node name="Tool" type="Node2D" parent="Visuals/HandPivot"]
+[node name="Tool" type="Node2D" parent="Visuals/HandPivot" unique_id=1812257632]
 unique_name_in_owner = true
 position = Vector2(-4, -3)
 scale = Vector2(0.75, 0.75)
 
-[node name="Sprite2D" type="Sprite2D" parent="Visuals/HandPivot/Tool"]
+[node name="Sprite2D" type="Sprite2D" parent="Visuals/HandPivot/Tool" unique_id=552730110]
 texture = ExtResource("12_51as7")
 offset = Vector2(1, -2)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=396903714]
 position_smoothing_enabled = true
 position_smoothing_speed = 3.0
 script = ExtResource("9_67qed")
@@ -1053,18 +1146,18 @@ lookahead_smoothing_speed = 50.0
 noise_texture = SubResource("FastNoiseLite_2783h")
 shake_strength = 10.0
 
-[node name="HurtArea2D" type="Area2D" parent="."]
+[node name="HurtArea2D" type="Area2D" parent="." unique_id=697132728]
 visible = false
 collision_mask = 512
 script = ExtResource("12_f1hbm")
 metadata/_custom_type_script = "uid://d146s0230glem"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D" unique_id=1337461829]
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_gxm4u")
 debug_color = Color(0, 0.8156863, 0.33333334, 0.41960785)
 
-[node name="HitGPUParticles" type="GPUParticles2D" parent="."]
+[node name="HitGPUParticles" type="GPUParticles2D" parent="." unique_id=252091237]
 unique_name_in_owner = true
 material = SubResource("CanvasItemMaterial_1hrif")
 position = Vector2(0, -4)

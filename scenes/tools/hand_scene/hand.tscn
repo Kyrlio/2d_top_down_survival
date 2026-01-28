@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bue34yh8nhqm3"]
+[gd_scene format=3 uid="uid://bue34yh8nhqm3"]
 
 [ext_resource type="Texture2D" uid="uid://ion4fpq1baa2" path="res://assets/Elements/Tools/Hand.png" id="1_hand"]
 [ext_resource type="Script" uid="uid://j8wq8ob4fb6" path="res://scenes/tools/hand_scene/hand.gd" id="1_rfpit"]
@@ -126,7 +126,7 @@ tracks/3/path = NodePath("Sprite/HitArea2D/CollisionShape2D:disabled")
 tracks/3/interp = 0
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.16666667, 0.22222222, 0.5, 0.5555556),
+"times": PackedFloat32Array(0.16666667, 0.22222222, 0.3333333, 0.3888889),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [false, false, false, true]
@@ -138,7 +138,7 @@ tracks/4/path = NodePath("Sprite/HitArea2D:monitoring")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.16666667, 0.22222222, 0.5, 0.5555556),
+"times": PackedFloat32Array(0.16666667, 0.22222222, 0.3333333, 0.3888889),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, true, true, false]
@@ -150,7 +150,7 @@ tracks/5/path = NodePath("Sprite/HitArea2D:monitorable")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.16666667, 0.22222222, 0.5, 0.5555556),
+"times": PackedFloat32Array(0.16666667, 0.22222222, 0.3333333, 0.3888889),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, true, true, false]
@@ -163,25 +163,23 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0d3n1"]
-radius = 6.0
+radius = 4.0
 
-[node name="Hand" type="Node2D"]
+[node name="Hand" type="Node2D" unique_id=1855376935]
 script = ExtResource("1_rfpit")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_rcxm6")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1088438252]
+libraries/ = SubResource("AnimationLibrary_rcxm6")
 
-[node name="CooldownTimer" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="." unique_id=1134031372]
 wait_time = 0.4
 one_shot = true
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=420155663]
 texture = ExtResource("1_hand")
 offset = Vector2(1, -2)
 
-[node name="HitArea2D" type="Area2D" parent="Sprite"]
+[node name="HitArea2D" type="Area2D" parent="Sprite" unique_id=1784682556]
 collision_layer = 256
 collision_mask = 256
 monitoring = false
@@ -189,7 +187,7 @@ monitorable = false
 script = ExtResource("3_rcxm6")
 metadata/_custom_type_script = "uid://cmy826k35rpkn"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/HitArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/HitArea2D" unique_id=520911277]
 position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_0d3n1")
 disabled = true
