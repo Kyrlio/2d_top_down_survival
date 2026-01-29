@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cg4hqlsijbhcs"]
 
 [ext_resource type="Texture2D" uid="uid://dn2ns3kxdpy0n" path="res://assets/UI/axe.png" id="1_dkv6c"]
-[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://components/inventory_component/item_data.gd" id="1_o1xek"]
+[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://components/inventory_component/item/item_data.gd" id="1_o1xek"]
 
 [resource]
 script = ExtResource("1_o1xek")
 name = "Axe"
-icon = ExtResource("1_dkv6c")
+texture = ExtResource("1_dkv6c")
 metadata/_custom_type_script = "uid://b2lapaned0s6f"

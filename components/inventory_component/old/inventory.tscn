@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://da1l0b5y70kn8"]
 
-[ext_resource type="Script" uid="uid://bfs3sehkoramr" path="res://components/inventory_component/inventory_panel.gd" id="1_3cexo"]
-[ext_resource type="Script" uid="uid://de36l431innfd" path="res://components/inventory_component/item_slot.gd" id="1_xgj8l"]
+[ext_resource type="Script" uid="uid://bfs3sehkoramr" path="res://components/inventory_component/old/inventory_panel.gd" id="1_3cexo"]
+[ext_resource type="Script" uid="uid://de36l431innfd" path="res://components/inventory_component/old/item_slot.gd" id="1_xgj8l"]
 [ext_resource type="Resource" uid="uid://c77mm78cbhjqg" path="res://resources/tools/sword.tres" id="3_2g8j4"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="5_d6qk2"]
 [ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="5_hwdql"]

@@ -2,6 +2,7 @@
 class_name Player extends CharacterBody2D
 
 signal hit
+signal toggle_inventory
 
 enum STATE {
 	IDLE,
@@ -43,6 +44,8 @@ const HAIRS: Dictionary = {
 	"Spikey": "uid://bnw8jhm42lhvn"
 }
 
+@export var inventory_data: InventoryData
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = %Visuals
 @onready var hand_pivot: Node2D = %HandPivot
@@ -52,6 +55,7 @@ const HAIRS: Dictionary = {
 @onready var hit_gpu_particles: GPUParticles2D = %HitGPUParticles
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var health_bar: CustomHealthBar = $CustomHealthBar
+@onready var interact_area: Area2D = %InteractArea
 
 var pushback_force: Vector2 = Vector2.ZERO
 
@@ -89,12 +93,16 @@ func _process(delta: float) -> void:
 	update_aim_and_visuals(delta)
 	update_roll_cooldown(delta)
 	update_tool_switch_timer(delta)
-
+	
+	# Inventory
+	if Input.is_action_just_pressed("inventory"):
+		toggle_inventory.emit()
+	
 	move_and_slide()
 
 
-## Processes input events, such as tool switching and hair changing.
-func _input(event: InputEvent) -> void:
+## Processes input events, such as tool switching and hair changing.zq
+func _unhandled_input(event: InputEvent) -> void:
 	update_tools(event)
 	update_hair(event)
 	if event.is_action_pressed("sprint"):
@@ -495,3 +503,14 @@ func get_effective_aim() -> Vector2:
 
 func _died() -> void:
 	switch_state(STATE.DEAD)
+
+
+func _on_interact_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("interactable"):
+		body.can_interact = true
+
+
+func _on_interact_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("interactable"):
+		body.can_interact = false
+		body.close_chest()

@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://equipslot001"]
+[gd_scene format=3 uid="uid://itemslot001"]
 
-[ext_resource type="Script" path="res://components/inventory_component/equipment_slot.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://de36l431innfd" path="res://components/inventory_component/old/item_slot.gd" id="1_script"]
 
-[node name="EquipmentSlot" type="Panel"]
+[node name="ItemSlot" type="Panel"]
 custom_minimum_size = Vector2(32, 32)
 script = ExtResource("1_script")
 

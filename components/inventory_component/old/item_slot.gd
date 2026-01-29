@@ -38,8 +38,6 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if not data is Dictionary:
-		print("hiu")
 	return data is Control and "item" in data
 
 

@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://klhq3uqfcuhr"]
+
+[ext_resource type="Script" uid="uid://dbchrg6aa0vyb" path="res://scenes/interactable/chest/chest.gd" id="1_jd36e"]
+[ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="2_qkrf1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hm6dc"]
+size = Vector2(18, 19)
+
+[sub_resource type="Animation" id="Animation_hm6dc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_qkrf1")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(608, 472, 16, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_eippd"]
+resource_name = "closed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_qkrf1")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(608, 472, 16, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_pga0h"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_qkrf1")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(624, 472, 16, 24)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fp4s7"]
+_data = {
+&"RESET": SubResource("Animation_hm6dc"),
+&"closed": SubResource("Animation_eippd"),
+&"open": SubResource("Animation_pga0h")
+}
+
+[node name="Chest" type="StaticBody2D" unique_id=1163790651 groups=["external_inventory", "interactable"]]
+collision_layer = 4
+script = ExtResource("1_jd36e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1677976472]
+position = Vector2(0, -7.5)
+shape = SubResource("RectangleShape2D_hm6dc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=738427746]
+texture = ExtResource("2_qkrf1")
+offset = Vector2(0, -12)
+region_enabled = true
+region_rect = Rect2(608, 472, 16, 24)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2019111577]
+libraries/ = SubResource("AnimationLibrary_fp4s7")
+autoplay = &"closed"

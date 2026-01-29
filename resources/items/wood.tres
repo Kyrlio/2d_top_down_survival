@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://duvhdbndkcyr4"]
+
+[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://components/inventory_component/item/item_data.gd" id="1_nmid8"]
+[ext_resource type="Texture2D" uid="uid://daanxp4qfc0t5" path="res://assets/Elements/Crops/wood.png" id="2_w3n26"]
+
+[resource]
+script = ExtResource("1_nmid8")
+name = "wood"
+stackable = true
+texture = ExtResource("2_w3n26")
+metadata/_custom_type_script = "uid://b2lapaned0s6f"

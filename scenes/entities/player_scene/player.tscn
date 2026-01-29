@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dsvde8v8bx5iv" path="res://scenes/entities/player_scene/player.gd" id="1_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="1_w8ad2"]
 [ext_resource type="Texture2D" uid="uid://bhy6xjkbtfqy5" path="res://assets/Characters/Human/IDLE/base_idle_strip9.png" id="2_rf8gt"]
+[ext_resource type="Resource" uid="uid://vdtbhxtx8b3j" path="res://test_inv.tres" id="2_x1s51"]
 [ext_resource type="Texture2D" uid="uid://bcbplp5pxr4hw" path="res://assets/Characters/Human/ATTACK/base_attack_strip10-no-VFX.png" id="3_cs6j4"]
 [ext_resource type="Texture2D" uid="uid://w0r37wqcp4a5" path="res://assets/Characters/Human/DEATH/base_death_strip13.png" id="4_1hrif"]
 [ext_resource type="Texture2D" uid="uid://jdwllx12l8x" path="res://assets/Characters/Human/RUN/base_run_strip8.png" id="4_2q4ud"]
@@ -1070,10 +1071,13 @@ color = Color(0.89411765, 0.23137255, 0.26666668, 1)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_x1s51"]
+
 [node name="Player" type="CharacterBody2D" unique_id=1958998675 groups=["player"]]
 collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_2q4ud")
+inventory_data = ExtResource("2_x1s51")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=723302207]
 libraries/ = SubResource("AnimationLibrary_rf8gt")
@@ -1179,3 +1183,15 @@ offset_left = -9.0
 offset_top = -23.999996
 offset_right = 80.99999
 offset_bottom = -13.999996
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=1803679316]
+unique_name_in_owner = true
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=1034746867]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_x1s51")
+debug_color = Color(0.6380999, 0.5262231, 0, 0.41960785)
+
+[connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
+[connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]

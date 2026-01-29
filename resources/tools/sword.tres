@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c77mm78cbhjqg"]
 
-[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://components/inventory_component/item_data.gd" id="1_m73w4"]
+[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://components/inventory_component/item/item_data.gd" id="1_m73w4"]
 [ext_resource type="Texture2D" uid="uid://dh30st0wjsbyv" path="res://assets/UI/sword.png" id="1_soqid"]
 
 [resource]
 script = ExtResource("1_m73w4")
 name = "Sword"
-icon = ExtResource("1_soqid")
+texture = ExtResource("1_soqid")
 metadata/_custom_type_script = "uid://b2lapaned0s6f"

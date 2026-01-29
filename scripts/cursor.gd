@@ -9,7 +9,7 @@ func _ready() -> void:
 	sprite_2d.visible = true
 
 
-func _physics_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	sprite_2d.global_position = sprite_2d.get_global_mouse_position()
 
 
