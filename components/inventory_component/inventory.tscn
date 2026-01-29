@@ -2,14 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bfs3sehkoramr" path="res://components/inventory_component/inventory_panel.gd" id="1_3cexo"]
 [ext_resource type="Script" uid="uid://de36l431innfd" path="res://components/inventory_component/item_slot.gd" id="1_xgj8l"]
-[ext_resource type="Texture2D" uid="uid://dh30st0wjsbyv" path="res://assets/UI/sword.png" id="2_k0ltt"]
 [ext_resource type="Resource" uid="uid://c77mm78cbhjqg" path="res://resources/tools/sword.tres" id="3_2g8j4"]
-[ext_resource type="Texture2D" uid="uid://da5t388rbyddw" path="res://assets/UI/shovel.png" id="3_k0ltt"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="5_d6qk2"]
+[ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="5_hwdql"]
 
 [node name="Inventory" type="CanvasLayer" unique_id=814699639]
 
-[node name="InventoryPanel" type="Panel" parent="." unique_id=196603738]
+[node name="InventoryPanel" type="Panel" parent="." unique_id=1970606286]
 custom_minimum_size = Vector2(124, 64)
 anchors_preset = 8
 anchor_left = 0.5
@@ -52,14 +51,12 @@ anchor_right = 0.8333333
 anchor_bottom = 0.8333333
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_k0ltt")
 metadata/_edit_use_anchors_ = true
 
 [node name="ItemSlot2" type="Panel" parent="InventoryPanel/MarginContainer/GridContainer" unique_id=1277853037]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 script = ExtResource("1_xgj8l")
-item = ExtResource("5_d6qk2")
 
 [node name="Icon" type="TextureRect" parent="InventoryPanel/MarginContainer/GridContainer/ItemSlot2" unique_id=886592710]
 layout_mode = 1
@@ -108,6 +105,7 @@ metadata/_edit_use_anchors_ = true
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 script = ExtResource("1_xgj8l")
+item = ExtResource("5_d6qk2")
 
 [node name="Icon" type="TextureRect" parent="InventoryPanel/MarginContainer/GridContainer/ItemSlot5" unique_id=1746442036]
 layout_mode = 1
@@ -134,7 +132,6 @@ anchor_right = 0.8333333
 anchor_bottom = 0.8333333
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_k0ltt")
 metadata/_edit_use_anchors_ = true
 
 [node name="ItemSlot7" type="Panel" parent="InventoryPanel/MarginContainer/GridContainer" unique_id=233904121]
@@ -173,6 +170,7 @@ metadata/_edit_use_anchors_ = true
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 script = ExtResource("1_xgj8l")
+item = ExtResource("5_hwdql")
 
 [node name="Icon" type="TextureRect" parent="InventoryPanel/MarginContainer/GridContainer/ItemSlot9" unique_id=703599446]
 layout_mode = 1

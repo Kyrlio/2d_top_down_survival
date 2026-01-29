@@ -5,5 +5,5 @@ class_name ItemData extends Resource
 @export_multiline() var description: String = ""
 @export var icon: Texture2D
 @export var stackable: bool = false
-@export_enum("ARME", "ARMURE", "MATERIAU", "CONSOMMABLE") var item_type: int
+@export_enum("WEAPON", "ARMOR", "MATERIAL", "CONSUMABLE", "TOOL") var item_type: int
 @export var stats: Dictionary = {}
