@@ -61,10 +61,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_process_state(delta)
 	hit_area.global_position = global_position
-	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10.0)
-	velocity = pushback_force
 	
-	move_and_slide()
+	# Knockback
+	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10.0)
+	if pushback_force.length() > 10.0:
+		velocity = pushback_force
+		move_and_slide()
 
 
 func _switch_state(to_state: STATE) -> void:
@@ -208,6 +210,7 @@ func update_attack_cooldown(delta: float) -> void:
 func move(target_position: Vector2) -> void:
 	navigation_agent.target_position = target_position
 	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
+	
 	velocity = global_position.direction_to(next_path_position) * speed
 	
 	if navigation_agent.avoidance_enabled:

@@ -107,7 +107,7 @@ func _input(event: InputEvent) -> void:
 
 ## Updates the current tool based on scroll input.
 func update_tools(event: InputEvent) -> void:
-	if tool_switch_timer > 0.0:
+	if tool_switch_timer > 0.0 or active_state == STATE.ATTACK:
 		return
 
 	if event.is_action_pressed("scroll_down"):
@@ -122,6 +122,7 @@ func update_tools(event: InputEvent) -> void:
 
 ## Instantiates and equips a tool from the given scene path.
 func equip_tool(scene_path: String) -> void:
+	 # Cleaning old tool
 	for child in tool.get_children():
 		child.queue_free()
 
@@ -129,6 +130,10 @@ func equip_tool(scene_path: String) -> void:
 	if tool_scene:
 		current_tool = tool_scene.instantiate()
 		tool.add_child(current_tool)
+		
+		# For sword
+		if current_tool.has_method("setup"):
+			current_tool.setup(self)
 
 
 ## Updates the current hair style based on input.

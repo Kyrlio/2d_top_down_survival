@@ -9,17 +9,11 @@ class_name Sword extends Node2D
 @onready var cooldown_timer: Timer = $CooldownTimer
 
 var combo_stage: int = 0
-var player: Player
+var wielder: CharacterBody2D
 
 
-func _ready() -> void:
-	# On cherche le Player dans la hiérarchie parente
-	var node = get_parent()
-	while node:
-		if node is Player:
-			player = node
-			break
-		node = node.get_parent()
+func setup(new_wielder: CharacterBody2D) -> void:
+	wielder = new_wielder
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
@@ -28,11 +22,18 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 
 func slash3_dash() -> void:
-	if not player:
+	if not wielder:
 		return
 	
-	player.velocity = player.get_effective_aim() * slash3_dash_speed
-	player.move_and_slide()
+	var direction = Vector2.RIGHT
+	
+	if wielder.has_method("get_effective_aim"):
+		direction = wielder.get_effective_aim()
+	else:
+		direction = wielder.velocity.normalized()
+	
+	wielder.velocity = direction * slash3_dash_speed
+	wielder.move_and_slide()
 
 
 func set_damage(amount: int) -> void:

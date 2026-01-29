@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdnp6bhgi0oys"]
+[gd_scene format=3 uid="uid://cdnp6bhgi0oys"]
 
 [ext_resource type="Script" uid="uid://bdgdnknwiaew5" path="res://scenes/ui/damage_label_scene/damage_label_ui.gd" id="1_m1fsa"]
 [ext_resource type="Theme" uid="uid://o5luaxnidb4c" path="res://resources/theme.tres" id="1_u54vv"]
@@ -55,13 +55,13 @@ _data = {
 &"show": SubResource("Animation_m1fsa")
 }
 
-[node name="DamageLabelUI" type="Control"]
+[node name="DamageLabelUI" type="Control" unique_id=487619645]
 layout_mode = 3
 anchors_preset = 0
 scale = Vector2(1e-05, 1e-05)
 script = ExtResource("1_m1fsa")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1827904112]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 1
 anchors_preset = 8
@@ -82,8 +82,6 @@ text = "-1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_2s4xv")
-}
-autoplay = "show"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1394566419]
+libraries/ = SubResource("AnimationLibrary_2s4xv")
+autoplay = &"show"
