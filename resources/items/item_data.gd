@@ -8,4 +8,4 @@ class_name ItemData extends Resource
 
 
 func use(target) -> void:
-	pass
+	(target as Player).equip_hand()

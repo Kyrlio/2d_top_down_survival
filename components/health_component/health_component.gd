@@ -28,7 +28,6 @@ func _ready() -> void:
 func take_damage(amount: int):
 	current_health = clamp(current_health - amount, 0, max_health)
 	play_hit_sfx()
-	print(current_health)
 	if current_health == 0:
 		died.emit()
 
@@ -36,8 +35,6 @@ func take_damage(amount: int):
 func heal(heal_value: int) -> void:
 	if current_health <= 0:
 		return
-	
-	print(current_health)
 	
 	current_health += heal_value
 	current_health = clamp(current_health, 0, max_health)

@@ -15,6 +15,8 @@ enum STATE {
 	DEAD
 }
 
+const HAND_SCENE = preload("uid://bue34yh8nhqm3")
+
 const ROLL_SPEED: float = 80.0
 const ROLL_TIME: float = 0.25
 const ROLL_RELOAD_COST: float = 0.8
@@ -81,7 +83,8 @@ func _ready() -> void:
 	PlayerManager.player = self
 	add_to_group("player")
 	hair.texture = load(HAIRS.Bowl)
-	equip_tool(TOOLS.Hand)
+	equip_hand()
+	#equip_tool(TOOLS.Hand)
 	switch_state(STATE.IDLE)
 	health_bar.setup_health_bar(health_component.max_health)
 	
@@ -105,7 +108,6 @@ func _process(delta: float) -> void:
 
 ## Processes input events, such as tool switching and hair changing.zq
 func _unhandled_input(event: InputEvent) -> void:
-	update_tools(event)
 	update_hair(event)
 	if event.is_action_pressed("sprint"):
 		is_sprinting = true
@@ -115,35 +117,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		last_roll_input_time = Time.get_ticks_msec()
 
 
-## Updates the current tool based on scroll input.
-func update_tools(event: InputEvent) -> void:
-	if tool_switch_timer > 0.0 or active_state == STATE.ATTACK:
-		return
-
-	if event.is_action_pressed("scroll_down"):
-		actual_tool_index = (actual_tool_index + 1) % TOOLS.size()
-		equip_tool(TOOLS.values()[actual_tool_index])
-		tool_switch_timer = TOOL_SWITCH_COOLDOWN
-	elif event.is_action_pressed("scroll_up"):
-		actual_tool_index = (actual_tool_index - 1) % TOOLS.size()
-		equip_tool(TOOLS.values()[actual_tool_index])
-		tool_switch_timer = TOOL_SWITCH_COOLDOWN
-
-
-## Instantiates and equips a tool from the given scene path.
-func equip_tool(scene_path: String) -> void:
-	 # Cleaning old tool
-	for child in tool.get_children():
-		child.queue_free()
-
-	var tool_scene = load(scene_path)
-	if tool_scene:
-		current_tool = tool_scene.instantiate()
+func equip_tool(tool_data: ItemDataTool) -> void:
+	if current_tool:
+		current_tool.queue_free()
+	
+	if tool_data and tool_data.tool_scene:
+		current_tool = tool_data.tool_scene.instantiate()
 		tool.add_child(current_tool)
 		
-		# For sword
 		if current_tool.has_method("setup"):
 			current_tool.setup(self)
+	else:
+		equip_hand()
+
+
+func equip_hand() -> void:
+	if current_tool:
+		current_tool.queue_free()
+	current_tool = HAND_SCENE.instantiate()
+	tool.add_child(current_tool)
 
 
 ## Updates the current hair style based on input.

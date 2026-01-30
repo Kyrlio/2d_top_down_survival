@@ -3,6 +3,8 @@ class_name InventoryData extends Resource
 signal inventory_updated(inventory_data: InventoryData)
 signal inventory_interact(inventory_data: InventoryData, index: int, button: int)
 
+const HAND: Resource = preload("uid://baw3044bxtfgp")
+
 @export var slot_datas: Array[SlotData]
 
 
@@ -51,6 +53,7 @@ func use_slot_data(index: int) -> void:
 	var slot_data = slot_datas[index]
 	
 	if not slot_data:
+		PlayerManager.use_slot_data(slot_data)
 		return
 	
 	if slot_data.item_data is ItemDataConsumable:
@@ -58,7 +61,6 @@ func use_slot_data(index: int) -> void:
 		if slot_data.quantity < 1:
 			slot_datas[index] = null
 	
-	print(slot_data.item_data.name)
 	PlayerManager.use_slot_data(slot_data)
 	
 	inventory_updated.emit(self)

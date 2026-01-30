@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cdnp6bhgi0oys"]
 
 [ext_resource type="Script" uid="uid://bdgdnknwiaew5" path="res://scenes/ui/damage_label_scene/damage_label_ui.gd" id="1_m1fsa"]
-[ext_resource type="Theme" uid="uid://o5luaxnidb4c" path="res://resources/theme.tres" id="1_u54vv"]
+[ext_resource type="Theme" uid="uid://o5luaxnidb4c" path="res://resources/damage_ui_theme.tres" id="1_u54vv"]
 
 [sub_resource type="Animation" id="Animation_qlws8"]
 length = 0.001

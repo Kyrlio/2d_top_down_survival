@@ -49,6 +49,10 @@ player=""
 interactable="Interactable object like NPC or Chests"
 external_inventory="Chests for example "
 
+[gui]
+
+theme/custom="uid://dke8lrhffxrn7"
+
 [input]
 
 move_left={

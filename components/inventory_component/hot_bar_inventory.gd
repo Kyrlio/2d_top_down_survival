@@ -14,10 +14,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	
 	# Vérifier les actions d'input plutôt que les keycodes directs
 	# Cela fonctionne avec AZERTY et QWERTY
-	for i in range(6):
-		var action_name = "hot_bar_%d" % (i + 1)
+	for slot_index in range(6):
+		var action_name = "hot_bar_%d" % (slot_index + 1)
 		if Input.is_action_just_pressed(action_name):
-			hot_bar_use.emit(i)
+			hot_bar_use.emit(slot_index)
 			get_tree().root.set_input_as_handled()
 
 

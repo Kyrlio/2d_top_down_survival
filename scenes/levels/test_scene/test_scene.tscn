@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://dpu5vnxymo6op" path="res://components/inventory_component/slot_data.gd" id="11_fagb8"]
 [ext_resource type="PackedScene" uid="uid://1atsbj7ft3su" path="res://scenes/interactable/pick_up_object/pick_up.tscn" id="13_fagb8"]
 [ext_resource type="Resource" uid="uid://duvhdbndkcyr4" path="res://resources/items/wood.tres" id="14_0p2ud"]
-[ext_resource type="Resource" uid="uid://c77mm78cbhjqg" path="res://resources/tools/sword.tres" id="14_qrrpx"]
+[ext_resource type="Resource" uid="uid://cahhtwha76a12" path="res://resources/tools/weapons/sword.tres" id="14_qrrpx"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="15_0wwx2"]
 [ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="16_xq1y4"]
 
@@ -6201,24 +6201,24 @@ script = ExtResource("10_a11f7")
 slot_datas = Array[ExtResource("11_fagb8")]([null, null])
 metadata/_custom_type_script = "uid://ca4sfqhm1305q"
 
-[sub_resource type="Resource" id="Resource_ny0lv"]
+[sub_resource type="Resource" id="Resource_0wwx2"]
 script = ExtResource("11_fagb8")
 item_data = ExtResource("14_qrrpx")
 metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
-[sub_resource type="Resource" id="Resource_p5yuf"]
+[sub_resource type="Resource" id="Resource_xq1y4"]
 script = ExtResource("11_fagb8")
 item_data = ExtResource("15_0wwx2")
 metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
-[sub_resource type="Resource" id="Resource_7gpt4"]
+[sub_resource type="Resource" id="Resource_ny0lv"]
 script = ExtResource("11_fagb8")
 item_data = ExtResource("16_xq1y4")
 metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
 [sub_resource type="Resource" id="Resource_ktlq8"]
 script = ExtResource("10_w52jh")
-slot_datas = Array[ExtResource("11_fagb8")]([SubResource("Resource_ny0lv"), SubResource("Resource_p5yuf"), SubResource("Resource_7gpt4")])
+slot_datas = Array[ExtResource("11_fagb8")]([SubResource("Resource_0wwx2"), SubResource("Resource_xq1y4"), SubResource("Resource_ny0lv")])
 metadata/_custom_type_script = "uid://hrmydbr77vkh"
 
 [sub_resource type="Resource" id="Resource_0p2ud"]

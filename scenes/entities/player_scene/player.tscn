@@ -1024,6 +1024,15 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_2q4ud"]
 radius = 3.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_x1s51"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gxm4u"]
+radius = 5.0
+height = 14.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2783h"]
+noise_type = 3
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_co4c6"]
 particles_animation = true
 particles_anim_h_frames = 4
@@ -1036,13 +1045,6 @@ particle_flag_disable_z = true
 scale_min = 0.79999995
 anim_speed_min = 1.0
 anim_speed_max = 1.0
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2783h"]
-noise_type = 3
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gxm4u"]
-radius = 5.0
-height = 14.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1hrif"]
 particles_animation = true
@@ -1071,8 +1073,6 @@ color = Color(0.89411765, 0.23137255, 0.26666668, 1)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_x1s51"]
-
 [node name="Player" type="CharacterBody2D" unique_id=1958998675 groups=["player"]]
 collision_mask = 4
 motion_mode = 1
@@ -1086,6 +1086,36 @@ autoplay = &"idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=660777589]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_2q4ud")
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=1803679316]
+unique_name_in_owner = true
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=1034746867]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_x1s51")
+debug_color = Color(0.6380999, 0.5262231, 0, 0.41960785)
+
+[node name="HurtArea2D" type="Area2D" parent="." unique_id=697132728]
+visible = false
+collision_mask = 512
+script = ExtResource("12_f1hbm")
+metadata/_custom_type_script = "uid://d146s0230glem"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D" unique_id=1337461829]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_gxm4u")
+debug_color = Color(0, 0.8156863, 0.33333334, 0.41960785)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=396903714]
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
+script = ExtResource("9_67qed")
+mouse_lookahead_distance = 25.0
+camera_smoothing_speed = 75.0
+lookahead_smoothing_speed = 50.0
+noise_texture = SubResource("FastNoiseLite_2783h")
+shake_strength = 10.0
 
 [node name="HealthComponent" parent="." unique_id=605682889 instance=ExtResource("8_51as7")]
 unique_name_in_owner = true
@@ -1138,29 +1168,9 @@ position = Vector2(-4, -3)
 scale = Vector2(0.75, 0.75)
 
 [node name="Sprite2D" type="Sprite2D" parent="Visuals/HandPivot/Tool" unique_id=552730110]
+visible = false
 texture = ExtResource("12_51as7")
 offset = Vector2(1, -2)
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=396903714]
-position_smoothing_enabled = true
-position_smoothing_speed = 3.0
-script = ExtResource("9_67qed")
-mouse_lookahead_distance = 25.0
-camera_smoothing_speed = 75.0
-lookahead_smoothing_speed = 50.0
-noise_texture = SubResource("FastNoiseLite_2783h")
-shake_strength = 10.0
-
-[node name="HurtArea2D" type="Area2D" parent="." unique_id=697132728]
-visible = false
-collision_mask = 512
-script = ExtResource("12_f1hbm")
-metadata/_custom_type_script = "uid://d146s0230glem"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D" unique_id=1337461829]
-position = Vector2(0, -7)
-shape = SubResource("CapsuleShape2D_gxm4u")
-debug_color = Color(0, 0.8156863, 0.33333334, 0.41960785)
 
 [node name="HitGPUParticles" type="GPUParticles2D" parent="." unique_id=252091237]
 unique_name_in_owner = true
@@ -1183,15 +1193,6 @@ offset_left = -9.0
 offset_top = -23.999996
 offset_right = 80.99999
 offset_bottom = -13.999996
-
-[node name="InteractArea" type="Area2D" parent="." unique_id=1803679316]
-unique_name_in_owner = true
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=1034746867]
-position = Vector2(0, -7)
-shape = SubResource("CircleShape2D_x1s51")
-debug_color = Color(0.6380999, 0.5262231, 0, 0.41960785)
 
 [connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
 [connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]
