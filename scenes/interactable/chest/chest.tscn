@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="2_qkrf1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hm6dc"]
-size = Vector2(18, 19)
+size = Vector2(16, 8)
 
 [sub_resource type="Animation" id="Animation_hm6dc"]
 length = 0.001
@@ -98,15 +98,16 @@ _data = {
 collision_layer = 4
 script = ExtResource("1_jd36e")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1677976472]
-position = Vector2(0, -7.5)
-shape = SubResource("RectangleShape2D_hm6dc")
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=738427746]
+position = Vector2(0, -2)
 texture = ExtResource("2_qkrf1")
-offset = Vector2(0, -12)
+offset = Vector2(0, -2)
 region_enabled = true
 region_rect = Rect2(608, 472, 16, 24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1677976472]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_hm6dc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2019111577]
 libraries/ = SubResource("AnimationLibrary_fp4s7")

@@ -20,7 +20,7 @@ const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
 @export var attack_damage: int = 10
 @export var attack_speed: float = 0.75
 @export var hitpoints: int = 180
-@export var aggro_range: float = 100.0
+@export var aggro_range: float = 90.0
 @export var attack_range: float = 25.0
 @export var knockback_force: float = 65.0
 
@@ -39,6 +39,7 @@ const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
 @onready var alert_sprite: Sprite2D = $AlertSprite
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var health_bar: CustomHealthBar = %CustomHealthBar
+@onready var chase_again_timer: Timer = $ChaseAgainTimer
 
 
 var active_state: STATE = STATE.IDLE
@@ -134,11 +135,13 @@ func _process_state(delta: float) -> void:
 				_switch_state(STATE.ATTACK)
 			if distance_to_player() > aggro_range * 1.5:
 				_switch_state(STATE.CONFUSED)
-			if Gamedata.is_player_dead == true:
+			if PlayerManager.is_player_dead == true:
 				_switch_state(STATE.CONFUSED)
+				#_switch_state(STATE.RETURN)
 		
 		STATE.CONFUSED:
 			await animation_player.animation_finished
+			chase_again_timer.start()
 			_switch_state(STATE.RETURN)
 		
 		STATE.RETURN:
@@ -148,7 +151,7 @@ func _process_state(delta: float) -> void:
 			if global_position.distance_to(spawn_point) < 2.0:
 				_switch_state(STATE.IDLE)
 			
-			if distance_to_player() < aggro_range:
+			if distance_to_player() < aggro_range and chase_again_timer.is_stopped():
 				is_alerted = false
 				_switch_state(STATE.CHASE)
 		

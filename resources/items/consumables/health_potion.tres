@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemDataConsumable" format=3 uid="uid://b71h7yi533slc"]
+
+[ext_resource type="Script" uid="uid://chgq1i1hcpeat" path="res://resources/items/consumables/item_data_consumable.gd" id="1_amskr"]
+[ext_resource type="Texture2D" uid="uid://ds30sisnqmld" path="res://assets/Elements/Crops/heal_potion.png" id="2_qx3e6"]
+
+[resource]
+script = ExtResource("1_amskr")
+heal_value = 5
+name = "Health Potion"
+description = "Heal the player"
+stackable = true
+texture = ExtResource("2_qx3e6")
+metadata/_custom_type_script = "uid://chgq1i1hcpeat"

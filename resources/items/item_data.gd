@@ -5,3 +5,7 @@ class_name ItemData extends Resource
 @export_multiline() var description: String = ""
 @export var stackable: bool = false
 @export var texture: Texture2D
+
+
+func use(target) -> void:
+	pass

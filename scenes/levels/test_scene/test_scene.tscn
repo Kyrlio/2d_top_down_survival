@@ -2,18 +2,22 @@
 
 [ext_resource type="Script" uid="uid://d1nidmgi2fv0a" path="res://scenes/levels/level.gd" id="1_88e55"]
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_widsn"]
-[ext_resource type="Script" uid="uid://csiwe17axfty" path="res://components/inventory_component/inventory/inventory_interface.gd" id="2_0vvr3"]
+[ext_resource type="Script" uid="uid://csiwe17axfty" path="res://components/inventory_component/inventory_interface.gd" id="2_0vvr3"]
 [ext_resource type="PackedScene" uid="uid://7jtamgi5g7r7" path="res://scenes/entities/player_scene/player.tscn" id="2_88e55"]
-[ext_resource type="PackedScene" uid="uid://765aw1pqxsp3" path="res://components/inventory_component/inventory/inventory.tscn" id="2_qelss"]
+[ext_resource type="PackedScene" uid="uid://765aw1pqxsp3" path="res://components/inventory_component/inventory.tscn" id="2_qelss"]
 [ext_resource type="PackedScene" uid="uid://bxv6m77ycdgc" path="res://scenes/entities/enemy_scene/enemy.tscn" id="3_di761"]
 [ext_resource type="Texture2D" uid="uid://ca2ln6642p02e" path="res://assets/Tileset/NavMeshPainter.png" id="3_qelss"]
-[ext_resource type="PackedScene" uid="uid://8ymnewlyixe4" path="res://components/inventory_component/inventory/slot.tscn" id="4_yyh0g"]
+[ext_resource type="PackedScene" uid="uid://8ymnewlyixe4" path="res://components/inventory_component/slot.tscn" id="4_yyh0g"]
+[ext_resource type="PackedScene" uid="uid://bi8b11oo3tfbf" path="res://components/inventory_component/hot_bar_inventory.tscn" id="5_a11f7"]
 [ext_resource type="PackedScene" uid="uid://klhq3uqfcuhr" path="res://scenes/interactable/chest/chest.tscn" id="9_k6jje"]
-[ext_resource type="Script" uid="uid://hrmydbr77vkh" path="res://components/inventory_component/inventory/inventory_data.gd" id="10_w52jh"]
-[ext_resource type="Script" uid="uid://dpu5vnxymo6op" path="res://components/inventory_component/inventory/slot_data.gd" id="11_fagb8"]
-[ext_resource type="Resource" uid="uid://c77mm78cbhjqg" path="res://resources/tools/sword.tres" id="12_0p2ud"]
+[ext_resource type="Script" uid="uid://ca4sfqhm1305q" path="res://components/inventory_component/inventory_data_equip.gd" id="10_a11f7"]
+[ext_resource type="Script" uid="uid://hrmydbr77vkh" path="res://components/inventory_component/inventory_data.gd" id="10_w52jh"]
+[ext_resource type="Script" uid="uid://dpu5vnxymo6op" path="res://components/inventory_component/slot_data.gd" id="11_fagb8"]
 [ext_resource type="PackedScene" uid="uid://1atsbj7ft3su" path="res://scenes/interactable/pick_up_object/pick_up.tscn" id="13_fagb8"]
 [ext_resource type="Resource" uid="uid://duvhdbndkcyr4" path="res://resources/items/wood.tres" id="14_0p2ud"]
+[ext_resource type="Resource" uid="uid://c77mm78cbhjqg" path="res://resources/tools/sword.tres" id="14_qrrpx"]
+[ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="15_0wwx2"]
+[ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="16_xq1y4"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_88e55"]
 tile_data = PackedInt32Array(0, 720896, 18, 65536, 720896, 19, 131072, 720896, 20, 196608, 720896, 21, 1, 786432, 18, 65537, 786432, 19, 131073, 786432, 20, 196609, 786432, 21, 2, 851968, 18, 65538, 851968, 19, 131074, 851968, 20, 196610, 851968, 21, 3, 917504, 18, 65539, 917504, 19, 131075, 917504, 20, 196611, 917504, 21)
@@ -6192,17 +6196,32 @@ physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_k6jje")
 
-[sub_resource type="Resource" id="Resource_a11f7"]
+[sub_resource type="Resource" id="Resource_8ti2q"]
+script = ExtResource("10_a11f7")
+slot_datas = Array[ExtResource("11_fagb8")]([null, null])
+metadata/_custom_type_script = "uid://ca4sfqhm1305q"
+
+[sub_resource type="Resource" id="Resource_ny0lv"]
 script = ExtResource("11_fagb8")
-item_data = ExtResource("12_0p2ud")
+item_data = ExtResource("14_qrrpx")
+metadata/_custom_type_script = "uid://dpu5vnxymo6op"
+
+[sub_resource type="Resource" id="Resource_p5yuf"]
+script = ExtResource("11_fagb8")
+item_data = ExtResource("15_0wwx2")
+metadata/_custom_type_script = "uid://dpu5vnxymo6op"
+
+[sub_resource type="Resource" id="Resource_7gpt4"]
+script = ExtResource("11_fagb8")
+item_data = ExtResource("16_xq1y4")
 metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
 [sub_resource type="Resource" id="Resource_ktlq8"]
 script = ExtResource("10_w52jh")
-slot_datas = Array[ExtResource("11_fagb8")]([SubResource("Resource_a11f7"), null, null, null, null])
+slot_datas = Array[ExtResource("11_fagb8")]([SubResource("Resource_ny0lv"), SubResource("Resource_p5yuf"), SubResource("Resource_7gpt4")])
 metadata/_custom_type_script = "uid://hrmydbr77vkh"
 
-[sub_resource type="Resource" id="Resource_8ti2q"]
+[sub_resource type="Resource" id="Resource_0p2ud"]
 script = ExtResource("11_fagb8")
 item_data = ExtResource("14_0p2ud")
 metadata/_custom_type_script = "uid://dpu5vnxymo6op"
@@ -6224,23 +6243,36 @@ script = ExtResource("2_0vvr3")
 
 [node name="PlayerInventory" parent="UI/InventoryInterface" unique_id=118196970 instance=ExtResource("2_qelss")]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 29.0
+offset_bottom = 29.0
+
+[node name="EquipInventory" parent="UI/InventoryInterface" unique_id=2007246833 instance=ExtResource("2_qelss")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 5.0
+offset_right = 182.0
+offset_bottom = 29.0
 
 [node name="ExternalInventory" parent="UI/InventoryInterface" unique_id=1818802925 instance=ExtResource("2_qelss")]
 visible = false
 layout_mode = 0
-offset_left = 324.0
+offset_left = 5.0
 offset_top = 116.0
-offset_right = 364.0
-offset_bottom = 156.0
+offset_right = 29.0
+offset_bottom = 140.0
 
 [node name="GrabbedSlot" parent="UI/InventoryInterface" unique_id=1253265582 instance=ExtResource("4_yyh0g")]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
+
+[node name="HotBarInventory" parent="UI" unique_id=1024241875 instance=ExtResource("5_a11f7")]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 143.0
+offset_bottom = 33.0
 
 [node name="Tilemap" type="Node2D" parent="." unique_id=348101466]
 
@@ -6281,6 +6313,7 @@ tile_set = SubResource("TileSet_w52jh")
 unique_name_in_owner = true
 
 [node name="YSort" type="Node2D" parent="." unique_id=2026749507]
+unique_name_in_owner = true
 y_sort_enabled = true
 
 [node name="Enemies" type="Node2D" parent="YSort" unique_id=1157246298]
@@ -6311,11 +6344,16 @@ tile_set = SubResource("TileSet_bdg55")
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(145, 91)
+equip_inventory_data = SubResource("Resource_8ti2q")
 
 [node name="Chest" parent="YSort" unique_id=715584749 instance=ExtResource("9_k6jje")]
-position = Vector2(177, 94)
+position = Vector2(177, 89)
 inventory_data = SubResource("Resource_ktlq8")
 
 [node name="PickUp" parent="YSort" unique_id=1990177255 instance=ExtResource("13_fagb8")]
 position = Vector2(137, 43)
-slot_data = SubResource("Resource_8ti2q")
+slot_data = SubResource("Resource_0p2ud")
+
+[connection signal="drop_slot_data" from="UI/InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
+[connection signal="gui_input" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_gui_input"]
+[connection signal="visibility_changed" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_visibility_changed"]

@@ -45,6 +45,7 @@ const HAIRS: Dictionary = {
 }
 
 @export var inventory_data: InventoryData
+@export var equip_inventory_data: InventoryDataEquip
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = %Visuals
@@ -77,6 +78,7 @@ var can_parry: bool = true
 
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	PlayerManager.player = self
 	add_to_group("player")
 	hair.texture = load(HAIRS.Bowl)
 	equip_tool(TOOLS.Hand)
@@ -220,6 +222,11 @@ func knock_back(source_position: Vector2, power: float = 1.0) -> void:
 	pushback_force = - global_position.direction_to(source_position) * knockback_strength
 
 
+func heal(heal_value: int) -> void:
+	health_component.heal(heal_value)
+	health_bar.change_value(health_component.current_health)
+
+
 # ---------------------------- STATE ENTRY LOGIC ----------------------------------------------------------------------------------------------
 
 ## Handles logic when entering the IDLE state.
@@ -296,7 +303,7 @@ func _enter_state_hurt() -> void:
 
 
 func _enter_state_dead() -> void:
-	Gamedata.is_player_dead = true
+	PlayerManager.is_player_dead = true
 	health_bar.visible = false
 	animation_player.call_deferred("stop")
 	animation_player.call_deferred("play", "death")
@@ -499,6 +506,14 @@ func get_effective_aim() -> Vector2:
 	return effective_aim.normalized()
 
 
+func get_drop_position() -> Vector2:
+	var dir := global_position.direction_to(get_global_mouse_position())
+	if dir.length_squared() < 0.0001:
+		dir = Vector2.RIGHT
+	var drop_distance := 30
+	return global_position + dir.normalized() * drop_distance
+
+
 # --------------------- SIGNALS ----------------------------------------------------------------
 
 func _died() -> void:
@@ -514,3 +529,4 @@ func _on_interact_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("interactable"):
 		body.can_interact = false
 		body.close_chest()
+		#body.toggle_inventory.emit(self)

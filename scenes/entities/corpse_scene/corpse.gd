@@ -1,4 +1,4 @@
-extends RigidBody2D
+class_name Corpse extends RigidBody2D
 
 @export var corpse_sprite: CompressedTexture2D
 @export var push_impulse: float = 50
