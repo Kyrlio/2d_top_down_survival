@@ -1,7 +1,14 @@
 [gd_scene format=3 uid="uid://klhq3uqfcuhr"]
 
 [ext_resource type="Script" uid="uid://dbchrg6aa0vyb" path="res://scenes/interactable/chest/chest.gd" id="1_jd36e"]
+[ext_resource type="Script" uid="uid://hrmydbr77vkh" path="res://components/inventory_component/inventory_data.gd" id="2_hl2uh"]
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="2_qkrf1"]
+[ext_resource type="Script" uid="uid://dpu5vnxymo6op" path="res://components/inventory_component/slot_data.gd" id="3_sk024"]
+
+[sub_resource type="Resource" id="Resource_we38y"]
+script = ExtResource("2_hl2uh")
+slot_datas = Array[ExtResource("3_sk024")]([null, null, null, null, null])
+metadata/_custom_type_script = "uid://hrmydbr77vkh"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hm6dc"]
 size = Vector2(16, 8)
@@ -97,6 +104,7 @@ _data = {
 [node name="Chest" type="StaticBody2D" unique_id=1163790651 groups=["external_inventory", "interactable"]]
 collision_layer = 4
 script = ExtResource("1_jd36e")
+inventory_data = SubResource("Resource_we38y")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=738427746]
 position = Vector2(0, -2)

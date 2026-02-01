@@ -1,10 +1,13 @@
-[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cg4hqlsijbhcs"]
+[gd_resource type="Resource" script_class="ItemDataTool" format=3 uid="uid://cg4hqlsijbhcs"]
 
 [ext_resource type="Texture2D" uid="uid://dn2ns3kxdpy0n" path="res://assets/UI/axe.png" id="1_dkv6c"]
-[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://resources/items/item_data.gd" id="1_o1xek"]
+[ext_resource type="Script" uid="uid://cuflfmppf2vl5" path="res://resources/tools/item_data_tool.gd" id="1_o1xek"]
+[ext_resource type="PackedScene" uid="uid://cu2m18tv3r8a" path="res://scenes/tools/axe_scene/axe.tscn" id="3_t6t0y"]
 
 [resource]
 script = ExtResource("1_o1xek")
+tool_scene = ExtResource("3_t6t0y")
 name = "Axe"
+description = "Can chop wood !"
 texture = ExtResource("1_dkv6c")
-metadata/_custom_type_script = "uid://b2lapaned0s6f"
+metadata/_custom_type_script = "uid://cuflfmppf2vl5"

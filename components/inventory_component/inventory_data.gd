@@ -56,6 +56,10 @@ func use_slot_data(index: int) -> void:
 		PlayerManager.use_slot_data(slot_data)
 		return
 	
+	if index <= 5:
+		#print(index)
+		pass
+	
 	if slot_data.item_data is ItemDataConsumable:
 		slot_data.quantity -= 1
 		if slot_data.quantity < 1:

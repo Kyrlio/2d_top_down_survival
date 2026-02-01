@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://br6fp2baqc2w3"]
+[gd_resource type="Resource" script_class="ItemDataTool" format=3 uid="uid://br6fp2baqc2w3"]
 
-[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://resources/items/item_data.gd" id="1_7ai58"]
+[ext_resource type="Script" uid="uid://cuflfmppf2vl5" path="res://resources/tools/item_data_tool.gd" id="1_7ai58"]
 [ext_resource type="Texture2D" uid="uid://cus1hjy8yhkcg" path="res://assets/UI/pickaxe.png" id="1_g3jp3"]
+[ext_resource type="PackedScene" uid="uid://o11e5wuvomof" path="res://scenes/tools/pickaxe_scene/pickaxe.tscn" id="3_fh252"]
 
 [resource]
 script = ExtResource("1_7ai58")
+tool_scene = ExtResource("3_fh252")
 name = "Pickaxe"
-description = "Can mine rocks"
+description = "Can mine stone !"
 texture = ExtResource("1_g3jp3")
-metadata/_custom_type_script = "uid://b2lapaned0s6f"
+metadata/_custom_type_script = "uid://cuflfmppf2vl5"

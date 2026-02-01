@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemDataTool" format=3 uid="uid://cahhtwha76a12"]
 
-[ext_resource type="Script" uid="uid://cuflfmppf2vl5" path="res://resources/items/tools/item_data_tool.gd" id="1_qys3g"]
+[ext_resource type="Script" uid="uid://cuflfmppf2vl5" path="res://resources/tools/item_data_tool.gd" id="1_qys3g"]
 [ext_resource type="Texture2D" uid="uid://dh30st0wjsbyv" path="res://assets/UI/sword.png" id="2_egsda"]
 [ext_resource type="PackedScene" uid="uid://xdl4mrc4p3qy" path="res://scenes/tools/sword_scene/sword.tscn" id="3_uqkqw"]
 

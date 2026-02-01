@@ -26,6 +26,13 @@ func animate_pop() -> void:
 	tween.tween_property(texture_rect, "scale", Vector2(1.0, 1.0), 0.1)
 
 
+func set_selected(is_selected: bool) -> void:
+	if is_selected:
+		modulate = Color(1.2, 1.2, 0.8)  # Teinte jaune/dorée pour indiquer la sélection
+	else:
+		modulate = Color.WHITE
+
+
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and (event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT) and event.is_pressed():
 		slot_clicked.emit(get_index(), event.button_index)

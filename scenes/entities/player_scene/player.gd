@@ -299,7 +299,11 @@ func _enter_state_dead() -> void:
 	health_bar.visible = false
 	animation_player.call_deferred("stop")
 	animation_player.call_deferred("play", "death")
-	
+
+
+func _enter_state_inventory() -> void:
+	pass
+
 
 # ---------------------------- STATE UPDATE LOGIC ----------------------------------------------------------------------------------------------
 
@@ -395,6 +399,7 @@ func _update_state_hurt(delta) -> void:
 func _update_state_dead(delta) -> void:
 	velocity = Vector2.ZERO
 
+
 # ------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Handles the attack combo logic for weapons that support it (e.g., Sword).
@@ -437,6 +442,7 @@ func _check_common_state_transitions() -> void:
 		last_roll_input_time = 0
 		switch_state(STATE.ROLL)
 	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
+		#print(active_state)
 		switch_state(STATE.ATTACK)
 	if Input.is_action_just_pressed("parry"):
 		switch_state(STATE.PARRY)

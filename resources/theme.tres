@@ -1,16 +1,23 @@
 [gd_resource type="Theme" format=3 uid="uid://dke8lrhffxrn7"]
 
 [ext_resource type="FontFile" uid="uid://b6ufirkgogsl7" path="res://assets/Fonts/TinyPixie2.ttf" id="1_d4nwg"]
+[ext_resource type="Texture2D" uid="uid://4414ehum75ac" path="res://assets/UI/9slice_box_white/dt_box.png" id="2_7ct1h"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4nwg"]
-bg_color = Color(0, 0.6719873, 0.77991104, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ct1h"]
-bg_color = Color(0.99999994, 0.2118524, 0.71654683, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_886mr"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+texture = ExtResource("2_7ct1h")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(2, 3, 11, 11)
 
 [resource]
 Label/colors/font_outline_color = Color(0.09019608, 0.078431375, 0.14117648, 1)
 Label/constants/outline_size = 4
 Label/fonts/font = ExtResource("1_d4nwg")
-Panel/styles/panel = SubResource("StyleBoxFlat_d4nwg")
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_7ct1h")
+Panel/styles/panel = SubResource("StyleBoxTexture_886mr")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_886mr")

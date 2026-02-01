@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cc84fy1mbq6t3" path="res://components/inventory_component/inventory.gd" id="1_xsn17"]
 
 [node name="Inventory" type="PanelContainer" unique_id=118196970]
+texture_filter = 1
 offset_right = 92.0
 offset_bottom = 20.0
 script = ExtResource("1_xsn17")
@@ -15,6 +16,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
 [node name="ItemGrid" type="GridContainer" parent="MarginContainer" unique_id=511368064]
+texture_filter = 1
 layout_mode = 2
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
