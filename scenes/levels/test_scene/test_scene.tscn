@@ -18,6 +18,7 @@
 [ext_resource type="Resource" uid="uid://cahhtwha76a12" path="res://resources/tools/weapons/sword.tres" id="14_qrrpx"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="15_0wwx2"]
 [ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="16_xq1y4"]
+[ext_resource type="PackedScene" uid="uid://baihwwrdo7fkr" path="res://Tree/tree.tscn" id="19_0wwx2"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_88e55"]
 tile_data = PackedInt32Array(0, 720896, 18, 65536, 720896, 19, 131072, 720896, 20, 196608, 720896, 21, 1, 786432, 18, 65537, 786432, 19, 131073, 786432, 20, 196609, 786432, 21, 2, 851968, 18, 65538, 851968, 19, 131074, 851968, 20, 196610, 851968, 21, 3, 917504, 18, 65539, 917504, 19, 131075, 917504, 20, 196611, 917504, 21)
@@ -6218,7 +6219,7 @@ metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
 [sub_resource type="Resource" id="Resource_ktlq8"]
 script = ExtResource("10_w52jh")
-slot_datas = Array[ExtResource("11_fagb8")]([SubResource("Resource_0wwx2"), SubResource("Resource_qrrpx"), SubResource("Resource_xq1y4"), null, null, null, null, null, null, null, null, null])
+slot_datas = Array[ExtResource("11_fagb8")]([SubResource("Resource_0wwx2"), SubResource("Resource_qrrpx"), SubResource("Resource_xq1y4"), null, null, null, null, null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://hrmydbr77vkh"
 
 [sub_resource type="Resource" id="Resource_0p2ud"]
@@ -6337,7 +6338,7 @@ tile_set = SubResource("TileSet_k6jje")
 
 [node name="Props" type="TileMapLayer" parent="YSort" unique_id=557397415]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAGAAQAAAAzAAYAAAAGAAAAAAAzAAYAAAAEAPj/AAAzAAYAAAD9//7/AAA0AAMAAAAHAAAAAAAzAAQAAAACAAEAAAAxAAEAAAAHAPn/AAAzAB0AAAAIAAMAAAAxAAgAAAD9/wAAAAAyAAgAAAACAPv/AAAyAAcAAAD+////AAAcAAEAAAAEAP7/AAAeAAMAAAA=")
+tile_map_data = PackedByteArray("AAAGAAAAAAAzAAYAAAD9//7/AAA0AAMAAAAHAAAAAAAzAAQAAAACAAEAAAAxAAEAAAAHAPn/AAAzAB0AAAAIAAMAAAAxAAgAAAD9/wAAAAAyAAgAAAACAPv/AAAyAAcAAAD+////AAAcAAEAAAAEAP7/AAAeAAMAAAA=")
 tile_set = SubResource("TileSet_bdg55")
 
 [node name="Player" parent="YSort" unique_id=47948964 instance=ExtResource("2_88e55")]
@@ -6353,6 +6354,12 @@ inventory_data = SubResource("Resource_ktlq8")
 [node name="PickUp" parent="YSort" unique_id=1990177255 instance=ExtResource("13_fagb8")]
 position = Vector2(137, 43)
 slot_data = SubResource("Resource_0p2ud")
+
+[node name="Tree" parent="YSort" unique_id=1038231554 instance=ExtResource("19_0wwx2")]
+position = Vector2(104, 75)
+
+[node name="Tree2" parent="YSort" unique_id=1729318106 instance=ExtResource("19_0wwx2")]
+position = Vector2(72, -118)
 
 [connection signal="drop_slot_data" from="UI/InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
 [connection signal="gui_input" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_gui_input"]

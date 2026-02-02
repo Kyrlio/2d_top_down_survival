@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cu2m18tv3r8a"]
+[gd_scene format=3 uid="uid://cu2m18tv3r8a"]
 
 [ext_resource type="Texture2D" uid="uid://c24jmm17ykbk4" path="res://assets/Elements/Tools/Axe.png" id="1_axe"]
 [ext_resource type="Script" uid="uid://dj2hurrqpmsuo" path="res://scenes/tools/axe_scene/axe.gd" id="1_emayu"]
@@ -66,6 +66,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_cfy26"]
 resource_name = "attack"
@@ -131,6 +143,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(1, 1), Vector2(0.95, 1.75), Vector2(1.675, 1.15), Vector2(0.8, 1.5), Vector2(1, 1)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.22222222, 0.2777778, 0.3888889),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_be8gb"]
 _data = {
@@ -138,24 +162,32 @@ _data = {
 &"attack": SubResource("Animation_cfy26")
 }
 
-[node name="Axe" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_cfy26"]
+
+[node name="Axe" type="Node2D" unique_id=1734840820]
 script = ExtResource("1_emayu")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_be8gb")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=386507817]
+libraries/ = SubResource("AnimationLibrary_be8gb")
 
-[node name="CooldownTimer" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="." unique_id=31624285]
 wait_time = 0.4
 one_shot = true
 
-[node name="VFX" type="Sprite2D" parent="."]
+[node name="VFX" type="Sprite2D" parent="." unique_id=873898021]
 visible = false
 texture = ExtResource("2_cfy26")
 offset = Vector2(20, -1)
 hframes = 4
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1311217783]
 texture = ExtResource("1_axe")
 offset = Vector2(1, -2)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=733445673]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=213501423]
+position = Vector2(28, 1)
+shape = SubResource("CircleShape2D_cfy26")
+disabled = true

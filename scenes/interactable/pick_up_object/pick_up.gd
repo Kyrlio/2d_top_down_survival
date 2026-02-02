@@ -16,6 +16,10 @@ func _ready() -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
+	# Vérifier que l'owner a un inventory_data
+	if not area.owner or not "inventory_data" in area.owner:
+		return
+	
 	Callable(disable_collision).call_deferred()
 	
 	var tween = create_tween()

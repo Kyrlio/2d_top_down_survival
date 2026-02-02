@@ -48,6 +48,7 @@ folder_colors={
 player=""
 interactable="Interactable object like NPC or Chests"
 external_inventory="Chests for example "
+trees=""
 
 [gui]
 

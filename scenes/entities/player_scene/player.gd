@@ -18,7 +18,7 @@ enum STATE {
 const HAND_SCENE = preload("uid://bue34yh8nhqm3")
 
 const ROLL_SPEED: float = 80.0
-const ROLL_TIME: float = 0.25
+const ROLL_TIME: float = 0.3
 const ROLL_RELOAD_COST: float = 0.8
 const ROLL_BUFFER_TIME: float = 0.15
 
@@ -487,7 +487,7 @@ func get_movement_vector() -> Vector2:
 
 ## Get the current facing direction of the player visuals
 ## Returns 1.0 for right, -1.0 for left
-func get_facing_direction():
+func get_facing_direction() -> int:
 	return visuals.scale.x
 
 
