@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://cix77i6se7tak"]
+
+[ext_resource type="Texture2D" uid="uid://b4ghgiagssgfq" path="res://assets/Elements/VFX/leaf.png" id="1_52eh2"]
+[ext_resource type="Script" uid="uid://bx7a4tv038mmx" path="res://scenes/entities/tree_scene/tree_hit_particles.gd" id="1_rip2n"]
+
+[sub_resource type="Curve" id="Curve_rip2n"]
+_data = [Vector2(0, 0.47802198), 0.0, 0.0, 0, 0, Vector2(0.24776788, 1), 0.0, 0.0, 0, 0, Vector2(0.5044643, 1), 0.0, -0.13675205, 1, 0, Vector2(1, 0), 0.14269793, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_fy4rw"]
+curve = SubResource("Curve_rip2n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s265g"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -18, 0)
+emission_shape_scale = Vector3(1, 0.6, 1)
+emission_shape = 1
+emission_sphere_radius = 12.0
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, -1, 0)
+flatness = 1.0
+initial_velocity_min = 60.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 150, 0)
+damping_min = 10.0
+damping_max = 10.0
+scale_min = 0.7
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_fy4rw")
+
+[sub_resource type="Curve" id="Curve_5h0nm"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0.013392862, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0ygd4"]
+curve = SubResource("Curve_5h0nm")
+
+[sub_resource type="Curve" id="Curve_ok7vm"]
+_data = [Vector2(0.19642858, 0), 0.0, 0.0, 0, 0, Vector2(0.6919643, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hxavs"]
+curve = SubResource("Curve_ok7vm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_job4i"]
+lifetime_randomness = 0.3
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -14, 0)
+emission_shape = 1
+emission_sphere_radius = 8.0
+angle_min = -89.99999
+angle_max = 90.000015
+angle_curve = SubResource("CurveTexture_0ygd4")
+direction = Vector3(0, -1, 0)
+spread = 20.0
+flatness = 1.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 150, 0)
+damping_min = 100.00001
+damping_max = 100.00001
+damping_curve = SubResource("CurveTexture_hxavs")
+scale_min = 0.7
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_fy4rw")
+
+[node name="TreeHitParticles" type="Node2D" unique_id=1810408234]
+script = ExtResource("1_rip2n")
+
+[node name="HitParticles" type="GPUParticles2D" parent="." unique_id=1813807289]
+emitting = false
+amount = 7
+texture = ExtResource("1_52eh2")
+one_shot = true
+explosiveness = 0.98
+fixed_fps = 0
+interpolate = false
+process_material = SubResource("ParticleProcessMaterial_s265g")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="." unique_id=918635277]
+emitting = false
+amount = 30
+texture = ExtResource("1_52eh2")
+lifetime = 1.3
+one_shot = true
+explosiveness = 0.98
+fixed_fps = 0
+interpolate = false
+process_material = SubResource("ParticleProcessMaterial_job4i")

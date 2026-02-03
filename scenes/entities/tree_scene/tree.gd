@@ -2,14 +2,13 @@ extends StaticBody2D
 
 const PICK_UP = preload("uid://1atsbj7ft3su")
 const WOOD_ITEM = preload("uid://duvhdbndkcyr4")
+const TREE_PARTICLES = preload("uid://cix77i6se7tak")
 
 @export var wood_drop_amount: int = 5
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var health_component: HealthComponent = $HealthComponent
-@onready var gpu_particles: GPUParticles2D = $GPUParticles2D
 @onready var visuals: Node2D = $Visuals
-@onready var death_particles: GPUParticles2D = $DeathParticles
 
 var is_dead: bool = false
 
@@ -29,7 +28,7 @@ func _death() -> void:
 		return
 	is_dead = true
 	animation_player.play("dead")
-	death_particles.emitting = true
+	spawn_death_particles()
 	drop_wood()
 
 
@@ -37,23 +36,29 @@ func get_hit() -> void:
 	if is_dead or health_component.current_health <= 0:
 		return
 	
-	if gpu_particles.emitting:
-		gpu_particles.restart()
-	gpu_particles.emitting = true
-	print(gpu_particles.emitting)
+	spawn_hit_particles()
 	animation_player.stop()
 	visuals.scale.x = PlayerManager.player.get_facing_direction()
 	animation_player.play("chop")
 	health_component.take_damage(1)
 
 
+func spawn_hit_particles() -> void:
+	var particles = TREE_PARTICLES.instantiate()
+	add_child(particles)
+	particles.spawn_hit_particles()
+
+
+func spawn_death_particles() -> void:
+	var particles = TREE_PARTICLES.instantiate()
+	add_child(particles)
+	particles.spawn_death_particles()
+
+
 func drop_wood() -> void:
-	# Quantité aléatoire basée sur wood_drop_amount
-	# Si wood_drop_amount = 5, ça peut drop 4, 5 ou 6
 	var random_amount := wood_drop_amount + randi_range(-1, 1)
-	random_amount = max(1, random_amount)  # Au minimum 1
+	random_amount = max(1, random_amount)
 	
-	# Trouver le nœud parent approprié (YSort ou parent direct)
 	var parent_node := get_parent()
 	var space_state := get_world_2d().direct_space_state
 	
@@ -91,7 +96,7 @@ func drop_wood() -> void:
 		parent_node.add_child(pick_up)
 		
 		# Ajouter un petit délai entre chaque drop pour un effet plus naturel
-		await get_tree().create_timer(i * 0.05).timeout
+		await get_tree().create_timer(i * 0.01).timeout
 		
 		# Jouer l'animation de drop
 		if pick_up.has_method("play_drop_animation"):

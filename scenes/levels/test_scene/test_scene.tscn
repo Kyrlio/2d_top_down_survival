@@ -13,12 +13,10 @@
 [ext_resource type="Script" uid="uid://ca4sfqhm1305q" path="res://components/inventory_component/inventory_data_equip.gd" id="10_a11f7"]
 [ext_resource type="Script" uid="uid://hrmydbr77vkh" path="res://components/inventory_component/inventory_data.gd" id="10_w52jh"]
 [ext_resource type="Script" uid="uid://dpu5vnxymo6op" path="res://components/inventory_component/slot_data.gd" id="11_fagb8"]
-[ext_resource type="PackedScene" uid="uid://1atsbj7ft3su" path="res://scenes/interactable/pick_up_object/pick_up.tscn" id="13_fagb8"]
-[ext_resource type="Resource" uid="uid://duvhdbndkcyr4" path="res://resources/items/wood.tres" id="14_0p2ud"]
 [ext_resource type="Resource" uid="uid://cahhtwha76a12" path="res://resources/tools/weapons/sword.tres" id="14_qrrpx"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="15_0wwx2"]
 [ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="16_xq1y4"]
-[ext_resource type="PackedScene" uid="uid://baihwwrdo7fkr" path="res://Tree/tree.tscn" id="19_0wwx2"]
+[ext_resource type="PackedScene" uid="uid://baihwwrdo7fkr" path="res://scenes/entities/tree_scene/tree.tscn" id="19_0wwx2"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_88e55"]
 tile_data = PackedInt32Array(0, 720896, 18, 65536, 720896, 19, 131072, 720896, 20, 196608, 720896, 21, 1, 786432, 18, 65537, 786432, 19, 131073, 786432, 20, 196609, 786432, 21, 2, 851968, 18, 65538, 851968, 19, 131074, 851968, 20, 196610, 851968, 21, 3, 917504, 18, 65539, 917504, 19, 131075, 917504, 20, 196611, 917504, 21)
@@ -6192,10 +6190,15 @@ texture = ExtResource("1_widsn")
 31:1/0 = 0
 31:2/0 = 0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_0wwx2"]
+resource_name = "Tree"
+scenes/1/scene = ExtResource("19_0wwx2")
+
 [sub_resource type="TileSet" id="TileSet_bdg55"]
 physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_k6jje")
+sources/1 = SubResource("TileSetScenesCollectionSource_0wwx2")
 
 [sub_resource type="Resource" id="Resource_8ti2q"]
 script = ExtResource("10_a11f7")
@@ -6221,11 +6224,6 @@ metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 script = ExtResource("10_w52jh")
 slot_datas = Array[ExtResource("11_fagb8")]([SubResource("Resource_0wwx2"), SubResource("Resource_qrrpx"), SubResource("Resource_xq1y4"), null, null, null, null, null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://hrmydbr77vkh"
-
-[sub_resource type="Resource" id="Resource_0p2ud"]
-script = ExtResource("11_fagb8")
-item_data = ExtResource("14_0p2ud")
-metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
 [node name="TestScene" type="Node2D" unique_id=1707837490]
 script = ExtResource("1_88e55")
@@ -6338,7 +6336,7 @@ tile_set = SubResource("TileSet_k6jje")
 
 [node name="Props" type="TileMapLayer" parent="YSort" unique_id=557397415]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAGAAAAAAAzAAYAAAD9//7/AAA0AAMAAAAHAAAAAAAzAAQAAAACAAEAAAAxAAEAAAAHAPn/AAAzAB0AAAAIAAMAAAAxAAgAAAD9/wAAAAAyAAgAAAACAPv/AAAyAAcAAAD+////AAAcAAEAAAAEAP7/AAAeAAMAAAA=")
+tile_map_data = PackedByteArray("AAAGAAAAAAAzAAYAAAD9//7/AAA0AAMAAAAHAAAAAAAzAAQAAAACAAEAAAAxAAEAAAAHAPn/AAAzAB0AAAAIAAMAAAAxAAgAAAD9/wAAAAAyAAgAAAACAPv/AAAyAAcAAAD+////AAAcAAEAAAAEAP7/AAAeAAMAAAAEAPj/AQAAAAAAAQA=")
 tile_set = SubResource("TileSet_bdg55")
 
 [node name="Player" parent="YSort" unique_id=47948964 instance=ExtResource("2_88e55")]
@@ -6351,15 +6349,8 @@ equip_inventory_data = SubResource("Resource_8ti2q")
 position = Vector2(177, 89)
 inventory_data = SubResource("Resource_ktlq8")
 
-[node name="PickUp" parent="YSort" unique_id=1990177255 instance=ExtResource("13_fagb8")]
-position = Vector2(137, 43)
-slot_data = SubResource("Resource_0p2ud")
-
 [node name="Tree" parent="YSort" unique_id=1038231554 instance=ExtResource("19_0wwx2")]
 position = Vector2(104, 75)
-
-[node name="Tree2" parent="YSort" unique_id=1729318106 instance=ExtResource("19_0wwx2")]
-position = Vector2(72, -118)
 
 [connection signal="drop_slot_data" from="UI/InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
 [connection signal="gui_input" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_gui_input"]

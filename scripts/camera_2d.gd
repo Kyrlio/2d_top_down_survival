@@ -29,7 +29,7 @@ func _ready() -> void:
 	instance = self
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	_apply_shake(delta)
 	# Calculer l'offset de lookahead basé sur la position de la souris
 	var target_lookahead_offset := _calculate_mouse_lookahead_offset()
