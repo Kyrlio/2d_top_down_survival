@@ -68,9 +68,11 @@ func _on_inventory_toggled(external_inventory_owner = null) -> void:
 func _on_inventory_interface_drop_slot_data(slot_data: SlotData) -> void:
 	var pick_up = PICK_UP.instantiate()
 	pick_up.slot_data = slot_data
-	var start_pos := player.global_position
-	var target_pos := player.get_drop_position()
+	var start_pos := player.get_drop_position()
 	pick_up.global_position = start_pos
 	y_sort.add_child(pick_up)
-	if pick_up.has_method("play_drop_animation"):
-		pick_up.play_drop_animation(target_pos, start_pos)
+	#if pick_up.has_method("play_drop_animation"):
+		#pick_up.play_drop_animation(target_pos, start_pos)
+	
+	if pick_up.has_method("launch"):
+		pick_up.launch(player.get_effective_aim(), 50.0)

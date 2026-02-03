@@ -508,8 +508,7 @@ func get_drop_position() -> Vector2:
 	var dir := global_position.direction_to(get_global_mouse_position())
 	if dir.length_squared() < 0.0001:
 		dir = Vector2.RIGHT
-	var drop_distance := 30
-	return global_position + dir.normalized() * drop_distance
+	return global_position + dir.normalized()
 
 
 # --------------------- SIGNALS ----------------------------------------------------------------

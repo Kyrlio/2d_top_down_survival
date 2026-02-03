@@ -48,6 +48,7 @@ player=""
 interactable="Interactable object like NPC or Chests"
 external_inventory="Chests for example "
 trees=""
+rock=""
 
 [gui]
 
@@ -172,6 +173,7 @@ hot_bar_6={
 
 [physics]
 
+common/physics_jitter_fix=1.0
 common/physics_interpolation=true
 
 [rendering]

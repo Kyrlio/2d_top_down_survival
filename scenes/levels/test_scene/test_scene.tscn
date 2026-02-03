@@ -16,6 +16,7 @@
 [ext_resource type="Resource" uid="uid://cahhtwha76a12" path="res://resources/tools/weapons/sword.tres" id="14_qrrpx"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="15_0wwx2"]
 [ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="16_xq1y4"]
+[ext_resource type="PackedScene" uid="uid://xr3thm4euh7i" path="res://scenes/entities/rock_scene/rock.tscn" id="18_qrrpx"]
 [ext_resource type="PackedScene" uid="uid://baihwwrdo7fkr" path="res://scenes/entities/tree_scene/tree.tscn" id="19_0wwx2"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_88e55"]
@@ -6348,6 +6349,9 @@ equip_inventory_data = SubResource("Resource_8ti2q")
 [node name="Chest" parent="YSort" unique_id=715584749 instance=ExtResource("9_k6jje")]
 position = Vector2(177, 89)
 inventory_data = SubResource("Resource_ktlq8")
+
+[node name="Rock" parent="YSort" unique_id=685374245 instance=ExtResource("18_qrrpx")]
+position = Vector2(129, 45)
 
 [node name="Tree" parent="YSort" unique_id=1038231554 instance=ExtResource("19_0wwx2")]
 position = Vector2(104, 75)
