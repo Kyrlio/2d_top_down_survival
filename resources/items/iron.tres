@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c7ylmq18p255n"]
+
+[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://resources/items/item_data.gd" id="1_cosyv"]
+[ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="2_hklni"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvne0"]
+atlas = ExtResource("2_hklni")
+region = Rect2(880, 352, 16, 16)
+
+[resource]
+script = ExtResource("1_cosyv")
+name = "Iron"
+description = "IRON ! CAN MAKE THING IN IRON"
+stackable = true
+texture = SubResource("AtlasTexture_mvne0")
+metadata/_custom_type_script = "uid://b2lapaned0s6f"

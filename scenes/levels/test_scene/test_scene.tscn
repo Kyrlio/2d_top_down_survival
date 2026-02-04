@@ -6194,12 +6194,19 @@ texture = ExtResource("1_widsn")
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_0wwx2"]
 resource_name = "Tree"
 scenes/1/scene = ExtResource("19_0wwx2")
+scenes/1/display_placeholder = true
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_qrrpx"]
+resource_name = "Rock"
+scenes/1/scene = ExtResource("18_qrrpx")
+scenes/1/display_placeholder = true
 
 [sub_resource type="TileSet" id="TileSet_bdg55"]
 physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_k6jje")
 sources/1 = SubResource("TileSetScenesCollectionSource_0wwx2")
+sources/2 = SubResource("TileSetScenesCollectionSource_qrrpx")
 
 [sub_resource type="Resource" id="Resource_8ti2q"]
 script = ExtResource("10_a11f7")
@@ -6337,7 +6344,7 @@ tile_set = SubResource("TileSet_k6jje")
 
 [node name="Props" type="TileMapLayer" parent="YSort" unique_id=557397415]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAGAAAAAAAzAAYAAAD9//7/AAA0AAMAAAAHAAAAAAAzAAQAAAACAAEAAAAxAAEAAAAHAPn/AAAzAB0AAAAIAAMAAAAxAAgAAAD9/wAAAAAyAAgAAAACAPv/AAAyAAcAAAD+////AAAcAAEAAAAEAP7/AAAeAAMAAAAEAPj/AQAAAAAAAQA=")
+tile_map_data = PackedByteArray("AAAGAAAAAAAzAAYAAAD9//7/AAA0AAMAAAAHAAAAAAAzAAQAAAACAAEAAAAxAAEAAAAIAAMAAAAxAAgAAAD9/wAAAAAyAAgAAAACAPv/AAAyAAcAAAD+////AAAcAAEAAAAEAP7/AAAeAAMAAAAEAPj/AQAAAAAAAQAGAAQAAQAAAAAAAQAFAPb/AgAAAAAAAQA=")
 tile_set = SubResource("TileSet_bdg55")
 
 [node name="Player" parent="YSort" unique_id=47948964 instance=ExtResource("2_88e55")]
@@ -6351,10 +6358,20 @@ position = Vector2(177, 89)
 inventory_data = SubResource("Resource_ktlq8")
 
 [node name="Rock" parent="YSort" unique_id=685374245 instance=ExtResource("18_qrrpx")]
-position = Vector2(129, 45)
+position = Vector2(143, -113)
+mineral = "Iron"
 
-[node name="Tree" parent="YSort" unique_id=1038231554 instance=ExtResource("19_0wwx2")]
-position = Vector2(104, 75)
+[node name="Rock2" parent="YSort" unique_id=2009218289 instance=ExtResource("18_qrrpx")]
+position = Vector2(136, -95)
+mineral = "Coal"
+
+[node name="Rock3" parent="YSort" unique_id=1330731286 instance=ExtResource("18_qrrpx")]
+position = Vector2(108, -94)
+mineral = "Gold"
+
+[node name="Rock4" parent="YSort" unique_id=1869949945 instance=ExtResource("18_qrrpx")]
+position = Vector2(114, -120)
+mineral = "Diamond"
 
 [connection signal="drop_slot_data" from="UI/InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
 [connection signal="gui_input" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_gui_input"]

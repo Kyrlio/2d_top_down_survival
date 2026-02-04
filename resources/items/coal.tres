@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cqkvd8nigyuau"]
+
+[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://resources/items/item_data.gd" id="1_b24sq"]
+[ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="2_33dtt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdclq"]
+atlas = ExtResource("2_33dtt")
+region = Rect2(880, 384, 16, 16)
+
+[resource]
+script = ExtResource("1_b24sq")
+name = "Coal"
+description = "Fuel a dunno what to do with dis"
+stackable = true
+texture = SubResource("AtlasTexture_bdclq")
+metadata/_custom_type_script = "uid://b2lapaned0s6f"

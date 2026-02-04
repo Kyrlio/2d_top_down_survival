@@ -163,6 +163,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nu05w"]
+radius = 6.0
 
 [node name="Pickaxe" type="Node2D" unique_id=236657947]
 script = ExtResource("1_ynxrx")

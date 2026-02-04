@@ -1,8 +1,14 @@
 extends StaticBody2D
 class_name Rock
 
-const PICK_UP = preload("uid://1atsbj7ft3su")
 const ROCK_ITEM = preload("uid://x6vl4hk2ral7")
+const COAL_ITEM = preload("uid://cqkvd8nigyuau")
+const DIAMOND_ITEM = preload("uid://cpbxpf6i5mqid")
+const GOLD_ITEM = preload("uid://bh6sc6jc08lts")
+const IRON_ITEM = preload("uid://c7ylmq18p255n")
+const PICK_UP = preload("uid://1atsbj7ft3su")
+const ROCK_HIT_PARTICLES = preload("uid://dd375ap5o3gtu")
+
 
 const ROCK_Y_REGION: int = 464
 const IRON_Y_REGION: int = 336
@@ -27,15 +33,14 @@ var region_x_size: int
 
 func _ready() -> void:
 	add_to_group("rock")
+	# Dupliquer les textures pour que chaque instance soit indépendante
+	big.texture = big.texture.duplicate()
+	medium.texture = medium.texture.duplicate()
+	small.texture = small.texture.duplicate()
+	
 	animation_player.play("idle")
 	_update_size()
 	_update_mineral()
-	#print(medium.texture.region)
-
-
-func _process(delta: float) -> void:
-	#print(health_component.current_health)
-	pass
 
 
 func _update_size() -> void:
@@ -117,34 +122,69 @@ func get_hit() -> void:
 		_update_size()
 		_update_mineral()
 	
-	#spawn_hit_particles()
+	spawn_hit_particles()
 	animation_player.stop()
 	visuals.scale.x = PlayerManager.player.get_facing_direction()
 	animation_player.play("mine")
 	health_component.take_damage(1)
 
 
+func spawn_hit_particles() -> void:
+	var particles = ROCK_HIT_PARTICLES.instantiate()
+	add_child(particles)
+	particles.spawn_hit_particles()
+
+
 func drop_rock() -> void:
-	var random_amount := rock_drop_amount + randi_range(-1, 1)
-	random_amount = max(1, random_amount)
-	
 	var parent_node := get_parent()
+	var drops: Array[Resource] = []
 	
-	# Créer un pick_up individuel pour chaque morceau de bois
-	for i in range(random_amount):
-		# Créer le slot_data pour un seul morceau de bois
+	match mineral:
+		"Rock":
+			var random_amount := rock_drop_amount + randi_range(0, 1)
+			random_amount = max(1, random_amount)
+			for _i in range(random_amount):
+				drops.append(ROCK_ITEM)
+		"Iron":
+			var iron_amount := randi_range(1, 2)
+			for _i in range(iron_amount):
+				drops.append(IRON_ITEM)
+			drops.append(ROCK_ITEM)
+		"Coal":
+			var coal_amount := randi_range(1, 2)
+			for _i in range(coal_amount):
+				drops.append(COAL_ITEM)
+			drops.append(ROCK_ITEM)
+		"Gold":
+			var gold_amount := randi_range(1, 2)
+			for _i in range(gold_amount):
+				drops.append(GOLD_ITEM)
+			drops.append(ROCK_ITEM)
+		"Diamond":
+			var diamond_amount := randi_range(1, 2)
+			for _i in range(diamond_amount):
+				drops.append(DIAMOND_ITEM)
+			drops.append(ROCK_ITEM)
+		_:
+			drops.append(ROCK_ITEM)
+	
+	var total_drops := drops.size()
+	if total_drops <= 0:
+		return
+	
+	# Créer un pick_up individuel pour chaque item
+	for i in range(total_drops):
 		var slot_data := SlotData.new()
-		slot_data.item_data = ROCK_ITEM
+		slot_data.item_data = drops[i]
 		slot_data.quantity = 1
 		
-		# Instancier le pick_up
 		var pick_up = PICK_UP.instantiate()
 		pick_up.slot_data = slot_data
 		pick_up.global_position = global_position
 		
 		parent_node.add_child(pick_up)
 		
-		var angle_offset := (TAU / random_amount) * i
+		var angle_offset := (TAU / total_drops) * i
 		var random_variation := randf_range(-0.5, 0.5)
 		var final_angle := angle_offset + random_variation
 		var direction := Vector2(cos(final_angle), sin(final_angle))

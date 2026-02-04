@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cpbxpf6i5mqid"]
+
+[ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://resources/items/item_data.gd" id="1_m7f5g"]
+[ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="2_ycvbh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s026l"]
+atlas = ExtResource("2_ycvbh")
+region = Rect2(880, 416, 16, 16)
+
+[resource]
+script = ExtResource("1_m7f5g")
+name = "Diamond"
+description = "WOW SHINY"
+stackable = true
+texture = SubResource("AtlasTexture_s026l")
+metadata/_custom_type_script = "uid://b2lapaned0s6f"

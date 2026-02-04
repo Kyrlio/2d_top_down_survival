@@ -6,10 +6,22 @@
 [ext_resource type="Resource" uid="uid://cahhtwha76a12" path="res://resources/tools/weapons/sword.tres" id="3_eyyk3"]
 [ext_resource type="Resource" uid="uid://duvhdbndkcyr4" path="res://resources/items/wood.tres" id="3_ghyoh"]
 [ext_resource type="Resource" uid="uid://cmyootdb41krk" path="res://resources/items/iron_helmet.tres" id="3_nb6ky"]
+[ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="4_b831s"]
+[ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="5_l26vm"]
 
 [sub_resource type="Resource" id="Resource_b831s"]
 script = ExtResource("2_eyyk3")
 item_data = ExtResource("3_eyyk3")
+metadata/_custom_type_script = "uid://dpu5vnxymo6op"
+
+[sub_resource type="Resource" id="Resource_87rnb"]
+script = ExtResource("2_eyyk3")
+item_data = ExtResource("4_b831s")
+metadata/_custom_type_script = "uid://dpu5vnxymo6op"
+
+[sub_resource type="Resource" id="Resource_7ykrn"]
+script = ExtResource("2_eyyk3")
+item_data = ExtResource("5_l26vm")
 metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
 [sub_resource type="Resource" id="Resource_eyyk3"]
@@ -31,5 +43,5 @@ metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
 [resource]
 script = ExtResource("1_nb6ky")
-slot_datas = Array[ExtResource("2_eyyk3")]([SubResource("Resource_b831s"), null, null, SubResource("Resource_eyyk3"), null, null, null, null, SubResource("Resource_ghyoh"), null, null, SubResource("Resource_d3a5g"), null, null, null, null, null, null])
+slot_datas = Array[ExtResource("2_eyyk3")]([SubResource("Resource_b831s"), SubResource("Resource_87rnb"), SubResource("Resource_7ykrn"), SubResource("Resource_eyyk3"), null, null, null, null, SubResource("Resource_ghyoh"), null, null, SubResource("Resource_d3a5g"), null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://hrmydbr77vkh"
