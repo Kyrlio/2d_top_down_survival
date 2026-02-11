@@ -151,7 +151,7 @@ func drop_rock() -> void:
 				drops.append(IRON_ITEM)
 			drops.append(ROCK_ITEM)
 		"Coal":
-			var coal_amount := randi_range(1, 2)
+			var coal_amount := randi_range(1, 4)
 			for _i in range(coal_amount):
 				drops.append(COAL_ITEM)
 			drops.append(ROCK_ITEM)

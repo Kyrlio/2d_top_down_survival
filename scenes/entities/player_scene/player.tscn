@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bhy6xjkbtfqy5" path="res://assets/Characters/Human/IDLE/base_idle_strip9.png" id="2_rf8gt"]
 [ext_resource type="Resource" uid="uid://vdtbhxtx8b3j" path="res://test_inv.tres" id="2_x1s51"]
 [ext_resource type="Texture2D" uid="uid://bcbplp5pxr4hw" path="res://assets/Characters/Human/ATTACK/base_attack_strip10-no-VFX.png" id="3_cs6j4"]
+[ext_resource type="Texture2D" uid="uid://cjfcof7c011ot" path="res://assets/Characters/Human/ouille.png" id="3_thyq2"]
 [ext_resource type="Texture2D" uid="uid://w0r37wqcp4a5" path="res://assets/Characters/Human/DEATH/base_death_strip13.png" id="4_1hrif"]
 [ext_resource type="Texture2D" uid="uid://jdwllx12l8x" path="res://assets/Characters/Human/RUN/base_run_strip8.png" id="4_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://b0peceqcjlcxx" path="res://assets/Characters/Human/WALKING/base_walk_strip8.png" id="6_8janr"]
@@ -18,6 +19,56 @@
 [ext_resource type="Texture2D" uid="uid://dq368mbpuuhrw" path="res://assets/Characters/Human/all_hair_bowl.png" id="12_tlsmm"]
 [ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="15_51as7"]
 [ext_resource type="PackedScene" uid="uid://b6t2fl85tnm78" path="res://components/health_bar_component/custom_health_bar.tscn" id="17_mqlu3"]
+
+[sub_resource type="Animation" id="Animation_thyq2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LowHealthUI:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LowHealthUI:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_lfxbf"]
+resource_name = "normal"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LowHealthUI:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.29411766), Color(1, 1, 1, 1), Color(1, 1, 1, 0.29411766)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_coshf"]
+_data = {
+&"RESET": SubResource("Animation_thyq2"),
+&"normal": SubResource("Animation_lfxbf")
+}
 
 [sub_resource type="Animation" id="Animation_rf8gt"]
 length = 0.001
@@ -1078,6 +1129,18 @@ collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_2q4ud")
 inventory_data = ExtResource("2_x1s51")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1484699179]
+
+[node name="LowHealthUI" type="Sprite2D" parent="CanvasLayer" unique_id=586467853]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(240, 135)
+texture = ExtResource("3_thyq2")
+
+[node name="HealthUIAnimPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=1125291420]
+libraries/ = SubResource("AnimationLibrary_coshf")
+autoplay = &"normal"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=723302207]
 libraries/ = SubResource("AnimationLibrary_rf8gt")

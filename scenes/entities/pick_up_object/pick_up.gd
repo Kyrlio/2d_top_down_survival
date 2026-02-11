@@ -5,6 +5,7 @@ extends Area2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var shadow: Sprite2D = $Shadow
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var _base_sprite_pos: Vector2
 var _base_shadow_scale: Vector2
@@ -108,8 +109,8 @@ func tween_collect(percent: float, start_position: Vector2) -> void:
 		return
 	
 	global_position = start_position.lerp(player.global_position, percent)
-	var direction_from_start = player.global_position - start_position
 
 
 func _on_timer_timeout() -> void:
 	collision_shape.disabled = false
+	animation_player.play("idle")

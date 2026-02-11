@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bocyfviytryrw"]
+
+[ext_resource type="Script" uid="uid://bayqs3ctjlqiy" path="res://scripts/button_effect_module.gd" id="1_j8lob"]
+
+[node name="AnimatedButton" type="Button" unique_id=1865009054]
+size_flags_vertical = 4
+text = "BUTTON"
+
+[node name="ButtonEffectModule" type="Node" parent="." unique_id=1198084586]
+script = ExtResource("1_j8lob")
+metadata/_custom_type_script = "uid://bayqs3ctjlqiy"

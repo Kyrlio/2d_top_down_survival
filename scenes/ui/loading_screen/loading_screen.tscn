@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://twv51hcgs0fg"]
+
+[ext_resource type="Script" uid="uid://bpktsn68x14nb" path="res://scenes/ui/loading_screen/loading_screen.gd" id="1_dd6wa"]
+[ext_resource type="Shader" uid="uid://xhxgmayoknt" path="res://resources/shader/transition_shader.gdshader" id="1_vwscl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dd6wa"]
+shader = ExtResource("1_vwscl")
+shader_parameter/use_sprite_alpha = true
+shader_parameter/use_transition_texture = false
+shader_parameter/transition_type = 0
+shader_parameter/position = Vector2(0.5, 0.5)
+shader_parameter/invert = true
+shader_parameter/grid_size = Vector2(16, 16)
+shader_parameter/rotation_angle = 0.0
+shader_parameter/global_x_mirror = false
+shader_parameter/global_y_mirror = false
+shader_parameter/local_x_mirror = false
+shader_parameter/local_y_mirror = false
+shader_parameter/stagger = Vector2(0, 0)
+shader_parameter/cumulative_stagger_flip = false
+shader_parameter/cumulative_stagger = Vector2(0, 0)
+shader_parameter/stagger_frequency = Vector2i(2, 2)
+shader_parameter/flip_frequency = Vector2i(1, 1)
+shader_parameter/basic_feather = 0.0
+shader_parameter/use_mask_size = false
+shader_parameter/mask_size = Vector2(100, 100)
+shader_parameter/edges = 6
+shader_parameter/shape_feather = 0.1
+shader_parameter/sectors = 1
+shader_parameter/clock_feather = 0.0
+shader_parameter/progress = 0.0
+shader_parameter/progress_bias = Vector2(0, 0)
+
+[sub_resource type="Gradient" id="Gradient_urqlm"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.09411765, 0.078431375, 0.14509805, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0ag1g"]
+gradient = SubResource("Gradient_urqlm")
+
+[sub_resource type="Animation" id="Animation_tj6e4"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_elar7"]
+resource_name = "fade_in"
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0, 0.8437977, 1, -0.5, 0.10826492, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_urqlm"]
+resource_name = "fade_out"
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(1, -0.25, 0, 0.1, -0.9548935, 0.0055087535, -0.6, -0.11379336, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x0jpi"]
+_data = {
+&"RESET": SubResource("Animation_tj6e4"),
+&"fade_in": SubResource("Animation_elar7"),
+&"fade_out": SubResource("Animation_urqlm")
+}
+
+[node name="LoadingScreen" type="CanvasLayer" unique_id=2105219190 node_paths=PackedStringArray("anim_player")]
+script = ExtResource("1_dd6wa")
+anim_player = NodePath("AnimationPlayer")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=810793022]
+material = SubResource("ShaderMaterial_dd6wa")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 240.0
+offset_top = -290.0
+offset_right = 360.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.7853982
+texture = SubResource("GradientTexture2D_0ag1g")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1627781588]
+libraries/ = SubResource("AnimationLibrary_x0jpi")
+speed_scale = 0.8

@@ -187,6 +187,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cfy26"]
+radius = 6.0
 
 [node name="Axe" type="Node2D" unique_id=1734840820]
 script = ExtResource("1_emayu")

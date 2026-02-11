@@ -14,6 +14,8 @@ enum STATE {
 }
 
 const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
+const PICK_UP = preload("uid://1atsbj7ft3su")
+const COIN = preload("uid://cx1v2d5h66kjh")
 
 @export_category("Stats")
 @export var speed: int = 25
@@ -23,6 +25,7 @@ const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
 @export var aggro_range: float = 90.0
 @export var attack_range: float = 25.0
 @export var knockback_force: float = 65.0
+@export var coin_drop_amount: int = 3 ## Drop between -1 and +2 coins
 
 @export_category("Related Scene")
 @export var death_packed: PackedScene
@@ -148,10 +151,13 @@ func _process_state(delta: float) -> void:
 			update_facing_direction()
 			update_attack_cooldown(delta)
 			move(spawn_point)
+			
 			if global_position.distance_to(spawn_point) < 2.0:
 				_switch_state(STATE.IDLE)
+			elif PlayerManager.is_player_dead:
+				return
 			
-			if distance_to_player() < aggro_range and chase_again_timer.is_stopped():
+			elif distance_to_player() < aggro_range and chase_again_timer.is_stopped():
 				is_alerted = false
 				_switch_state(STATE.CHASE)
 		
@@ -247,6 +253,38 @@ func can_see_player() -> bool:
 	if result:
 		return false
 	return true
+
+
+func drop_loot() -> void:
+	var random_amount := coin_drop_amount + randi_range(-1, 2)
+	random_amount = max(1, random_amount)
+	
+	var parent_node := get_parent()
+	
+	# Créer un pick_up individuel pour chaque morceau de bois
+	for i in range(random_amount):
+		# Créer le slot_data pour un seul morceau de bois
+		var slot_data := SlotData.new()
+		slot_data.item_data = COIN
+		slot_data.quantity = 1
+		
+		# Instancier le pick_up
+		var pick_up = PICK_UP.instantiate()
+		pick_up.slot_data = slot_data
+		pick_up.global_position = global_position
+		
+		parent_node.add_child(pick_up)
+		
+		var angle_offset := (TAU / random_amount) * i
+		var random_variation := randf_range(-0.5, 0.5)
+		var final_angle := angle_offset + random_variation
+		var direction := Vector2(cos(final_angle), sin(final_angle))
+		
+		var speed := randf_range(25.0, 50.0)
+		
+		await get_tree().create_timer(i * 0.05).timeout
+		if pick_up.has_method("launch"):
+			pick_up.launch(direction, speed)
 
 
 func spawn_corpse() -> void:

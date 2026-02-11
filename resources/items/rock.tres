@@ -1,11 +1,15 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://x6vl4hk2ral7"]
 
 [ext_resource type="Script" uid="uid://b2lapaned0s6f" path="res://resources/items/item_data.gd" id="1_k5y8h"]
-[ext_resource type="Texture2D" uid="uid://bmhny560n23q6" path="res://assets/Elements/Crops/rock.png" id="2_k5y8h"]
+[ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="2_k5y8h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g10cq"]
+atlas = ExtResource("2_k5y8h")
+region = Rect2(880, 480, 16, 16)
 
 [resource]
 script = ExtResource("1_k5y8h")
 name = "rock"
 stackable = true
-texture = ExtResource("2_k5y8h")
+texture = SubResource("AtlasTexture_g10cq")
 metadata/_custom_type_script = "uid://b2lapaned0s6f"

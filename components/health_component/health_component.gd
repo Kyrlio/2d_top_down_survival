@@ -8,7 +8,7 @@ signal health_changed(current_health: int, max_health: int)
 
 var ground_particles_scene: PackedScene
 
-@export var max_health: int = 50
+@export var max_health: int = 100
 
 var _current_health: int
 var current_health: int:

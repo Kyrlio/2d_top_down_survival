@@ -10,7 +10,7 @@ var can_interact: bool = false
 var is_open: bool = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("interact") and can_interact:
 			open_chest()
 			toggle_inventory.emit(self)

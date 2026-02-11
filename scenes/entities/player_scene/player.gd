@@ -59,6 +59,8 @@ const HAIRS: Dictionary = {
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var health_bar: CustomHealthBar = $CustomHealthBar
 @onready var interact_area: Area2D = %InteractArea
+@onready var low_health_ui: Sprite2D = $CanvasLayer/LowHealthUI
+@onready var health_ui_anim_player: AnimationPlayer = $CanvasLayer/HealthUIAnimPlayer
 
 var pushback_force: Vector2 = Vector2.ZERO
 
@@ -80,6 +82,7 @@ var can_parry: bool = true
 
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	low_health_ui.visible = false
 	PlayerManager.player = self
 	add_to_group("player")
 	hair.texture = load(HAIRS.Bowl)
@@ -94,6 +97,11 @@ func _ready() -> void:
 
 ## Main processing loop for the player (Physics synchronized)
 func _process(delta: float) -> void:
+	if health_component.current_health <= health_component.max_health / 3:
+		low_health_ui.visible = true
+	else:
+		low_health_ui.visible = false
+	
 	process_state(delta)
 	update_aim_and_visuals(delta)
 	update_roll_cooldown(delta)
@@ -396,7 +404,7 @@ func _update_state_hurt(delta) -> void:
 		switch_state(STATE.IDLE)
 
 
-func _update_state_dead(delta) -> void:
+func _update_state_dead(_delta) -> void:
 	velocity = Vector2.ZERO
 
 

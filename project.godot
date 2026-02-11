@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Another2DTopDownGame"
-run/main_scene="uid://beyrm1r2dm8i0"
+run/main_scene="uid://bcu0ikxhccr4c"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [autoload]
@@ -168,8 +168,8 @@ hot_bar_6={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Enemy"
 2d_physics/layer_3="Environment"
-2d_physics/layer_9="PlayerHitbox"
-2d_physics/layer_10="EnemyHitbox"
+2d_physics/layer_9="PlayerHurtbox"
+2d_physics/layer_10="EnemyHurtbox"
 
 [physics]
 

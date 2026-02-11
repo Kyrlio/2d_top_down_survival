@@ -1,5 +1,7 @@
 class_name Main extends Node2D
 
+signal loading_finished
+
 const PICK_UP = preload("uid://1atsbj7ft3su")
 
 
@@ -16,6 +18,7 @@ static var corpse_layer: Node2D
 @onready var hot_bar_inventory: PanelContainer = $UI/HotBarInventory
 
 var player: Player
+var loading_finished_emitted := false
 
 
 func _ready() -> void:
@@ -41,6 +44,25 @@ func _ready() -> void:
 	# External inventory (chests)
 	for node in get_tree().get_nodes_in_group("external_inventory"):
 		node.toggle_inventory.connect(_on_inventory_toggled)
+	
+	call_deferred("_emit_loading_finished")
+
+
+func _emit_loading_finished() -> void:
+	if loading_finished_emitted:
+		return
+	loading_finished_emitted = true
+	loading_finished.emit()
+
+
+func request_loading_finished() -> void:
+	if loading_finished_emitted:
+		return
+	call_deferred("_emit_loading_finished")
+
+
+func has_loading_finished() -> bool:
+	return loading_finished_emitted
 
 
 func freeze_engine() -> void:
