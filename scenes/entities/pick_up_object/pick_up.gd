@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 		z_velocity = -z_velocity * bounce_damp
 		
 		# Stop if bounce too small
-		if z_velocity < 50.0:
+		if z_velocity < 125.0:
 			z_velocity = 0
 			is_bouncing = false
 			ground_velocity = Vector2.ZERO
@@ -69,7 +69,7 @@ func _process(delta: float) -> void:
 func launch(direction: Vector2, speed: float, initial_height: float = 20.0) -> void:
 	ground_velocity = direction * speed
 	height = initial_height
-	z_velocity = 150.0
+	z_velocity = 125.0
 	is_bouncing = true
 
 
