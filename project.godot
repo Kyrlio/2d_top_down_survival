@@ -49,6 +49,7 @@ interactable="Interactable object like NPC or Chests"
 external_inventory="Chests for example "
 trees=""
 rock=""
+ysort="Y sorted Node"
 
 [gui]
 

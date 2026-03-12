@@ -1,8 +1,8 @@
 extends Node
 
 const MAX_ROOMS: int = 15
-const ROOM_WIDTH: int = 416
-const ROOM_HEIGHT: int = 256
+const ROOM_WIDTH: int = 432
+const ROOM_HEIGHT: int = 272
 
 enum DoorDir {
 	NONE = 0,
@@ -12,17 +12,21 @@ enum DoorDir {
 	WEST = 8   # Vector2.LEFT (-1, 0)
 }
 
+@onready var player: Player = $YSort/Player
+
 @export var room_scene: PackedScene
-@export var player_scene: PackedScene
+#@export var player_scene: PackedScene
 
 var dungeon_grid: Dictionary = {} 
 var directions: Array[Vector2] = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+var y_sort_node: Node2D
 
 func _ready() -> void:
 	generate_dungeon_plan()
 	calculate_doors()
 	print_dungeon_console()
-	print(dungeon_grid)
+	#print(dungeon_grid)
+	y_sort_node = get_tree().get_first_node_in_group("ysort")
 	
 	# Build the dungeon
 	build_dungeon()
@@ -103,7 +107,8 @@ func build_dungeon() -> void:
 		room_instance.position = Vector2(pos.x * ROOM_WIDTH, pos.y * ROOM_HEIGHT)
 		
 		# 3. Ajouter la salle à la scène (GameManager ou Hub)
-		add_child(room_instance)
+		y_sort_node.add_child(room_instance)
+		#add_child(room_instance)
 		
 		# 4. Transmettre les informations à la salle pour qu'elle s'adapte
 		if room_instance.has_method("setup"):
@@ -111,7 +116,7 @@ func build_dungeon() -> void:
 
 
 func spawn_player() -> void:
-	if not player_scene:
+	if not player:
 		push_error("Player scene not assigned in dungeon generator!")
 		return
 	
@@ -122,18 +127,11 @@ func spawn_player() -> void:
 			start_pos = pos
 			break
 	
-	# Instantiate the player
-	var player_instance: Node2D = player_scene.instantiate()
-	
 	# Position the player at the center of the start room
-	player_instance.position = Vector2(
+	player.position = Vector2(
 		start_pos.x * ROOM_WIDTH + ROOM_WIDTH * 0.5,
 		start_pos.y * ROOM_HEIGHT + ROOM_HEIGHT * 0.5
 	)
-	
-	# Add the player to the scene
-	add_child(player_instance)
-	print("Player spawned at position: ", player_instance.position)
 
 
 func print_dungeon_console() -> void:

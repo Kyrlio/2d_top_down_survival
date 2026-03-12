@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cv6r23oqidnip"]
+
+[ext_resource type="Script" uid="uid://dlodsuaawuy6h" path="res://scenes/levels/dungeon_scenes/door_scenes/door_north.gd" id="1_8g5ri"]
+[ext_resource type="Texture2D" uid="uid://cymbt30411ioj" path="res://scenes/levels/dungeon_scenes/Dungeon_Tileset.png" id="1_w7gsh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfyab"]
+atlas = ExtResource("1_w7gsh")
+region = Rect2(96, 48, 32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3mo53"]
+size = Vector2(32, 16)
+
+[node name="DoorNorth" type="StaticBody2D" unique_id=1130763260]
+texture_filter = 1
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_8g5ri")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1683067615]
+texture = SubResource("AtlasTexture_dfyab")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2062912587]
+shape = SubResource("RectangleShape2D_3mo53")

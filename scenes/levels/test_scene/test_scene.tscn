@@ -6332,7 +6332,7 @@ tile_set = SubResource("TileSet_w52jh")
 [node name="CorpseLayer" type="Node2D" parent="." unique_id=2091471056]
 unique_name_in_owner = true
 
-[node name="YSort" type="Node2D" parent="." unique_id=2026749507]
+[node name="YSort" type="Node2D" parent="." unique_id=2026749507 groups=["ysort"]]
 unique_name_in_owner = true
 y_sort_enabled = true
 
