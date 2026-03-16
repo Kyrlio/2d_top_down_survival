@@ -30,17 +30,19 @@ const DIAMOND_Y_REGION: int = 400
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var region_x_size: int
+var minerals_name: Array[String] = ["Rock", "Iron", "Coal", "Gold", "Diamond"]
 
 func _ready() -> void:
 	add_to_group("rock")
+	choose_random_mineral()
 	# Dupliquer les textures pour que chaque instance soit indépendante
 	big.texture = big.texture.duplicate()
 	medium.texture = medium.texture.duplicate()
 	small.texture = small.texture.duplicate()
 	
-	animation_player.play("idle")
 	_update_size()
 	_update_mineral()
+	animation_player.play("idle")
 
 
 func _update_size() -> void:
@@ -194,6 +196,10 @@ func drop_rock() -> void:
 		await get_tree().create_timer(i * 0.05).timeout
 		if pick_up.has_method("launch"):
 			pick_up.launch(direction, speed)
+
+
+func choose_random_mineral() -> void:
+	mineral = minerals_name.pick_random()
 
 
 func _on_hurt_area_area_entered(area: Area2D) -> void:

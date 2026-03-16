@@ -23,6 +23,7 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 Cursor="*res://resources/autoload/cursor.tscn"
 InventoryManager="*uid://bu383v7mjio4j"
 PlayerManager="*uid://cck4cr4c6b2t5"
+GameEvents="*uid://dvcjh7y1avpqo"
 
 [display]
 

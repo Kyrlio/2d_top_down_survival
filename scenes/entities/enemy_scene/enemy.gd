@@ -4,6 +4,7 @@ class_name Enemy extends CharacterBody2D
 signal hit
 
 enum STATE {
+	SPAWN,
 	IDLE,
 	CHASE,
 	CONFUSED,
@@ -45,7 +46,7 @@ const COIN = preload("uid://cx1v2d5h66kjh")
 @onready var chase_again_timer: Timer = $ChaseAgainTimer
 
 
-var active_state: STATE = STATE.IDLE
+var active_state: STATE = STATE.SPAWN
 var pushback_force: Vector2 = Vector2.ZERO
 var attack_cooldown: float
 var alert_tween: Tween
@@ -54,7 +55,7 @@ var is_alerted: bool = false
 
 func _ready() -> void:
 	health_bar.setup_health_bar(health_component.max_health)
-	_switch_state(STATE.IDLE)
+	_switch_state(STATE.SPAWN)
 	hit_area.top_level = true
 	alert_sprite.scale = Vector2.ZERO
 	
@@ -81,6 +82,13 @@ func _switch_state(to_state: STATE) -> void:
 	active_state = to_state
 	
 	match active_state:
+		STATE.SPAWN:
+			var tween := create_tween()
+			tween.tween_property(visuals, "scale", Vector2.ONE, 0.4).from(Vector2.ZERO).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+			tween.finished.connect(func ():
+				_switch_state(STATE.IDLE)
+			)
+		
 		STATE.IDLE:
 			animation_player.play("idle")
 			if previous_state == STATE.RETURN:
@@ -193,6 +201,7 @@ func take_damage(amount: int) -> void:
 
 
 func _died():
+	GameEvents.emit_enemy_died()
 	_switch_state(STATE.DEAD)
 	
 

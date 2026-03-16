@@ -14,6 +14,7 @@ enum STATE {
 	CLEARED
 }
 
+@onready var doors: Node2D = $Doors
 @onready var door_north: StaticBody2D = $Doors/DoorNorth
 @onready var door_east: StaticBody2D = $Doors/DoorEast
 @onready var door_south: StaticBody2D = $Doors/DoorSouth
@@ -30,6 +31,7 @@ enum STATE {
 @onready var fog_of_war: Node2D = $FogOfWar
 
 @onready var spawn_area_2d: Area2D = %SpawnArea2D
+@onready var enemy_manager: Node = $EnemyManager
 
 
 @export var keep_discovered_room_visible: bool = true
@@ -40,11 +42,13 @@ var active_state: STATE = STATE.IDLE
 var active_doors_mask: int = 0
 
 func _ready() -> void:
+	walls.visible = true
+	doors.visible = true
+	fog_of_war.visible = true
 	vision_area.body_entered.connect(_on_vision_area_body_entered)
 	vision_area.body_exited.connect(_on_vision_area_body_exited)
 	set_fog_enabled(true)
 	call_deferred("_refresh_initial_fog_state")
-	walls.visible = true
 	spawn_area_2d.body_entered.connect(_on_spawn_area_body_entered)
 
 
@@ -135,7 +139,13 @@ func start_combat() -> void:
 	close_active_doors()
 	
 	spawn_area_2d.queue_free()
-	#spawn_enemies()
+	enemy_manager.begin_round()
+
+
+func room_cleared() -> void:
+	print("Room cleared")
+	active_state = STATE.CLEARED
+	open_active_doors()
 
 
 func close_active_doors() -> void:
@@ -151,6 +161,25 @@ func close_active_doors() -> void:
 	if active_doors_mask & DoorDir.WEST != 0:
 		door_west.process_mode = Node.PROCESS_MODE_INHERIT
 		door_west.visible = true
+
+
+func open_active_doors() -> void:
+	if active_doors_mask & DoorDir.NORTH != 0:
+		set_node_active.call_deferred(door_north, false)
+		#door_north.process_mode = Node.PROCESS_MODE_INHERIT
+		#door_north.visible = true
+	if active_doors_mask & DoorDir.EAST != 0:
+		set_node_active.call_deferred(door_east, false)
+		#door_east.process_mode = Node.PROCESS_MODE_INHERIT
+		#door_east.visible = true
+	if active_doors_mask & DoorDir.SOUTH != 0:
+		set_node_active.call_deferred(door_south, false)
+		#door_south.process_mode = Node.PROCESS_MODE_INHERIT
+		#door_south.visible = true
+	if active_doors_mask & DoorDir.WEST != 0:
+		set_node_active.call_deferred(door_west, false)
+		#door_west.process_mode = Node.PROCESS_MODE_INHERIT
+		#door_west.visible = true
 
 
 func set_fog_enabled(enabled: bool) -> void:
@@ -189,3 +218,7 @@ func _on_spawn_area_body_entered(body: Node2D) -> void:
 			if room_type == "Start":
 				return
 			start_combat()
+
+
+func get_active_state() -> STATE:
+	return active_state
