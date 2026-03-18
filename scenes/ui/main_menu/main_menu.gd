@@ -5,7 +5,7 @@ extends Control
 @export var quit_button: Button
 @export var camera: Camera2D
 
-@export var game_scene: String = "uid://beyrm1r2dm8i0"
+@export var game_scene: String = "uid://bu07ap1m14c4n"
 
 const LOADING_SCREEN_SCENE := preload("res://scenes/ui/loading_screen/loading_screen.tscn")
 

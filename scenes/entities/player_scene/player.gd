@@ -299,6 +299,7 @@ func _enter_state_hurt() -> void:
 	speed = SPEED_WALK
 	animation_player.play("hit")
 	GameCamera.shake(2)
+	GameEvents.emit_engine_freeze()
 	hit.emit()
 
 

@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bu07ap1m14c4n"]
+
+[ext_resource type="Script" uid="uid://1p3h2gih6keg" path="res://scenes/levels/main_scene/game.gd" id="1_01dkw"]
+[ext_resource type="Script" uid="uid://csiwe17axfty" path="res://components/inventory_component/inventory_interface.gd" id="2_2auu5"]
+[ext_resource type="PackedScene" uid="uid://beyrm1r2dm8i0" path="res://scenes/levels/test_scene/test_scene.tscn" id="2_okowc"]
+[ext_resource type="PackedScene" uid="uid://765aw1pqxsp3" path="res://components/inventory_component/inventory.tscn" id="3_gw5x0"]
+[ext_resource type="PackedScene" uid="uid://8ymnewlyixe4" path="res://components/inventory_component/slot.tscn" id="4_7dmyl"]
+[ext_resource type="PackedScene" uid="uid://bi8b11oo3tfbf" path="res://components/inventory_component/hot_bar_inventory.tscn" id="5_0535l"]
+
+[sub_resource type="Environment" id="Environment_ntdyk"]
+background_mode = 3
+glow_levels/2 = 0.0
+glow_intensity = 4.5
+glow_blend_mode = 2
+glow_hdr_threshold = 0.31
+adjustment_enabled = true
+adjustment_contrast = 1.1
+adjustment_saturation = 1.05
+
+[node name="Game" type="Node2D" unique_id=506574594]
+script = ExtResource("1_01dkw")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1449164464]
+environment = SubResource("Environment_ntdyk")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=382415176]
+
+[node name="InventoryInterface" type="Control" parent="UI" unique_id=729378814]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_2auu5")
+
+[node name="PlayerInventory" parent="UI/InventoryInterface" unique_id=118196970 instance=ExtResource("3_gw5x0")]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 29.0
+offset_bottom = 29.0
+
+[node name="EquipInventory" parent="UI/InventoryInterface" unique_id=651068457 instance=ExtResource("3_gw5x0")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 5.0
+offset_right = 182.0
+offset_bottom = 29.0
+
+[node name="ExternalInventory" parent="UI/InventoryInterface" unique_id=1498363022 instance=ExtResource("3_gw5x0")]
+visible = false
+layout_mode = 0
+offset_left = 5.0
+offset_top = 116.0
+offset_right = 29.0
+offset_bottom = 140.0
+
+[node name="GrabbedSlot" parent="UI/InventoryInterface" unique_id=1253265582 instance=ExtResource("4_7dmyl")]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+
+[node name="HotBarInventory" parent="UI" unique_id=1024241875 instance=ExtResource("5_0535l")]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 143.0
+offset_bottom = 33.0
+
+[node name="LevelContainer" type="Node2D" parent="." unique_id=1621012795]
+
+[node name="TestScene" parent="LevelContainer" unique_id=1707837490 instance=ExtResource("2_okowc")]
+
+[connection signal="drop_slot_data" from="UI/InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
+[connection signal="gui_input" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_gui_input"]
+[connection signal="visibility_changed" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_visibility_changed"]

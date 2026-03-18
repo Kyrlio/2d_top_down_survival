@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bpl2aobl860vx"]
+
+[ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_w2ptb"]
+[ext_resource type="Script" uid="uid://dt0xj1dtkusvn" path="res://scenes/entities/dungeon_entrance_scene/dungeon_entrance.gd" id="1_ywn0w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywn0w"]
+atlas = ExtResource("1_w2ptb")
+region = Rect2(160, 32, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rb2yh"]
+atlas = ExtResource("1_w2ptb")
+region = Rect2(208, 96, 48, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rb2yh"]
+size = Vector2(16, 6)
+
+[node name="DungeonEntrance" type="Area2D" unique_id=798044616]
+collision_layer = 0
+script = ExtResource("1_ywn0w")
+
+[node name="Door" type="Sprite2D" parent="." unique_id=105100093]
+texture = SubResource("AtlasTexture_ywn0w")
+
+[node name="Ground" type="Sprite2D" parent="." unique_id=303780733]
+position = Vector2(0, 15)
+texture = SubResource("AtlasTexture_rb2yh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1419902767]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_rb2yh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
