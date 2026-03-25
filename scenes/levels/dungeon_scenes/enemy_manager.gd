@@ -10,6 +10,7 @@ enum STATE {
 
 @export var enemies_scenes: Array[PackedScene]
 @export var spawn_rect: ReferenceRect
+@export var number_enemy_by_room: int = 5
 
 @onready var base_room: Node2D = $".."
 
@@ -24,7 +25,8 @@ func _ready() -> void:
 
 
 func begin_round() -> void:
-	for i in randi_range(5, 10):
+	spawned_enemies = 0
+	for i in randi_range(number_enemy_by_room, number_enemy_by_room+2):
 		spawn_enemy.call_deferred()
 		await get_tree().create_timer(0.1).timeout
 
@@ -42,6 +44,7 @@ func spawn_enemy() -> void:
 	var enemy_chosen = enemies_scenes.pick_random()
 	var enemy = enemy_chosen.instantiate() as Enemy
 	enemy.global_position = get_random_spawn_position()
+	enemy.z_index = 1
 	enemy_spawn_root.add_child(enemy, true)
 	spawned_enemies += 1
 
@@ -53,10 +56,14 @@ func check_room_completed() -> void:
 
 
 func _on_enemy_died() -> void:
-	spawned_enemies -= 1
-	check_room_completed()
+	# If actual room is not in combat, return
+	if get_parent().get_active_state() != STATE.COMBAT:
+		return
+	 
+	if spawned_enemies > 0:
+		spawned_enemies -= 1
+		check_room_completed()
 
 
 func _on_room_completed() -> void:
-	print("ROOM COMPLETED")
 	get_parent().room_cleared()

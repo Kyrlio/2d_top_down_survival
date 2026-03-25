@@ -24,4 +24,5 @@ func get_random_spawn_position() -> Vector2:
 func spawn_rock() -> void:
 	var rock = rock_scene.instantiate()
 	rock.global_position = get_random_spawn_position()
+	rock.z_index = 1
 	spawn_root.add_child(rock, true)

@@ -73,4 +73,5 @@ tile_set = SubResource("TileSet_jeqs7")
 y_sort_enabled = true
 
 [node name="Player" parent="YSort" unique_id=1958998675 instance=ExtResource("3_13nsj")]
+z_index = 1
 position = Vector2(-455, -313)

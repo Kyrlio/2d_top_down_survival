@@ -17,6 +17,7 @@ var player: Player
 var loading_finished_emitted := false
 var y_sort: Node2D
 var hub_scene_instance: Node
+var is_in_hub: bool = true
 
 
 func _ready() -> void:
@@ -67,8 +68,8 @@ func freeze_engine() -> void:
 
 func go_to_dungeon() -> void:
 	print("going to dungeon !")
+	is_in_hub = false
 	level_container.remove_child.call_deferred(hub_scene_instance)
-	#level_container.remove_child(hub_scene_instance)
 	
 	var dungeon_scene = preload("uid://w5eetrwr448i").instantiate()
 	
@@ -78,6 +79,7 @@ func go_to_dungeon() -> void:
 
 func return_to_hub() -> void:
 	print("Going to hub !")
+	is_in_hub = true
 	var current_dungeon = level_container.get_child(0)
 	current_dungeon.queue_free()
 	
@@ -123,6 +125,10 @@ func _on_inventory_toggled(external_inventory_owner = null) -> void:
 
 func _on_inventory_interface_drop_slot_data(slot_data: SlotData) -> void:
 	var pick_up = PICK_UP.instantiate()
+	
+	if is_in_hub:
+		pick_up.z_index = 0
+	
 	pick_up.slot_data = slot_data
 	var start_pos := player.get_drop_position()
 	pick_up.global_position = start_pos

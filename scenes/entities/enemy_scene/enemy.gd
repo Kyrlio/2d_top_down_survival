@@ -306,6 +306,7 @@ func spawn_corpse() -> void:
 			(corpse as RigidBody2D).linear_velocity = velocity
 		else:
 			(corpse as Node2D).global_position = global_position
-		var target_parent: Node2D = Level.corpse_layer if Level.corpse_layer else get_parent()
+		#var target_parent: Node2D = Level.corpse_layer if Level.corpse_layer else get_parent()
+		var target_parent: Node2D = get_tree().get_first_node_in_group("ysort")
 		if target_parent:
 			target_parent.add_child(corpse)

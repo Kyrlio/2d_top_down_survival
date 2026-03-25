@@ -134,7 +134,6 @@ func apply_room_type_logic() -> void:
 
 func start_combat() -> void:
 	active_state = STATE.COMBAT
-	print("State: COMBAT")
 	
 	close_active_doors()
 	
@@ -143,7 +142,6 @@ func start_combat() -> void:
 
 
 func room_cleared() -> void:
-	print("Room cleared")
 	active_state = STATE.CLEARED
 	open_active_doors()
 

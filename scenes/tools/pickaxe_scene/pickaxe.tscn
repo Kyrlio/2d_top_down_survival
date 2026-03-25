@@ -186,8 +186,9 @@ _data = {
 &"attack": SubResource("Animation_cfy26")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nu05w"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nu05w"]
 radius = 6.0
+height = 26.0
 
 [node name="Pickaxe" type="Node2D" unique_id=236657947]
 script = ExtResource("1_ynxrx")
@@ -213,6 +214,7 @@ offset = Vector2(1, -2)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1741933176]
-position = Vector2(28, 1)
-shape = SubResource("CircleShape2D_nu05w")
+position = Vector2(21, 1)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_nu05w")
 disabled = true
