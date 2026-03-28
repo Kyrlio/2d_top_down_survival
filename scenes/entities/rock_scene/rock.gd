@@ -18,7 +18,7 @@ const DIAMOND_Y_REGION: int = 400
 
 @export_enum("Big", "Medium", "Small") var size: String = "Big"
 @export_enum("Rock", "Iron", "Coal", "Gold", "Diamond") var mineral: String = "Rock"
-@export var rock_drop_amount: int = 2
+@export var rock_drop_amount: int = 1
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = $Visuals
@@ -153,17 +153,17 @@ func drop_rock() -> void:
 				drops.append(IRON_ITEM)
 			drops.append(ROCK_ITEM)
 		"Coal":
-			var coal_amount := randi_range(1, 4)
+			var coal_amount := randi_range(1, 3)
 			for _i in range(coal_amount):
 				drops.append(COAL_ITEM)
 			drops.append(ROCK_ITEM)
 		"Gold":
-			var gold_amount := randi_range(1, 2)
+			var gold_amount := randi_range(1, 1)
 			for _i in range(gold_amount):
 				drops.append(GOLD_ITEM)
 			drops.append(ROCK_ITEM)
 		"Diamond":
-			var diamond_amount := randi_range(1, 2)
+			var diamond_amount := randi_range(1, 1)
 			for _i in range(diamond_amount):
 				drops.append(DIAMOND_ITEM)
 			drops.append(ROCK_ITEM)

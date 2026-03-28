@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cpyt2qgskf5t5"]
+
+[ext_resource type="Texture2D" uid="uid://8qhyohfbnic2" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px_v2.png" id="1_4vufq"]
+[ext_resource type="Script" uid="uid://k6n6h5mk8chi" path="res://scenes/entities/go_deeper_scene/go_deeper.gd" id="1_pwuik"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwuik"]
+atlas = ExtResource("1_4vufq")
+region = Rect2(160, 560, 32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_odaet"]
+radius = 6.0
+
+[node name="GoDeeper" type="Area2D" unique_id=1417516568]
+script = ExtResource("1_pwuik")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1041208793]
+texture = SubResource("AtlasTexture_pwuik")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=513926961]
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_odaet")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

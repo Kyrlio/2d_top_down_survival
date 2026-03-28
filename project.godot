@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Another2DTopDownGame"
+config/name="Goblin's Gurdge"
 run/main_scene="uid://bcu0ikxhccr4c"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 

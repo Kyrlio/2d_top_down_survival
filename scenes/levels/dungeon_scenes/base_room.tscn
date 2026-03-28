@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://cx58rexrbifkv" path="res://scenes/levels/dungeon_scenes/rock_manager.gd" id="4_ckxfw"]
 [ext_resource type="PackedScene" uid="uid://xr3thm4euh7i" path="res://scenes/entities/rock_scene/rock.tscn" id="5_5oy6d"]
 [ext_resource type="Texture2D" uid="uid://ca2ln6642p02e" path="res://assets/Tileset/NavMeshPainter.png" id="5_y0wr0"]
+[ext_resource type="PackedScene" uid="uid://cdfkh6pw8e2wq" path="res://scenes/entities/return_to_hub_scene/return_to_hub.tscn" id="9_rbhe0"]
+[ext_resource type="PackedScene" uid="uid://cpyt2qgskf5t5" path="res://scenes/entities/go_deeper_scene/go_deeper.tscn" id="10_5ds7k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tp0xm"]
 texture = ExtResource("3_iru05")
@@ -2228,3 +2230,9 @@ offset_right = 388.0
 offset_bottom = 231.0
 border_color = Color(0.52521867, 0.5399203, 0.5239119, 1)
 border_width = 3.3
+
+[node name="ReturnToHub" parent="." unique_id=1038530571 instance=ExtResource("9_rbhe0")]
+position = Vector2(104, 79)
+
+[node name="GoDeeper" parent="." unique_id=1417516568 instance=ExtResource("10_5ds7k")]
+position = Vector2(287, 58)

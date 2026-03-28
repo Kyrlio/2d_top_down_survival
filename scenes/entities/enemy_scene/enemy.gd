@@ -26,7 +26,7 @@ const COIN = preload("uid://cx1v2d5h66kjh")
 @export var aggro_range: float = 90.0
 @export var attack_range: float = 25.0
 @export var knockback_force: float = 65.0
-@export var coin_drop_amount: int = 3 ## Drop between -1 and +2 coins
+@export var coin_drop_amount: int = 1 ## Drop between -1 and +2 coins
 
 @export_category("Related Scene")
 @export var death_packed: PackedScene

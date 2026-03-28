@@ -15,6 +15,7 @@ enum DoorDir {
 @onready var player: Player = $YSort/Player
 
 @export var room_scene: PackedScene
+@export var dungeon_depth: int = 1
 #@export var player_scene: PackedScene
 
 var dungeon_grid: Dictionary = {} 
@@ -112,7 +113,7 @@ func build_dungeon() -> void:
 		
 		# 4. Transmettre les informations à la salle pour qu'elle s'adapte
 		if room_instance.has_method("setup"):
-			room_instance.setup(room_data["door_mask"], room_data["type"])
+			room_instance.setup(room_data["door_mask"], room_data["type"], dungeon_depth)
 
 
 func spawn_player() -> void:

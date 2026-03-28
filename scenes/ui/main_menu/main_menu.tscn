@@ -6290,7 +6290,7 @@ offset_bottom = 89.000015
 grow_horizontal = 2
 pivot_offset = Vector2(204, 25)
 theme_override_font_sizes/font_size = 48
-text = "GAME NAME"
+text = "Goblin's Grudge"
 horizontal_alignment = 1
 vertical_alignment = 1
 

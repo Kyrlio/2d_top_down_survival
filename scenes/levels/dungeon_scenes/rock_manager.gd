@@ -8,8 +8,14 @@ var spawn_root: Node2D
 
 func _ready() -> void:
 	spawn_root = get_tree().get_first_node_in_group("ysort")
+
+
+func start_for_room(room_type: String) -> void:
+	if room_type == "Start" or room_type == "Boss":
+		return
+	
 	for i in range(2, 5):
-		spawn_rock()
+		_spawn_rock()
 
 
 ## Get a random position in the spawn rectangle
@@ -21,7 +27,7 @@ func get_random_spawn_position() -> Vector2:
 
 
 ## Spawn one rock at a random location in the spawn rectangle
-func spawn_rock() -> void:
+func _spawn_rock() -> void:
 	var rock = rock_scene.instantiate()
 	rock.global_position = get_random_spawn_position()
 	rock.z_index = 1

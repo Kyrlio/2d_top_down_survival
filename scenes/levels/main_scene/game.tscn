@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1p3h2gih6keg" path="res://scenes/levels/main_scene/game.gd" id="1_01dkw"]
 [ext_resource type="Script" uid="uid://csiwe17axfty" path="res://components/inventory_component/inventory_interface.gd" id="2_2auu5"]
+[ext_resource type="PackedScene" uid="uid://ct6p2qgh1gdss" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="2_gw5x0"]
 [ext_resource type="PackedScene" uid="uid://beyrm1r2dm8i0" path="res://scenes/levels/test_scene/test_scene.tscn" id="2_okowc"]
 [ext_resource type="PackedScene" uid="uid://765aw1pqxsp3" path="res://components/inventory_component/inventory.tscn" id="3_gw5x0"]
 [ext_resource type="PackedScene" uid="uid://8ymnewlyixe4" path="res://components/inventory_component/slot.tscn" id="4_7dmyl"]
@@ -69,6 +70,9 @@ offset_left = 5.0
 offset_top = 5.0
 offset_right = 143.0
 offset_bottom = 33.0
+
+[node name="PauseMenu" parent="UI" unique_id=392066145 instance=ExtResource("2_gw5x0")]
+visible = false
 
 [node name="LevelContainer" type="Node2D" parent="." unique_id=1621012795]
 

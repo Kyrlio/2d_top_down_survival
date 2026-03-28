@@ -32,6 +32,10 @@ enum STATE {
 
 @onready var spawn_area_2d: Area2D = %SpawnArea2D
 @onready var enemy_manager: Node = $EnemyManager
+@onready var rock_manager: Node = $RockManager
+@onready var spawn_rect: ReferenceRect = $SpawnArea/SpawnRect
+@onready var return_to_hub_portal: Area2D = $ReturnToHub
+@onready var go_deeper_portal: Area2D = $GoDeeper
 
 
 @export var keep_discovered_room_visible: bool = true
@@ -40,20 +44,31 @@ enum STATE {
 var room_type: String = ""
 var active_state: STATE = STATE.IDLE
 var active_doors_mask: int = 0
+var dungeon_depth: int = 1
+
+const ROOM_CENTER_LOCAL := Vector2(208, 128)
+const PORTAL_MARGIN := 24.0
+const MIN_DIST_FROM_PLAYER := 56.0
+const MIN_DIST_FROM_CENTER := 72.0
+const MIN_DIST_BETWEEN_PORTALS := 96.0
+const PORTAL_SPAWN_MAX_ATTEMPTS := 50
 
 func _ready() -> void:
 	walls.visible = true
 	doors.visible = true
 	fog_of_war.visible = true
+	set_fog_enabled(true)
+	_set_boss_portals_enabled(false)
+	call_deferred("_refresh_initial_fog_state")
+	
 	vision_area.body_entered.connect(_on_vision_area_body_entered)
 	vision_area.body_exited.connect(_on_vision_area_body_exited)
-	set_fog_enabled(true)
-	call_deferred("_refresh_initial_fog_state")
 	spawn_area_2d.body_entered.connect(_on_spawn_area_body_entered)
 
 
-func setup(mask: int, type: String) -> void:
+func setup(mask: int, type: String, depth: int = 1) -> void:
 	room_type = type
+	dungeon_depth = max(1, depth)
 	active_doors_mask = mask
 	
 	# --- GESTION DU NORD ---
@@ -122,14 +137,27 @@ func set_node_active(node: Node, active: bool) -> void:
 func apply_room_type_logic() -> void:
 	match room_type:
 		"Start":
-			# Exemple : ne pas spawner d'ennemies
-			pass
+			_setup_start_room()
 		"Boss":
-			# Exemple : spawn boss
-			pass
+			_setup_boss_room()
 		"Normal":
-			# Exemple : spawner ennemis aléatoire
-			pass
+			_setup_normal_room()
+
+
+func _setup_start_room() -> void:
+	_set_boss_portals_enabled(false)
+	pass
+
+
+func _setup_boss_room() -> void:
+	_set_boss_portals_enabled(false)
+	pass
+
+
+func _setup_normal_room() -> void:
+	_set_boss_portals_enabled(false)
+	# Spawning rocks in the room
+	rock_manager.start_for_room(room_type)
 
 
 func start_combat() -> void:
@@ -138,12 +166,15 @@ func start_combat() -> void:
 	close_active_doors()
 	
 	spawn_area_2d.queue_free()
-	enemy_manager.begin_round()
+	enemy_manager.begin_round(dungeon_depth)
 
 
 func room_cleared() -> void:
 	active_state = STATE.CLEARED
 	open_active_doors()
+
+	if room_type == "Boss":
+		_spawn_boss_portals()
 
 
 func close_active_doors() -> void:
@@ -220,3 +251,81 @@ func _on_spawn_area_body_entered(body: Node2D) -> void:
 
 func get_active_state() -> STATE:
 	return active_state
+
+
+func _set_boss_portals_enabled(enabled: bool) -> void:
+	for portal in [return_to_hub_portal, go_deeper_portal]:
+		portal.visible = enabled
+		portal.set_deferred("monitoring", enabled)
+		portal.set_deferred("monitorable", enabled)
+
+
+func _spawn_boss_portals() -> void:
+	var first_pos := _find_valid_portal_position([])
+	if first_pos == Vector2.INF:
+		first_pos = ROOM_CENTER_LOCAL + Vector2(-100, 0)
+
+	var second_pos := _find_valid_portal_position([first_pos])
+
+	# Fallback if constraints are too strict in one frame.
+	if second_pos == Vector2.INF:
+		second_pos = first_pos + Vector2(MIN_DIST_BETWEEN_PORTALS, 0)
+
+	return_to_hub_portal.position = first_pos
+	go_deeper_portal.position = second_pos
+	_set_boss_portals_enabled(true)
+
+
+func _find_valid_portal_position(existing_positions: Array[Vector2]) -> Vector2:
+	var playable_rect := Rect2(spawn_rect.position + Vector2(PORTAL_MARGIN, PORTAL_MARGIN), spawn_rect.size - Vector2(PORTAL_MARGIN * 2.0, PORTAL_MARGIN * 2.0))
+	var center_global := to_global(ROOM_CENTER_LOCAL)
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+
+	for _i in PORTAL_SPAWN_MAX_ATTEMPTS:
+		var candidate := Vector2(
+			randf_range(playable_rect.position.x, playable_rect.position.x + playable_rect.size.x),
+			randf_range(playable_rect.position.y, playable_rect.position.y + playable_rect.size.y)
+		)
+
+		var candidate_global := to_global(candidate)
+
+		if player and candidate_global.distance_to(player.global_position) < MIN_DIST_FROM_PLAYER:
+			continue
+
+		if candidate_global.distance_to(center_global) < MIN_DIST_FROM_CENTER:
+			continue
+
+		var too_close := false
+		for existing in existing_positions:
+			if candidate.distance_to(existing) < MIN_DIST_BETWEEN_PORTALS:
+				too_close = true
+				break
+
+		if too_close:
+			continue
+
+		return candidate
+
+	# Deterministic fallback positions near room corners.
+	var fallback_candidates: Array[Vector2] = [
+		playable_rect.position,
+		Vector2(playable_rect.position.x + playable_rect.size.x, playable_rect.position.y),
+		Vector2(playable_rect.position.x, playable_rect.position.y + playable_rect.size.y),
+		playable_rect.position + playable_rect.size
+	]
+
+	for candidate in fallback_candidates:
+		var candidate_global := to_global(candidate)
+		if player and candidate_global.distance_to(player.global_position) < MIN_DIST_FROM_PLAYER:
+			continue
+		if candidate_global.distance_to(center_global) < MIN_DIST_FROM_CENTER:
+			continue
+		var ok := true
+		for existing in existing_positions:
+			if candidate.distance_to(existing) < MIN_DIST_BETWEEN_PORTALS:
+				ok = false
+				break
+		if ok:
+			return candidate
+
+	return Vector2.INF

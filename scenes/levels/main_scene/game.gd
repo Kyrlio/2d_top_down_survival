@@ -12,12 +12,30 @@ static var corpse_layer: Node2D
 @onready var inventory_interface: Control = %InventoryInterface
 @onready var hot_bar_inventory: PanelContainer = %HotBarInventory
 @onready var level_container: Node2D = $LevelContainer
+@onready var pause_menu: PauseMenu = $UI/PauseMenu
+
+const DUNGEON_SCENE: PackedScene = preload("uid://w5eetrwr448i")
 
 var player: Player
 var loading_finished_emitted := false
 var y_sort: Node2D
 var hub_scene_instance: Node
 var is_in_hub: bool = true
+var is_pause_menu_open: bool = false
+var is_level_transitioning: bool = false
+var current_dungeon_depth: int = 1
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("escape"):
+		get_viewport().set_input_as_handled()
+	
+		# Close inventory first
+		if inventory_interface.visible and not is_pause_menu_open:
+			_on_inventory_toggled()
+			return
+		
+		_toggle_pause_menu()
 
 
 func _ready() -> void:
@@ -26,8 +44,16 @@ func _ready() -> void:
 	
 	hub_scene_instance = level_container.get_child(0)
 	
+	# Game Events signals
 	GameEvents.engine_freeze_requested.connect(freeze_engine)
 	GameEvents.dungeon_entered_requested.connect(go_to_dungeon)
+	GameEvents.go_deeper_requested.connect(go_deeper)
+	GameEvents.return_to_hub_requested.connect(return_to_hub)
+	
+	# Pause menu
+	pause_menu.resume_requested.connect(_resume_game)
+	pause_menu.settings_requested.connect(_open_settings)
+	pause_menu.quit_requested.connect(_quit_game)
 	
 	# Player Inventory
 	_bind_player_inventory(player)
@@ -67,24 +93,75 @@ func freeze_engine() -> void:
 
 
 func go_to_dungeon() -> void:
-	print("going to dungeon !")
+	if is_level_transitioning:
+		return
+
+	current_dungeon_depth = 1
 	is_in_hub = false
-	level_container.remove_child.call_deferred(hub_scene_instance)
-	
-	var dungeon_scene = preload("uid://w5eetrwr448i").instantiate()
-	
+	is_level_transitioning = true
+
+	if hub_scene_instance and hub_scene_instance.get_parent() == level_container:
+		level_container.remove_child.call_deferred(hub_scene_instance)
+
+	await get_tree().process_frame
+
+	var dungeon_scene = DUNGEON_SCENE.instantiate()
+	dungeon_scene.dungeon_depth = current_dungeon_depth
 	level_container.add_child.call_deferred(dungeon_scene)
-	call_deferred("_refresh_runtime_bindings")
+	await _refresh_runtime_bindings()
+	is_level_transitioning = false
+
+
+func go_deeper() -> void:
+	if is_level_transitioning:
+		return
+
+	current_dungeon_depth += 1
+	is_in_hub = false
+	is_level_transitioning = true
+
+	var current_dungeon := _get_current_level()
+	if current_dungeon:
+		current_dungeon.queue_free.call_deferred()
+
+	await get_tree().process_frame
+	
+	# TODO : Scalable enemies : modify hp, strength, count
+	var dungeon_scene = DUNGEON_SCENE.instantiate()
+	dungeon_scene.dungeon_depth = current_dungeon_depth
+	level_container.add_child.call_deferred(dungeon_scene)
+	await _refresh_runtime_bindings()
+	is_level_transitioning = false
 
 
 func return_to_hub() -> void:
-	print("Going to hub !")
+	if is_level_transitioning:
+		return
+
+	current_dungeon_depth = 1
 	is_in_hub = true
-	var current_dungeon = level_container.get_child(0)
-	current_dungeon.queue_free()
+	is_level_transitioning = true
+
+	var current_dungeon := _get_current_level()
+	if current_dungeon and current_dungeon != hub_scene_instance:
+		current_dungeon.queue_free.call_deferred()
+
+	await get_tree().process_frame
 	
-	level_container.add_child(hub_scene_instance)
-	call_deferred("_refresh_runtime_bindings")
+	
+	if hub_scene_instance and hub_scene_instance.get_parent() == null:
+		level_container.add_child.call_deferred(hub_scene_instance)
+
+	await _refresh_runtime_bindings()
+	is_level_transitioning = false
+	
+	player.global_position = Vector2.ZERO
+
+
+func _get_current_level() -> Node:
+	if level_container.get_child_count() == 0:
+		return null
+	return level_container.get_child(0)
 
 
 func _bind_player_inventory(new_player: Player) -> void:
@@ -144,3 +221,34 @@ func _on_inventory_interface_drop_slot_data(slot_data: SlotData) -> void:
 	
 	if pick_up.has_method("launch"):
 		pick_up.launch(player.get_effective_aim(), 50.0)
+
+
+func _toggle_pause_menu() -> void:
+	if get_tree().paused:
+		_resume_game()
+	else:
+		_pause_game()
+
+
+func _pause_game() -> void:
+	get_tree().paused = true
+	is_pause_menu_open = true
+	pause_menu.visible = true
+	#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	#pause_menu.focus_first_button()
+
+
+func _resume_game() -> void:
+	get_tree().paused = false
+	is_pause_menu_open = false
+	pause_menu.visible = false
+	#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func _open_settings() -> void:
+	pass
+
+
+func _quit_game() -> void:
+	_resume_game()
+	get_tree().quit()

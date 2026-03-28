@@ -4,7 +4,7 @@ const PICK_UP = preload("uid://1atsbj7ft3su")
 const WOOD_ITEM = preload("uid://duvhdbndkcyr4")
 const TREE_PARTICLES = preload("uid://cix77i6se7tak")
 
-@export var wood_drop_amount: int = 5
+@export var wood_drop_amount: int = 2
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var health_component: HealthComponent = $HealthComponent
