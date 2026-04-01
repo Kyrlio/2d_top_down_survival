@@ -1,5 +1,5 @@
 @icon("uid://47471th1ui0o")
-class_name Enemy extends CharacterBody2D
+extends CharacterBody2D
 
 signal hit
 

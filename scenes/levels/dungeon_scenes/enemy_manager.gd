@@ -41,7 +41,7 @@ func begin_round(depth: int = 1) -> void:
 	var max_count := min_count + 2 + depth_bonus * extra_rolls_per_depth
 	for i in randi_range(min_count, max_count):
 		spawn_enemy.call_deferred()
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.01).timeout
 
 
 ## Get a random position in the spawn rectangle

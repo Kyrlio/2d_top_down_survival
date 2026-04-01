@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://7jtamgi5g7r7"]
 
-[ext_resource type="Script" uid="uid://dsvde8v8bx5iv" path="res://scenes/entities/player_scene/player.gd" id="1_2q4ud"]
+[ext_resource type="Script" uid="uid://dsvde8v8bx5iv" path="res://scenes/entities/player/player.gd" id="1_2q4ud"]
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="1_w8ad2"]
 [ext_resource type="Texture2D" uid="uid://bhy6xjkbtfqy5" path="res://assets/Characters/Human/IDLE/base_idle_strip9.png" id="2_rf8gt"]
 [ext_resource type="Resource" uid="uid://vdtbhxtx8b3j" path="res://test_inv.tres" id="2_x1s51"]
@@ -1183,7 +1183,7 @@ shake_strength = 10.0
 
 [node name="HealthComponent" parent="." unique_id=605682889 instance=ExtResource("8_51as7")]
 unique_name_in_owner = true
-max_health = 30
+max_health = 10000
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=345044178]
 modulate = Color(1, 1, 1, 0.5882353)

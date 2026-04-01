@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://baihwwrdo7fkr"]
 
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_fu2wd"]
-[ext_resource type="Script" uid="uid://dofcm46cv220v" path="res://scenes/entities/tree_scene/tree.gd" id="1_ph4qh"]
+[ext_resource type="Script" uid="uid://dofcm46cv220v" path="res://scenes/entities/tree/tree.gd" id="1_ph4qh"]
 [ext_resource type="Texture2D" uid="uid://ceuqoep24tll" path="res://assets/Elements/Plants/spr_deco_tree_01_strip4.png" id="2_jlsbp"]
 [ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="5_fy4rw"]
 

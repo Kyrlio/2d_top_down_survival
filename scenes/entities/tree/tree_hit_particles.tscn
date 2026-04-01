@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cix77i6se7tak"]
 
 [ext_resource type="Texture2D" uid="uid://b4ghgiagssgfq" path="res://assets/Elements/VFX/leaf.png" id="1_52eh2"]
-[ext_resource type="Script" uid="uid://bx7a4tv038mmx" path="res://scenes/entities/tree_scene/tree_hit_particles.gd" id="1_rip2n"]
+[ext_resource type="Script" uid="uid://bx7a4tv038mmx" path="res://scenes/entities/tree/tree_hit_particles.gd" id="1_rip2n"]
 
 [sub_resource type="Curve" id="Curve_rip2n"]
 _data = [Vector2(0, 0.47802198), 0.0, 0.0, 0, 0, Vector2(0.24776788, 1), 0.0, 0.0, 0, 0, Vector2(0.5044643, 1), 0.0, -0.13675205, 1, 0, Vector2(1, 0), 0.14269793, 0.0, 0, 0]

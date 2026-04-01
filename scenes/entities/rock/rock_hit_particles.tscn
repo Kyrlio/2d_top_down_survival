@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dd375ap5o3gtu"]
 
-[ext_resource type="Script" uid="uid://cul5ukhalolyi" path="res://scenes/entities/rock_scene/rock_hit_particles.gd" id="1_r181x"]
+[ext_resource type="Script" uid="uid://cul5ukhalolyi" path="res://scenes/entities/rock/rock_hit_particles.gd" id="1_r181x"]
 
 [sub_resource type="Curve" id="Curve_u4027"]
 _data = [Vector2(0, 0.4835165), 0.0, 0.0, 0, 0, Vector2(0.107142866, 1), 0.0, 0.0, 0, 0, Vector2(0.7388393, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

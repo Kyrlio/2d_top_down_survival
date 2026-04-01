@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cdfkh6pw8e2wq"]
 
-[ext_resource type="Script" uid="uid://b83m3cbsbkp67" path="res://scenes/entities/return_to_hub_scene/return_to_hub.gd" id="1_dtd1u"]
+[ext_resource type="Script" uid="uid://b83m3cbsbkp67" path="res://scenes/entities/return_to_hub/return_to_hub.gd" id="1_dtd1u"]
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_dyxh5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dtd1u"]

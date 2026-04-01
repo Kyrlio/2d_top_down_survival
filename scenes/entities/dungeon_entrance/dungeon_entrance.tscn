@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bpl2aobl860vx"]
 
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_w2ptb"]
-[ext_resource type="Script" uid="uid://dt0xj1dtkusvn" path="res://scenes/entities/dungeon_entrance_scene/dungeon_entrance.gd" id="1_ywn0w"]
+[ext_resource type="Script" uid="uid://dt0xj1dtkusvn" path="res://scenes/entities/dungeon_entrance/dungeon_entrance.gd" id="1_ywn0w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ywn0w"]
 atlas = ExtResource("1_w2ptb")

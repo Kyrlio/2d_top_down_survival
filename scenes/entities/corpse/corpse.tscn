@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://mwfnfkya6aqp"]
 
-[ext_resource type="Script" uid="uid://cwhn3ccxdmbf5" path="res://scenes/entities/corpse_scene/corpse.gd" id="1_gjd8f"]
+[ext_resource type="Script" uid="uid://cwhn3ccxdmbf5" path="res://scenes/entities/corpse/corpse.gd" id="1_gjd8f"]
 [ext_resource type="Texture2D" uid="uid://clcl08r3a4srt" path="res://assets/Elements/Crops/skeleton_skull.png" id="1_tyhtv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gjd8f"]

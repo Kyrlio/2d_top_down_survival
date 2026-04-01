@@ -2,18 +2,19 @@
 
 [ext_resource type="Script" uid="uid://d1nidmgi2fv0a" path="res://scenes/levels/level.gd" id="1_88e55"]
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_widsn"]
-[ext_resource type="PackedScene" uid="uid://7jtamgi5g7r7" path="res://scenes/entities/player_scene/player.tscn" id="2_88e55"]
+[ext_resource type="PackedScene" uid="uid://7jtamgi5g7r7" path="res://scenes/entities/player/player.tscn" id="2_88e55"]
 [ext_resource type="Texture2D" uid="uid://ca2ln6642p02e" path="res://assets/Tileset/NavMeshPainter.png" id="3_qelss"]
+[ext_resource type="PackedScene" uid="uid://bdt3kn8bir633" path="res://scenes/entities/enemies/enemy_charger/enemy_charger.tscn" id="4_a11f7"]
 [ext_resource type="PackedScene" uid="uid://klhq3uqfcuhr" path="res://scenes/interactable/chest/chest.tscn" id="9_k6jje"]
 [ext_resource type="Script" uid="uid://ca4sfqhm1305q" path="res://components/inventory_component/inventory_data_equip.gd" id="10_a11f7"]
 [ext_resource type="Script" uid="uid://hrmydbr77vkh" path="res://components/inventory_component/inventory_data.gd" id="10_w52jh"]
 [ext_resource type="Script" uid="uid://dpu5vnxymo6op" path="res://components/inventory_component/slot_data.gd" id="11_fagb8"]
 [ext_resource type="Resource" uid="uid://cahhtwha76a12" path="res://resources/tools/weapons/sword.tres" id="14_qrrpx"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="15_0wwx2"]
-[ext_resource type="PackedScene" uid="uid://bpl2aobl860vx" path="res://scenes/entities/dungeon_entrance_scene/dungeon_entrance.tscn" id="15_a11f7"]
+[ext_resource type="PackedScene" uid="uid://bpl2aobl860vx" path="res://scenes/entities/dungeon_entrance/dungeon_entrance.tscn" id="15_a11f7"]
 [ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="16_xq1y4"]
-[ext_resource type="PackedScene" uid="uid://xr3thm4euh7i" path="res://scenes/entities/rock_scene/rock.tscn" id="18_qrrpx"]
-[ext_resource type="PackedScene" uid="uid://baihwwrdo7fkr" path="res://scenes/entities/tree_scene/tree.tscn" id="19_0wwx2"]
+[ext_resource type="PackedScene" uid="uid://xr3thm4euh7i" path="res://scenes/entities/rock/rock.tscn" id="18_qrrpx"]
+[ext_resource type="PackedScene" uid="uid://baihwwrdo7fkr" path="res://scenes/entities/tree/tree.tscn" id="19_0wwx2"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_88e55"]
 tile_data = PackedInt32Array(0, 720896, 18, 65536, 720896, 19, 131072, 720896, 20, 196608, 720896, 21, 1, 786432, 18, 65537, 786432, 19, 131073, 786432, 20, 196609, 786432, 21, 2, 851968, 18, 65538, 851968, 19, 131074, 851968, 20, 196610, 851968, 21, 3, 917504, 18, 65539, 917504, 19, 131075, 917504, 20, 196611, 917504, 21)
@@ -6277,6 +6278,11 @@ y_sort_enabled = true
 [node name="Enemies" type="Node2D" parent="YSort" unique_id=1157246298]
 unique_name_in_owner = true
 y_sort_enabled = true
+
+[node name="EnemyNormal" parent="YSort/Enemies" unique_id=1573969078 instance=ExtResource("4_a11f7")]
+charge_windup_min = 0.3
+charge_windup_max = 0.5
+attack_damage = 500
 
 [node name="Cliffs" type="TileMapLayer" parent="YSort" unique_id=1880037796]
 y_sort_enabled = true

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://xr3thm4euh7i"]
 
-[ext_resource type="Script" uid="uid://dmfe7iukd1nge" path="res://scenes/entities/rock_scene/rock.gd" id="1_5sdrd"]
+[ext_resource type="Script" uid="uid://dmfe7iukd1nge" path="res://scenes/entities/rock/rock.gd" id="1_5sdrd"]
 [ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="2_tssbb"]
 
 [sub_resource type="Animation" id="Animation_mxru5"]
