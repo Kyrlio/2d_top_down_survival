@@ -22,20 +22,19 @@ enum STATE {
 
 @onready var base_room: Node2D = $".."
 
-var spawned_enemies: int
+var active_enemies: Array[Enemy] = []
 var enemy_spawn_root: Node2D
 var current_depth: int = 1
 
 
 func _ready() -> void:
 	enemy_spawn_root = get_tree().get_first_node_in_group("ysort")
-	GameEvents.enemy_died.connect(_on_enemy_died)
 	room_completed.connect(_on_room_completed)
 
 
 func begin_round(depth: int = 1) -> void:
 	current_depth = max(1, depth)
-	spawned_enemies = 0
+	active_enemies.clear()
 	var depth_bonus := current_depth - 1
 	var min_count := number_enemy_by_room + depth_bonus * enemies_per_depth
 	var max_count := min_count + 2 + depth_bonus * extra_rolls_per_depth
@@ -59,8 +58,11 @@ func spawn_enemy() -> void:
 	_apply_depth_scaling(enemy)
 	enemy.global_position = get_random_spawn_position()
 	enemy.z_index = 1
+	var health_component := enemy.get_node_or_null("HealthComponent") as HealthComponent
+	if health_component:
+		health_component.died.connect(_on_specific_enemy_died.bind(enemy))
+	active_enemies.append(enemy)
 	enemy_spawn_root.add_child(enemy, true)
-	spawned_enemies += 1
 
 
 func _apply_depth_scaling(enemy: Enemy) -> void:
@@ -88,17 +90,17 @@ func _apply_depth_scaling(enemy: Enemy) -> void:
 
 ## Check if the room is completed (all enemies are dead) and emit the signal
 func check_room_completed() -> void:
-	if spawned_enemies <= 0 and get_parent().get_active_state() == STATE.COMBAT:
+	if active_enemies.is_empty() and get_parent().get_active_state() == STATE.COMBAT:
 		room_completed.emit()
 
 
-func _on_enemy_died() -> void:
+func _on_specific_enemy_died(enemy: Enemy) -> void:
 	# If actual room is not in combat, return
 	if get_parent().get_active_state() != STATE.COMBAT:
 		return
 	 
-	if spawned_enemies > 0:
-		spawned_enemies -= 1
+	if active_enemies.has(enemy):
+		active_enemies.erase(enemy)
 		check_room_completed()
 
 

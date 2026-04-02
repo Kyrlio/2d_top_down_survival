@@ -20,20 +20,7 @@ var _charge_direction: Vector2 = Vector2.ZERO
 
 
 func can_start_attack() -> bool:
-	return attack_cooldown <= 0.0 and distance_to_player() <= aggro_range and can_see_player()
-
-
-func exit_attack_state() -> void:
-	velocity = Vector2.ZERO
-	_charge_phase = ChargePhase.NONE
-	_phase_timer = 0.0
-	_charge_direction = Vector2.ZERO
-	
-	if alert_tween != null and alert_tween.is_valid():
-		alert_tween.kill()
-	
-	alert_tween = create_tween()
-	alert_tween.tween_property(alert_sprite, "scale", Vector2.ZERO, .2).set_ease(Tween.EASE_IN).set_trans(Tween.TransitionType.TRANS_BACK)
+	return attack_cooldown <= 0.0 and distance_to_player() <= aggro_range / 3 and can_see_player()
 
 
 func update_facing_direction() -> void:
@@ -44,7 +31,7 @@ func update_facing_direction() -> void:
 
 
 
-# ---------------------------- ENTER STATES -----------------------------
+# ---------------------------- STATES -----------------------------
 
 func _enter_state_attack() -> void:
 	if alert_tween != null and alert_tween.is_valid():
@@ -65,13 +52,6 @@ func _enter_state_attack() -> void:
 		animation_player.play("idle")
 
 
-
-
-
-
-
-
-# ---------------------- PROCESS STATES -------------------------
 
 func _update_state_attack(delta: float) -> void:
 	match _charge_phase:
@@ -108,3 +88,16 @@ func _update_state_attack(delta: float) -> void:
 		_:
 			hit_area.enabled(false)
 			super.switch_state(STATE.IDLE)
+
+
+func exit_attack_state() -> void:
+	velocity = Vector2.ZERO
+	_charge_phase = ChargePhase.NONE
+	_phase_timer = 0.0
+	_charge_direction = Vector2.ZERO
+	
+	if alert_tween != null and alert_tween.is_valid():
+		alert_tween.kill()
+	
+	alert_tween = create_tween()
+	alert_tween.tween_property(alert_sprite, "scale", Vector2.ZERO, .2).set_ease(Tween.EASE_IN).set_trans(Tween.TransitionType.TRANS_BACK)

@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_amskr")
-heal_value = 5
+heal_value = 10
 name = "Health Potion"
 description = "Heal the player"
 stackable = true
