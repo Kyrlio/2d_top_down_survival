@@ -7,10 +7,14 @@ func _ready() -> void:
 	monitorable = false
 
 
-func _on_area_entered(hit_area: HitArea2D) -> void:
-	if hit_area == null:
+func _on_area_entered(area: Area2D) -> void:
+	#print("HurtArea2D _on_area_entered triggered!")
+	#print("Entered area: ", area.name, " of type ", area.get_class(), " layer: ", area.collision_layer)
+	if not area.has_method("get_damage") or area == null:
 		return
-
+	
+	var hit_area: HitArea2D = area as HitArea2D
+	
 	# Logic to resolve friendly fire
 	var attacker_node = hit_area
 	var attack_from_same_team: bool = false

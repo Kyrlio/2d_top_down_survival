@@ -233,6 +233,7 @@ func heal(heal_value: int) -> void:
 func _enter_state_idle() -> void:
 	is_walking = false
 	running_particles.emitting = false
+	animation_player.speed_scale = 1.0
 	animation_player.play("idle")
 
 
@@ -267,7 +268,10 @@ func _enter_state_roll() -> void:
 ## Handles logic when entering the ATTACK state.
 func _enter_state_attack() -> void:
 	speed = SPEED_ATTACK
-	animation_player.speed_scale = 1.0
+	if current_tool and "attack_speed" in current_tool:
+		animation_player.speed_scale = current_tool.attack_speed
+	else:
+		animation_player.speed_scale = 1.0
 	running_particles.emitting = false
 	is_walking = false
 	
@@ -292,11 +296,16 @@ func _enter_state_parry() -> void:
 	if current_tool is Sword:
 		speed = SPEED_ATTACK
 		can_parry = false
+		if current_tool and "attack_speed" in current_tool:
+			animation_player.speed_scale = current_tool.attack_speed
+		else:
+			animation_player.speed_scale = 1.0
 		current_tool.animation_player.play("parry")
 
 
 func _enter_state_hurt() -> void:
 	speed = SPEED_WALK
+	animation_player.speed_scale = 1.0
 	animation_player.play("hit")
 	GameCamera.shake(2)
 	GameEvents.emit_engine_freeze()

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_widsn"]
 [ext_resource type="PackedScene" uid="uid://7jtamgi5g7r7" path="res://scenes/entities/player/player.tscn" id="2_88e55"]
 [ext_resource type="Texture2D" uid="uid://ca2ln6642p02e" path="res://assets/Tileset/NavMeshPainter.png" id="3_qelss"]
-[ext_resource type="PackedScene" uid="uid://djdaf24rk5uud" path="res://scenes/entities/enemies/enemy_jumper/enemy_jumper.tscn" id="4_a11f7"]
+[ext_resource type="PackedScene" uid="uid://bq58lq6fgveqe" path="res://scenes/entities/enemies/enemy_normal/enemy_normal.tscn" id="4_a11f7"]
 [ext_resource type="PackedScene" uid="uid://klhq3uqfcuhr" path="res://scenes/interactable/chest/chest.tscn" id="9_k6jje"]
 [ext_resource type="Script" uid="uid://ca4sfqhm1305q" path="res://components/inventory_component/inventory_data_equip.gd" id="10_a11f7"]
 [ext_resource type="Script" uid="uid://hrmydbr77vkh" path="res://components/inventory_component/inventory_data.gd" id="10_w52jh"]
@@ -6279,12 +6279,7 @@ y_sort_enabled = true
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="EnemyJumper" parent="YSort/Enemies" unique_id=1573969078 instance=ExtResource("4_a11f7")]
-jump_windup_min = 0.6
-jump_windup_max = 1.0
-jump_speed = 200.0
-jump_height = 50.0
-jump_cooldown = 5.0
+[node name="EnemyNormal" parent="YSort/Enemies" unique_id=1573969078 instance=ExtResource("4_a11f7")]
 
 [node name="Cliffs" type="TileMapLayer" parent="YSort" unique_id=1880037796]
 y_sort_enabled = true

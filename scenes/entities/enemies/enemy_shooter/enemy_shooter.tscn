@@ -1,18 +1,16 @@
-[gd_scene format=3 uid="uid://djdaf24rk5uud"]
+[gd_scene format=3 uid="uid://b45df45fsc0ci"]
 
-[ext_resource type="Script" uid="uid://bg4yehmspp7un" path="res://scenes/entities/enemies/enemy_jumper/enemy_jumper.gd" id="1_t1fsv"]
-[ext_resource type="Texture2D" uid="uid://clcl08r3a4srt" path="res://assets/Elements/Crops/skeleton_skull.png" id="2_nb4xn"]
-[ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="3_5ojso"]
-[ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="4_k12pm"]
-[ext_resource type="Texture2D" uid="uid://b1svvitam1nnb" path="res://assets/UI/expression_alerted.png" id="5_kvnli"]
-[ext_resource type="Texture2D" uid="uid://sjjhyuf1dtud" path="res://assets/UI/expression_confused.png" id="6_xsagx"]
-[ext_resource type="Texture2D" uid="uid://ygsk1fsshnas" path="res://assets/Characters/Jumper/EXPLOSION.png" id="7_3w6j5"]
-[ext_resource type="Texture2D" uid="uid://b7vbq2rutnce5" path="res://assets/Characters/Jumper/enemy_medium_green.png" id="7_ki8no"]
-[ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="7_vrxxg"]
-[ext_resource type="Texture2D" uid="uid://d2wfkvkr6ym40" path="res://assets/Characters/Jumper/SmokeFX Lite SpriteSheet 4A-2.png" id="8_ftai5"]
-[ext_resource type="Script" uid="uid://d146s0230glem" path="res://components/hurtarea2d.gd" id="8_p853k"]
-[ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="9_slehn"]
-[ext_resource type="PackedScene" uid="uid://b6t2fl85tnm78" path="res://components/health_bar_component/custom_health_bar.tscn" id="10_toxhs"]
+[ext_resource type="Script" uid="uid://cvtyduth8u60k" path="res://scenes/entities/enemies/enemy_shooter/enemy_shooter.gd" id="1_ikhs5"]
+[ext_resource type="Texture2D" uid="uid://clcl08r3a4srt" path="res://assets/Elements/Crops/skeleton_skull.png" id="2_gthtp"]
+[ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="3_cwcne"]
+[ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="4_ttltu"]
+[ext_resource type="Texture2D" uid="uid://b1svvitam1nnb" path="res://assets/UI/expression_alerted.png" id="5_f1tar"]
+[ext_resource type="Texture2D" uid="uid://sjjhyuf1dtud" path="res://assets/UI/expression_confused.png" id="6_oaun0"]
+[ext_resource type="Texture2D" uid="uid://ojvpyvwgunqj" path="res://assets/Characters/Shooter/enemy_small_purple.png" id="7_06s44"]
+[ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="10_tgwqp"]
+[ext_resource type="Script" uid="uid://d146s0230glem" path="res://components/hurtarea2d.gd" id="11_cj6m0"]
+[ext_resource type="Texture2D" uid="uid://b06lb6rabhl7v" path="res://assets/Elements/VFX/Chimney Smoke/particles.png" id="12_liuun"]
+[ext_resource type="PackedScene" uid="uid://b6t2fl85tnm78" path="res://components/health_bar_component/custom_health_bar.tscn" id="13_nd2aa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3y3vp"]
 radius = 4.0
@@ -31,54 +29,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0.75, 0.75)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../ExplosionSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../SmokeSprite:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../ExplosionSprite:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../SmokeSprite:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_ji48u"]
 resource_name = "attack"
@@ -91,72 +41,10 @@ tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.4),
+"times": PackedFloat32Array(0, 0.1, 0.3),
 "transitions": PackedFloat32Array(2, 1, 1),
 "update": 0,
-"values": [Vector2(0.75, 0.75), Vector2(1, 0.4), Vector2(0.75, 0.75)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../ExplosionSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45000002, 0.5, 0.55),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../SmokeSprite:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../ExplosionSprite:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../SmokeSprite:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/5/type = "method"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("%HitArea2D")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [false],
-"method": &"enabled"
-}]
+"values": [Vector2(1, 1), Vector2(0.65, 1), Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_nvo3h"]
@@ -216,30 +104,6 @@ tracks/1/keys = {
 "method": &"restart"
 }]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../ExplosionSprite:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../SmokeSprite:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_edex2"]
 resource_name = "idle"
@@ -262,7 +126,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.75, 0.75), Vector2(1.1, 0.5), Vector2(0.6, 0.8)]
+"values": [Vector2(1, 1), Vector2(1.2, 0.8), Vector2(0.9, 1.1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_edex2"]
@@ -277,12 +141,13 @@ _data = {
 &"walk": SubResource("Animation_4ebyg")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ki8no"]
-radius = 7.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nu2re"]
+radius = 4.0
+height = 10.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3y3vp"]
-radius = 8.0
-height = 20.0
+radius = 5.0
+height = 12.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dmdta"]
 particles_animation = true
@@ -311,13 +176,12 @@ color = Color(0.89411765, 0.23137255, 0.26666668, 1)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[node name="EnemyJumper" type="CharacterBody2D" unique_id=1573969078]
+[node name="EnemyShooter" type="CharacterBody2D" unique_id=1573969078]
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("1_t1fsv")
-speed = 15
+script = ExtResource("1_ikhs5")
 aggro_range = 400.0
-death_sprite = ExtResource("2_nb4xn")
+death_sprite = ExtResource("2_gthtp")
 
 [node name="ChargeAttackTimer" type="Timer" parent="." unique_id=1709841929]
 wait_time = 0.5
@@ -337,8 +201,9 @@ root_node = NodePath("../Visuals/Sprite2D")
 libraries/ = SubResource("AnimationLibrary_edex2")
 autoplay = &"idle"
 
-[node name="HealthComponent" parent="." unique_id=605682889 instance=ExtResource("3_5ojso")]
+[node name="HealthComponent" parent="." unique_id=605682889 instance=ExtResource("3_cwcne")]
 unique_name_in_owner = true
+max_health = 50
 
 [node name="DamageSpawningPoint" type="Marker2D" parent="." unique_id=821841481]
 unique_name_in_owner = true
@@ -359,38 +224,27 @@ modulate = Color(1, 1, 1, 0.5882353)
 texture_filter = 1
 position = Vector2(8.940697e-08, 2.9802322e-08)
 scale = Vector2(0.85, 0.85)
-texture = ExtResource("4_k12pm")
+texture = ExtResource("4_ttltu")
 
 [node name="AlertSprite" type="Sprite2D" parent="." unique_id=463250543]
 unique_name_in_owner = true
-position = Vector2(0, -22)
-texture = ExtResource("5_kvnli")
+position = Vector2(0, -20)
+texture = ExtResource("5_f1tar")
 
 [node name="ConfusedSprite" type="Sprite2D" parent="." unique_id=1421826100]
 unique_name_in_owner = true
 position = Vector2(0, -22)
 scale = Vector2(1e-05, 1e-05)
-texture = ExtResource("6_xsagx")
+texture = ExtResource("6_oaun0")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=2107223252]
 unique_name_in_owner = true
 
-[node name="ExplosionSprite" type="Sprite2D" parent="Visuals" unique_id=1800989552]
-visible = false
-position = Vector2(6, 1)
-texture = ExtResource("7_3w6j5")
-hframes = 12
-
-[node name="SmokeSprite" type="Sprite2D" parent="Visuals" unique_id=670152288]
-visible = false
-position = Vector2(-1, -7)
-texture = ExtResource("8_ftai5")
-hframes = 16
-
 [node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=907102379]
+position = Vector2(0, 4)
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("7_ki8no")
-offset = Vector2(0, -11.5)
+texture = ExtResource("7_06s44")
+offset = Vector2(0, -12)
 
 [node name="HandPivot" type="Node2D" parent="Visuals" unique_id=991082097]
 unique_name_in_owner = true
@@ -407,23 +261,23 @@ position = Vector2(-0.5, 5)
 collision_layer = 512
 monitoring = false
 monitorable = false
-script = ExtResource("7_vrxxg")
+script = ExtResource("10_tgwqp")
 metadata/_custom_type_script = "uid://cmy826k35rpkn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visuals/HandPivot/HitArea2D" unique_id=1359520043]
-position = Vector2(0, -7)
-shape = SubResource("CircleShape2D_ki8no")
+position = Vector2(0, -5)
+shape = SubResource("CapsuleShape2D_nu2re")
 disabled = true
 debug_color = Color(0.96862745, 0, 0.25490198, 0.41960785)
 
 [node name="HurtArea2D" type="Area2D" parent="." unique_id=1259344001]
 collision_layer = 2
 collision_mask = 256
-script = ExtResource("8_p853k")
+script = ExtResource("11_cj6m0")
 metadata/_custom_type_script = "uid://d146s0230glem"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="HurtArea2D" unique_id=197404104]
-position = Vector2(0, -8)
+position = Vector2(0, -5)
 shape = SubResource("CapsuleShape2D_3y3vp")
 debug_color = Color(0.13725491, 0.7254902, 0.20392157, 0.41960785)
 
@@ -433,7 +287,7 @@ material = SubResource("CanvasItemMaterial_dmdta")
 position = Vector2(0, -4)
 emitting = false
 amount = 6
-texture = ExtResource("9_slehn")
+texture = ExtResource("12_liuun")
 lifetime = 0.25
 one_shot = true
 preprocess = 0.03
@@ -443,9 +297,9 @@ fixed_fps = 0
 interpolate = false
 process_material = SubResource("ParticleProcessMaterial_4ebyg")
 
-[node name="CustomHealthBar" parent="." unique_id=846173630 instance=ExtResource("10_toxhs")]
+[node name="CustomHealthBar" parent="." unique_id=846173630 instance=ExtResource("13_nd2aa")]
 unique_name_in_owner = true
-offset_top = -22.999996
-offset_bottom = -12.999996
+offset_top = -21.0
+offset_bottom = -11.0
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

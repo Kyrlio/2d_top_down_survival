@@ -18,7 +18,11 @@ func get_damage() -> int:
 func set_damage(amount: int) -> void:
 	damage = amount
 
+
 func enabled(enabled: bool) -> void:
 	monitorable = enabled
 	monitoring = enabled
 	cshape.disabled = !enabled
+	if enabled:
+		position.x += 0.0001
+		position.x -= 0.0001

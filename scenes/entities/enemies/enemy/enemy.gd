@@ -62,7 +62,7 @@ func _ready() -> void:
 	health_bar.setup_health_bar(health_component.max_health)
 	switch_state(STATE.SPAWN)
 	if hit_area:
-		hit_area.top_level = true
+		#hit_area.top_level = true
 		hit_area.set_damage(attack_damage)
 	if alert_sprite:
 		alert_sprite.scale = Vector2.ZERO
@@ -107,8 +107,8 @@ func _ensure_dependencies() -> bool:
 
 func _process(delta: float) -> void:
 	_process_state(delta)
-	if hit_area:
-		hit_area.global_position = global_position
+	# if hit_area:
+	# 	hit_area.global_position = global_position
 	
 	# Knockback
 	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10.0)

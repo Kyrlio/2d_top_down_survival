@@ -677,7 +677,6 @@ collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_qx6it")
 speed = 35
-aggro_range = 300.0
 death_sprite = ExtResource("2_ji48u")
 
 [node name="ChaseAgainTimer" type="Timer" parent="." unique_id=452084888]

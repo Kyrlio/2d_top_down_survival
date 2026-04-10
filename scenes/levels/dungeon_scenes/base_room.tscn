@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://xr3thm4euh7i" path="res://scenes/entities/rock/rock.tscn" id="5_5oy6d"]
 [ext_resource type="PackedScene" uid="uid://djdaf24rk5uud" path="res://scenes/entities/enemies/enemy_jumper/enemy_jumper.tscn" id="5_dcpte"]
 [ext_resource type="Texture2D" uid="uid://ca2ln6642p02e" path="res://assets/Tileset/NavMeshPainter.png" id="5_y0wr0"]
+[ext_resource type="PackedScene" uid="uid://b45df45fsc0ci" path="res://scenes/entities/enemies/enemy_shooter/enemy_shooter.tscn" id="6_18rqk"]
 [ext_resource type="PackedScene" uid="uid://cdfkh6pw8e2wq" path="res://scenes/entities/return_to_hub/return_to_hub.tscn" id="9_rbhe0"]
 [ext_resource type="PackedScene" uid="uid://cpyt2qgskf5t5" path="res://scenes/entities/go_deeper/go_deeper.tscn" id="10_5ds7k"]
 [ext_resource type="PackedScene" uid="uid://bdt3kn8bir633" path="res://scenes/entities/enemies/enemy_charger/enemy_charger.tscn" id="17_0mgb4"]
@@ -2030,7 +2031,7 @@ script = ExtResource("1_dfyab")
 
 [node name="EnemyManager" type="Node" parent="." unique_id=2012384337 node_paths=PackedStringArray("spawn_rect")]
 script = ExtResource("2_mtsib")
-enemies_scenes = Array[PackedScene]([ExtResource("17_0mgb4"), ExtResource("3_rbhe0"), ExtResource("5_dcpte")])
+enemies_scenes = Array[PackedScene]([ExtResource("17_0mgb4"), ExtResource("3_rbhe0"), ExtResource("5_dcpte"), ExtResource("6_18rqk")])
 spawn_rect = NodePath("../SpawnArea/SpawnRect")
 
 [node name="RockManager" type="Node" parent="." unique_id=1212917785 node_paths=PackedStringArray("spawn_rect")]

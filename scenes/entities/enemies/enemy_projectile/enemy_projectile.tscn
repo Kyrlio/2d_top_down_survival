@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://cvcwdj3ps86ke"]
+
+[ext_resource type="Script" uid="uid://bxak2qh0gt2ve" path="res://scenes/entities/enemies/enemy_projectile/enemy_projectile.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="2_cpo6h"]
+[ext_resource type="Texture2D" uid="uid://b4luujvfoi84n" path="res://assets/Elements/Crops/beetroot_00.png" id="2_fq4d8"]
+[ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="3_hitarea"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_proj"]
+radius = 4.0
+
+[sub_resource type="Animation" id="Animation_055a4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shadow:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cpo6h"]
+resource_name = "idle"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(1.5, 1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shadow:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.75, 0.75)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_055a4"]
+_data = {
+&"RESET": SubResource("Animation_055a4"),
+&"idle": SubResource("Animation_cpo6h")
+}
+
+[node name="EnemyProjectile" type="Area2D" unique_id=1665539100]
+y_sort_enabled = true
+collision_layer = 0
+collision_mask = 256
+script = ExtResource("1_script")
+lifetime = 10.0
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1533770410]
+modulate = Color(1, 1, 1, 0.54509807)
+position = Vector2(0, 6)
+texture = ExtResource("2_cpo6h")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1342722855]
+scale = Vector2(2, 2)
+texture = ExtResource("2_fq4d8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1202134580]
+shape = SubResource("CircleShape2D_proj")
+
+[node name="HitArea2D" type="Area2D" parent="." unique_id=2054193264]
+position = Vector2(0, -1)
+collision_layer = 512
+collision_mask = 256
+monitoring = false
+monitorable = false
+script = ExtResource("3_hitarea")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea2D" unique_id=680148788]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_proj")
+debug_color = Color(0.968627, 0, 0.254902, 0.419608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1193066141]
+libraries/ = SubResource("AnimationLibrary_055a4")
+autoplay = &"idle"
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
