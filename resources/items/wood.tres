@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_nmid8")
 name = "wood"
+description = "Maybe useful"
 stackable = true
 texture = ExtResource("2_w3n26")
 metadata/_custom_type_script = "uid://b2lapaned0s6f"

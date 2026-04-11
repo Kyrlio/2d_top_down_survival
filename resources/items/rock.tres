@@ -10,6 +10,7 @@ region = Rect2(880, 480, 16, 16)
 [resource]
 script = ExtResource("1_k5y8h")
 name = "rock"
+description = "CAILLOU"
 stackable = true
 texture = SubResource("AtlasTexture_g10cq")
 metadata/_custom_type_script = "uid://b2lapaned0s6f"

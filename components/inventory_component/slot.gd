@@ -2,6 +2,10 @@ extends PanelContainer
 
 signal slot_clicked(index: int, button: int)
 
+const TOOLTIP_SCENE = preload("res://components/inventory_component/item_tooltip.tscn")
+
+var current_item_data: ItemData
+
 @onready var texture_rect: TextureRect = $MarginContainer/TextureRect
 @onready var quantity_label: Label = $QuantityLabel
 
@@ -9,14 +13,23 @@ signal slot_clicked(index: int, button: int)
 
 func set_slot_data(slot_data: SlotData) -> void:
 	var item_data = slot_data.item_data
+	current_item_data = item_data
 	texture_rect.texture = item_data.texture
-	tooltip_text = "%s\n%s" % [item_data.name, item_data.description]
+	tooltip_text = " " # Active the tooltip but we use our custom one
 	
 	if slot_data.quantity > 1:
 		quantity_label.text = "x%s" % slot_data.quantity
 		quantity_label.show()
 	else:
 		quantity_label.hide()
+
+
+func _make_custom_tooltip(for_text: String) -> Object:
+	if current_item_data == null:
+		return null
+	var tooltip = TOOLTIP_SCENE.instantiate()
+	tooltip.set_tooltip_data(current_item_data)
+	return tooltip
 
 
 func animate_pop() -> void:

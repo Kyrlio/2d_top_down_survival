@@ -3,6 +3,7 @@
 [ext_resource type="FontFile" uid="uid://b6ufirkgogsl7" path="res://assets/Fonts/TinyPixie2.ttf" id="1_d4nwg"]
 [ext_resource type="Texture2D" uid="uid://4414ehum75ac" path="res://assets/UI/9slice_box_white/dt_box.png" id="2_7ct1h"]
 [ext_resource type="Texture2D" uid="uid://dacc4dp8fnlep" path="res://assets/UI/9slice_box_white/w_box.png" id="2_886mr"]
+[ext_resource type="FontFile" uid="uid://dpcxh8o2qt17q" path="res://assets/Fonts/monogram-extended.ttf" id="4_b751m"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b751m"]
 load_path = "res://.godot/imported/dt_box.png-d334d3bedc6d3c1ba8a4ea261a83c90b.ctex"
@@ -79,7 +80,8 @@ Button/styles/hover = SubResource("StyleBoxTexture_aaf3v")
 Button/styles/normal = SubResource("StyleBoxTexture_7ct1h")
 Button/styles/pressed = SubResource("StyleBoxTexture_dhnw2")
 Label/colors/font_outline_color = Color(0.09019608, 0.078431375, 0.14117648, 1)
-Label/constants/outline_size = 4
-Label/fonts/font = ExtResource("1_d4nwg")
+Label/constants/line_spacing = 0
+Label/constants/outline_size = 2
+Label/fonts/font = ExtResource("4_b751m")
 Panel/styles/panel = SubResource("StyleBoxTexture_886mr")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_886mr")

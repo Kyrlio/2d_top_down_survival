@@ -167,12 +167,12 @@ func _get_current_level() -> Node:
 func _bind_player_inventory(new_player: Player) -> void:
 	if not new_player:
 		return
-
+	
 	if player and player != new_player and player.toggle_inventory.is_connected(_on_inventory_toggled):
 		player.toggle_inventory.disconnect(_on_inventory_toggled)
-
+	
 	player = new_player
-
+	
 	if not player.toggle_inventory.is_connected(_on_inventory_toggled):
 		player.toggle_inventory.connect(_on_inventory_toggled)
 

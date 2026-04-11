@@ -9,5 +9,6 @@ script = ExtResource("1_qys3g")
 tool_scene = ExtResource("3_uqkqw")
 base_damage = 50
 name = "Sword"
+description = "SWORD GOES SWISH SWISH"
 texture = ExtResource("2_egsda")
 metadata/_custom_type_script = "uid://cuflfmppf2vl5"
