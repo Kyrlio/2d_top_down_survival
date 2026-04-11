@@ -157,7 +157,7 @@ func _setup_boss_room() -> void:
 func _setup_normal_room() -> void:
 	_set_boss_portals_enabled(false)
 	# Spawning rocks in the room
-	rock_manager.start_for_room(room_type)
+	rock_manager.start_for_room(room_type, dungeon_depth)
 
 
 func start_combat() -> void:

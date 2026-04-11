@@ -182,6 +182,15 @@ func _refresh_runtime_bindings() -> void:
 	var active_player := get_tree().get_first_node_in_group("player") as Player
 	_bind_player_inventory(active_player)
 	y_sort = get_tree().get_first_node_in_group("ysort") as Node2D
+	
+	if hot_bar_inventory.selected_slot_index != -1:
+		var slot_data = active_player.inventory_data.slot_datas[hot_bar_inventory.selected_slot_index]
+		if slot_data and slot_data.item_data is ItemDataTool:
+			active_player.equip_tool(slot_data.item_data)
+		else:
+			active_player.equip_hand()
+	else:
+		active_player.equip_hand()
 
 
 func _on_inventory_toggled(external_inventory_owner = null) -> void:

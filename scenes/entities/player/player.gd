@@ -134,7 +134,7 @@ func equip_tool(tool_data: ItemDataTool) -> void:
 		tool.add_child(current_tool)
 		
 		if current_tool.has_method("setup"):
-			current_tool.setup(self)
+			current_tool.setup(self, tool_data)
 	else:
 		equip_hand()
 

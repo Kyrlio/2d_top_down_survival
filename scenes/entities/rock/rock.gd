@@ -34,7 +34,6 @@ var minerals_name: Array[String] = ["Rock", "Iron", "Coal", "Gold", "Diamond"]
 
 func _ready() -> void:
 	add_to_group("rock")
-	choose_random_mineral()
 	# Dupliquer les textures pour que chaque instance soit indépendante
 	big.texture = big.texture.duplicate()
 	medium.texture = medium.texture.duplicate()

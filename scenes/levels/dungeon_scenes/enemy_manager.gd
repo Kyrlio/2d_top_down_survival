@@ -21,6 +21,11 @@ enum STATE {
 @export var cooldown_multiplier_per_depth: float = 0.03
 @export var loot_bonus_per_depth: int = 1
 
+const ENEMY_NORMAL_SCENE = preload("res://scenes/entities/enemies/enemy_normal/enemy_normal.tscn")
+const ENEMY_SHOOTER_SCENE = preload("res://scenes/entities/enemies/enemy_shooter/enemy_shooter.tscn")
+const ENEMY_CHARGER_SCENE = preload("res://scenes/entities/enemies/enemy_charger/enemy_charger.tscn")
+const ENEMY_JUMPER_SCENE = preload("res://scenes/entities/enemies/enemy_jumper/enemy_jumper.tscn")
+
 @onready var base_room: Node2D = $".."
 
 var active_enemies: Array[Enemy] = []
@@ -52,9 +57,42 @@ func get_random_spawn_position() -> Vector2:
 	return spawn_rect.global_position + Vector2(x, y)
 
 
+func _get_random_enemy_for_depth(depth: int) -> PackedScene:
+	var pool: Array[Dictionary] = []
+	
+	if depth <= 1:
+		pool.append({"scene": ENEMY_NORMAL_SCENE, "weight": 100})
+	elif depth == 2:
+		pool.append({"scene": ENEMY_NORMAL_SCENE, "weight": 80})
+		pool.append({"scene": ENEMY_SHOOTER_SCENE, "weight": 20})
+	elif depth == 3:
+		pool.append({"scene": ENEMY_NORMAL_SCENE, "weight": 40})
+		pool.append({"scene": ENEMY_SHOOTER_SCENE, "weight": 25})
+		pool.append({"scene": ENEMY_CHARGER_SCENE, "weight": 35})
+	else:
+		pool.append({"scene": ENEMY_NORMAL_SCENE, "weight": 35})
+		pool.append({"scene": ENEMY_SHOOTER_SCENE, "weight": 20})
+		pool.append({"scene": ENEMY_CHARGER_SCENE, "weight": 25})
+		pool.append({"scene": ENEMY_JUMPER_SCENE, "weight": 20})
+		
+	var total_weight := 0
+	for item in pool:
+		total_weight += item["weight"] as int
+		
+	var random_val := randi() % total_weight
+	var current_weight := 0
+	
+	for item in pool:
+		current_weight += item["weight"] as int
+		if random_val < current_weight:
+			return item["scene"] as PackedScene
+			
+	return ENEMY_NORMAL_SCENE
+
+
 ## Spawn one enemy at a random location in the spawn rectangle
 func spawn_enemy() -> void:
-	var enemy_chosen = enemies_scenes.pick_random()
+	var enemy_chosen = _get_random_enemy_for_depth(current_depth)
 	var enemy = enemy_chosen.instantiate() as Enemy
 	_apply_depth_scaling(enemy)
 	enemy.global_position = get_random_spawn_position()
