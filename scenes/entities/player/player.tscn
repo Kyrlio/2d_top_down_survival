@@ -1232,6 +1232,17 @@ color = Color(0.89411765, 0.23137255, 0.26666668, 1)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
+[sub_resource type="Gradient" id="Gradient_knby6"]
+offsets = PackedFloat32Array(0, 0.089058526, 0.47328246, 0.55979645, 0.6666667, 0.7684478)
+colors = PackedColorArray(1, 1, 1, 1, 0.5583942, 0.5583942, 0.5583942, 1, 0.12616438, 0.12616438, 0.12616438, 1, 0.064515874, 0.064515874, 0.064515874, 1, 0.018222038, 0.018222038, 0.018222038, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_18p7g"]
+gradient = SubResource("Gradient_knby6")
+width = 200
+height = 200
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Player" type="CharacterBody2D" unique_id=1958998675 groups=["player"]]
 collision_mask = 4
 motion_mode = 1
@@ -1366,6 +1377,13 @@ offset_left = -9.0
 offset_top = -23.999996
 offset_right = 80.99999
 offset_bottom = -13.999996
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1294296065]
+position = Vector2(0, -5)
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 1.5
+texture = SubResource("GradientTexture2D_18p7g")
 
 [connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
 [connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]

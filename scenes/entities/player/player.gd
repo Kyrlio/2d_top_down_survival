@@ -61,6 +61,7 @@ const HAIRS: Dictionary = {
 @onready var interact_area: Area2D = %InteractArea
 @onready var low_health_ui: Sprite2D = $CanvasLayer/LowHealthUI
 @onready var health_ui_anim_player: AnimationPlayer = $CanvasLayer/HealthUIAnimPlayer
+@onready var point_light: PointLight2D = $PointLight2D
 
 var pushback_force: Vector2 = Vector2.ZERO
 
@@ -226,6 +227,9 @@ func heal(heal_value: int) -> void:
 	health_component.heal(heal_value)
 	health_bar.change_value(health_component.current_health)
 
+
+func enable_point_light(enabled: bool) -> void:
+	point_light.enabled = enabled
 
 # ---------------------------- STATE ENTRY LOGIC ----------------------------------------------------------------------------------------------
 
@@ -462,8 +466,8 @@ func _check_common_state_transitions() -> void:
 	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 		#print(active_state)
 		switch_state(STATE.ATTACK)
-	if Input.is_action_just_pressed("parry"):
-		switch_state(STATE.PARRY)
+	#if Input.is_action_just_pressed("parry"):
+		#switch_state(STATE.PARRY)
 
 
 ## Update the player's aiming direction and visual orientation (flip)

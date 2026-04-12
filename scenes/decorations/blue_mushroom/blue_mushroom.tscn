@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://c5fm1sdrnk4fv"]
+
+[ext_resource type="Script" uid="uid://1ge61tvrmiqn" path="res://scenes/decorations/blue_mushroom/blue_mushroom.gd" id="1_0g5tx"]
+[ext_resource type="Texture2D" uid="uid://oy6lxlp1ukgo" path="res://assets/Elements/Plants/spr_deco_mushroom_blue_01_strip4.png" id="1_en4gs"]
+[ext_resource type="Texture2D" uid="uid://djg515yvkjp78" path="res://assets/spotlight.png" id="3_h8knc"]
+
+[node name="BlueMushroom" type="Node2D" unique_id=711291837]
+script = ExtResource("1_0g5tx")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=664631004]
+texture = ExtResource("1_en4gs")
+offset = Vector2(2, -5)
+hframes = 4
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1658989148]
+position = Vector2(0, -3)
+color = Color(0.24313726, 0.96862745, 1, 1)
+energy = 0.4
+shadow_enabled = false
+texture = ExtResource("3_h8knc")

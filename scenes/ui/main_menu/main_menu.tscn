@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bocyfviytryrw" path="res://scenes/ui/animated_button/animated_button.tscn" id="3_qt1dd"]
 [ext_resource type="PackedScene" uid="uid://baihwwrdo7fkr" path="res://scenes/entities/tree/tree.tscn" id="4_tk7lu"]
 [ext_resource type="PackedScene" uid="uid://xr3thm4euh7i" path="res://scenes/entities/rock/rock.tscn" id="5_chxti"]
+[ext_resource type="FontFile" uid="uid://b6ufirkgogsl7" path="res://assets/Fonts/TinyPixie2.ttf" id="7_8ouhi"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_88e55"]
 tile_data = PackedInt32Array(0, 720896, 18, 65536, 720896, 19, 131072, 720896, 20, 196608, 720896, 21, 1, 786432, 18, 65537, 786432, 19, 131073, 786432, 20, 196609, 786432, 21, 2, 851968, 18, 65538, 851968, 19, 131074, 851968, 20, 196610, 851968, 21, 3, 917504, 18, 65539, 917504, 19, 131075, 917504, 20, 196611, 917504, 21)
@@ -6289,6 +6290,7 @@ offset_right = 204.0
 offset_bottom = 89.000015
 grow_horizontal = 2
 pivot_offset = Vector2(204, 25)
+theme_override_fonts/font = ExtResource("7_8ouhi")
 theme_override_font_sizes/font_size = 48
 text = "Goblin's Grudge"
 horizontal_alignment = 1

@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://ddge251uk2u20"]
+
+[ext_resource type="Texture2D" uid="uid://daanxp4qfc0t5" path="res://assets/Elements/Crops/wood.png" id="1_1orlu"]
+[ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="1_8uc2o"]
+[ext_resource type="Texture2D" uid="uid://bsu1ev2ue1y8q" path="res://assets/Elements/VFX/Fire/spr_deco_fire_01_strip4.png" id="2_8uc2o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu5j8"]
+atlas = ExtResource("2_8uc2o")
+region = Rect2(0, 0, 5, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm6hu"]
+atlas = ExtResource("2_8uc2o")
+region = Rect2(5, 0, 5, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpb3f"]
+atlas = ExtResource("2_8uc2o")
+region = Rect2(10, 0, 5, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2d4o0"]
+atlas = ExtResource("2_8uc2o")
+region = Rect2(15, 0, 5, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5kj5e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eu5j8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm6hu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hpb3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2d4o0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_1orlu"]
+offsets = PackedFloat32Array(0.07888041, 0.6183206)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8uc2o"]
+gradient = SubResource("Gradient_1orlu")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[node name="Torch" type="Node2D" unique_id=1006287656]
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=978387451]
+self_modulate = Color(1, 1, 1, 0.50980395)
+texture = ExtResource("1_8uc2o")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1768375362]
+position = Vector2(0, -6)
+rotation = 0.7853982
+texture = ExtResource("1_1orlu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=922292495]
+position = Vector2(0, -14)
+sprite_frames = SubResource("SpriteFrames_5kj5e")
+autoplay = "default"
+frame_progress = 0.8112694
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1873753463]
+position = Vector2(0, -10)
+color = Color(0.99607843, 0.68235296, 0.20392157, 1)
+energy = 0.5
+shadow_filter_smooth = 1.0
+texture = SubResource("GradientTexture2D_8uc2o")

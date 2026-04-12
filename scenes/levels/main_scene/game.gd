@@ -66,6 +66,8 @@ func _ready() -> void:
 	for node in get_tree().get_nodes_in_group("external_inventory"):
 		node.toggle_inventory.connect(_on_inventory_toggled)
 	
+	player.enable_point_light(false)
+	
 	call_deferred("_emit_loading_finished")
 
 
@@ -95,16 +97,18 @@ func freeze_engine() -> void:
 func go_to_dungeon() -> void:
 	if is_level_transitioning:
 		return
-
+	
+	player.enable_point_light(true)
+	
 	current_dungeon_depth = 1
 	is_in_hub = false
 	is_level_transitioning = true
-
+	
 	if hub_scene_instance and hub_scene_instance.get_parent() == level_container:
 		level_container.remove_child.call_deferred(hub_scene_instance)
-
+	
 	await get_tree().process_frame
-
+	
 	var dungeon_scene = DUNGEON_SCENE.instantiate()
 	dungeon_scene.dungeon_depth = current_dungeon_depth
 	level_container.add_child.call_deferred(dungeon_scene)
@@ -115,15 +119,17 @@ func go_to_dungeon() -> void:
 func go_deeper() -> void:
 	if is_level_transitioning:
 		return
-
+	
+	player.enable_point_light(true)
+	
 	current_dungeon_depth += 1
 	is_in_hub = false
 	is_level_transitioning = true
-
+	
 	var current_dungeon := _get_current_level()
 	if current_dungeon:
 		current_dungeon.queue_free.call_deferred()
-
+	
 	await get_tree().process_frame
 	
 	# TODO : Scalable enemies : modify hp, strength, count
@@ -137,15 +143,17 @@ func go_deeper() -> void:
 func return_to_hub() -> void:
 	if is_level_transitioning:
 		return
-
+	
+	player.enable_point_light(false)
+	
 	current_dungeon_depth = 1
 	is_in_hub = true
 	is_level_transitioning = true
-
+	
 	var current_dungeon := _get_current_level()
 	if current_dungeon and current_dungeon != hub_scene_instance:
 		current_dungeon.queue_free.call_deferred()
-
+	
 	await get_tree().process_frame
 	
 	

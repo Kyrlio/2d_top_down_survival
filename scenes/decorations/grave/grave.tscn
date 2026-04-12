@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://gapoxq0cgrpa"]
+
+[ext_resource type="Texture2D" uid="uid://be3eirojyp4cj" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_aho5y"]
+[ext_resource type="Script" uid="uid://dalhue4v7iect" path="res://scenes/decorations/grave/grave.gd" id="1_d7iaj"]
+[ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="2_b1fda"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7iaj"]
+resource_local_to_scene = true
+atlas = ExtResource("1_aho5y")
+region = Rect2(752, 256, 16, 16)
+
+[node name="Grave" type="Node2D" unique_id=1018984358]
+script = ExtResource("1_d7iaj")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1361235815]
+self_modulate = Color(1, 1, 1, 0.6039216)
+position = Vector2(0, 2)
+texture = ExtResource("2_b1fda")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=721156805]
+texture = SubResource("AtlasTexture_d7iaj")
+offset = Vector2(0, -6)

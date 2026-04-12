@@ -10,12 +10,14 @@
 
 [sub_resource type="Environment" id="Environment_ntdyk"]
 background_mode = 3
+tonemap_mode = 1
+glow_enabled = true
 glow_levels/2 = 0.0
-glow_intensity = 4.5
+glow_intensity = 1.14
+glow_bloom = 0.2
 glow_blend_mode = 2
-glow_hdr_threshold = 0.31
 adjustment_enabled = true
-adjustment_contrast = 1.1
+adjustment_contrast = 1.025
 adjustment_saturation = 1.05
 
 [node name="Game" type="Node2D" unique_id=506574594]

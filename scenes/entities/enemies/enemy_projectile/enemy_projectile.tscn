@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ttds0guvw5rw" path="res://assets/Characters/Shadow.png" id="2_cpo6h"]
 [ext_resource type="Texture2D" uid="uid://b4luujvfoi84n" path="res://assets/Elements/Crops/beetroot_00.png" id="2_fq4d8"]
 [ext_resource type="Script" uid="uid://cmy826k35rpkn" path="res://components/hitarea2d.gd" id="3_hitarea"]
+[ext_resource type="Texture2D" uid="uid://djg515yvkjp78" path="res://assets/spotlight.png" id="5_055a4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_proj"]
 radius = 4.0
@@ -105,5 +106,10 @@ debug_color = Color(0.968627, 0, 0.254902, 0.419608)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1193066141]
 libraries/ = SubResource("AnimationLibrary_055a4")
 autoplay = &"idle"
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1982056784]
+color = Color(1, 0.1882353, 0.11764706, 1)
+texture = ExtResource("5_055a4")
+texture_scale = 0.5
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

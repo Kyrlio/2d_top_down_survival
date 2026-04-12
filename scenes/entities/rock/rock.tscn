@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dmfe7iukd1nge" path="res://scenes/entities/rock/rock.gd" id="1_5sdrd"]
 [ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="2_tssbb"]
+[ext_resource type="Texture2D" uid="uid://djg515yvkjp78" path="res://assets/spotlight.png" id="3_xppi7"]
 
 [sub_resource type="Animation" id="Animation_mxru5"]
 length = 0.001
@@ -301,5 +302,12 @@ offset = Vector2(0, -4)
 [node name="Big" type="Sprite2D" parent="Visuals" unique_id=1121074818]
 texture = SubResource("AtlasTexture_3lgo4")
 offset = Vector2(0, -4)
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=2107966123]
+energy = 0.2
+shadow_enabled = false
+shadow_filter = 1
+texture = ExtResource("3_xppi7")
+texture_scale = 1.5
 
 [connection signal="area_entered" from="HurtArea2D" to="." method="_on_hurt_area_area_entered"]

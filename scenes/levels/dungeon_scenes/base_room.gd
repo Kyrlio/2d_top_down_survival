@@ -26,7 +26,7 @@ enum STATE {
 @onready var wall_south: StaticBody2D = $Walls/WallSouth
 @onready var wall_west: StaticBody2D = $Walls/WallWest
 
-@onready var fog_mask: TileMapLayer = %FogMask
+@onready var fog_mask: TextureRect = %FogMask
 @onready var vision_area: Area2D = %VisionArea
 @onready var fog_of_war: Node2D = $FogOfWar
 
@@ -36,6 +36,8 @@ enum STATE {
 @onready var spawn_rect: ReferenceRect = $SpawnArea/SpawnRect
 @onready var return_to_hub_portal: Area2D = $ReturnToHub
 @onready var go_deeper_portal: Area2D = $GoDeeper
+@onready var decoration_manager: Node = $DecorationManager
+@onready var canvas_modulate: CanvasModulate = $CanvasModulate
 
 
 @export var keep_discovered_room_visible: bool = true
@@ -56,8 +58,9 @@ const PORTAL_SPAWN_MAX_ATTEMPTS := 50
 func _ready() -> void:
 	walls.visible = true
 	doors.visible = true
-	fog_of_war.visible = true
+	#fog_of_war.visible = true
 	set_fog_enabled(true)
+	canvas_modulate.visible = true
 	_set_boss_portals_enabled(false)
 	call_deferred("_refresh_initial_fog_state")
 	
@@ -146,16 +149,23 @@ func apply_room_type_logic() -> void:
 
 func _setup_start_room() -> void:
 	_set_boss_portals_enabled(false)
-	pass
+	decoration_manager.spawn_mushrooms()
+	decoration_manager.spawn_torches()
+	#decoration_manager.start_for_room(room_type)
 
 
 func _setup_boss_room() -> void:
 	_set_boss_portals_enabled(false)
-	pass
+	#decoration_manager.start_for_room(room_type)
+	decoration_manager.spawn_torches()
 
 
 func _setup_normal_room() -> void:
 	_set_boss_portals_enabled(false)
+	#decoration_manager.start_for_room(room_type)
+	decoration_manager.spawn_mushrooms()
+	decoration_manager.spawn_torches()
+	decoration_manager.spawn_graves()
 	# Spawning rocks in the room
 	rock_manager.start_for_room(room_type, dungeon_depth)
 
@@ -226,7 +236,8 @@ func _on_vision_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		var tween := create_tween()
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(fog_mask, "modulate:a", 0.0, 0.5)
+		#tween.tween_property(fog_mask, "modulate:a", 0.0, 0.5)
+		tween.tween_property(fog_mask.material, "shader_parameter/background_threshold", 1.0, 3.0)
 		await tween.finished
 		set_fog_enabled(false)
 

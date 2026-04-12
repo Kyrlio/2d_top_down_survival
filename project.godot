@@ -17,6 +17,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Goblin's Grudge"
 run/main_scene="uid://bcu0ikxhccr4c"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+boot_splash/bg_color=Color(0.2901961, 0.18431373, 0.20784314, 1)
 
 [autoload]
 

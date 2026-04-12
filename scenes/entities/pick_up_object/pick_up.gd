@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 	if height <= 0.0:
 		height = 0.0
 		# Inverse velocity (bounce)
-		z_velocity = -z_velocity * bounce_damp
+		z_velocity = - z_velocity * bounce_damp
 		
 		# Stop if bounce too small
 		if z_velocity < 125.0:
@@ -84,7 +84,7 @@ func _on_area_entered(area: Area2D) -> void:
 	tween.set_parallel()
 	tween.tween_method(tween_collect.bind(global_position), 0.0, 1.0, .5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_BACK)
 	tween.tween_property(sprite, "scale", Vector2.ZERO, .05).set_delay(.45)
-	tween.chain() #Attend que les précédents tween se finissent pour faire la suite
+	tween.chain() # Attend que les précédents tween se finissent pour faire la suite
 	
 	if area.owner.inventory_data.pick_up_slot_data(slot_data):
 		tween.tween_callback(collect)

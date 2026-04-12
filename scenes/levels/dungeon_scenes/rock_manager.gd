@@ -14,7 +14,7 @@ func start_for_room(room_type: String, depth: int = 1) -> void:
 	if room_type == "Start" or room_type == "Boss":
 		return
 	
-	for i in range(2, 5):
+	for i in randi_range(0, 5):
 		_spawn_rock(depth)
 
 
