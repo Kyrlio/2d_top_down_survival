@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dofcm46cv220v" path="res://scenes/entities/tree/tree.gd" id="1_ph4qh"]
 [ext_resource type="Texture2D" uid="uid://ceuqoep24tll" path="res://assets/Elements/Plants/spr_deco_tree_01_strip4.png" id="2_jlsbp"]
 [ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="5_fy4rw"]
+[ext_resource type="Shader" uid="uid://bp263r7a7ysq8" path="res://resources/shader/tree.gdshader" id="5_yf60l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fy4rw"]
 atlas = ExtResource("1_fu2wd")
@@ -978,6 +979,42 @@ radius = 7.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ofogr"]
 radius = 5.0
 
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yf60l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyn60"]
+shader = ExtResource("5_yf60l")
+shader_parameter/render_noise = false
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_yf60l")
+shader_parameter/amplitude = 0.0999999977648
+shader_parameter/time_scale = 0.04
+shader_parameter/noise_scale = 0.001
+shader_parameter/rotation_strength = 0.90000001341108
+shader_parameter/rotation_pivot = Vector2(0.5, 1)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sxpgj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wx3uv"]
+shader = ExtResource("5_yf60l")
+shader_parameter/render_noise = false
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_sxpgj")
+shader_parameter/amplitude = 0.0999999977648
+shader_parameter/time_scale = 0.04
+shader_parameter/noise_scale = 0.001
+shader_parameter/rotation_strength = 1.0
+shader_parameter/rotation_pivot = Vector2(0.5, 1)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_reecg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8aru3"]
+shader = ExtResource("5_yf60l")
+shader_parameter/render_noise = false
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_reecg")
+shader_parameter/amplitude = 0.0999999977648
+shader_parameter/time_scale = 0.04
+shader_parameter/noise_scale = 0.001
+shader_parameter/rotation_strength = 1.0
+shader_parameter/rotation_pivot = Vector2(0.5, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ofogr"]
 atlas = ExtResource("2_jlsbp")
 region = Rect2(0, 1, 32, 6)
@@ -1019,16 +1056,19 @@ metadata/_edit_lock_ = true
 [node name="Visuals" type="Node2D" parent="." unique_id=1651084866]
 
 [node name="Botton" type="Sprite2D" parent="Visuals" unique_id=444745342]
+material = SubResource("ShaderMaterial_eyn60")
 position = Vector2(0, -10)
 texture = SubResource("AtlasTexture_0ygd4")
 metadata/_edit_lock_ = true
 
 [node name="Top" type="Sprite2D" parent="Visuals" unique_id=407908540]
+material = SubResource("ShaderMaterial_wx3uv")
 position = Vector2(0, -18)
 texture = SubResource("AtlasTexture_kwxqa")
 metadata/_edit_lock_ = true
 
 [node name="Top2" type="Sprite2D" parent="Visuals" unique_id=607016856]
+material = SubResource("ShaderMaterial_8aru3")
 position = Vector2(0, -23.5)
 texture = SubResource("AtlasTexture_ofogr")
 metadata/_edit_lock_ = true

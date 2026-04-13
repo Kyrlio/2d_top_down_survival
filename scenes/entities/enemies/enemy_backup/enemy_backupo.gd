@@ -14,7 +14,6 @@ enum STATE {
 	DEAD
 }
 
-const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
 const PICK_UP = preload("uid://1atsbj7ft3su")
 const COIN = preload("uid://cx1v2d5h66kjh")
 
@@ -30,7 +29,6 @@ const COIN = preload("uid://cx1v2d5h66kjh")
 
 @export_category("Related Scene")
 @export var death_packed: PackedScene
-@export var death_sprite: CompressedTexture2D
 
 @onready var spawn_point: Vector2 = global_position
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
@@ -290,23 +288,10 @@ func drop_loot() -> void:
 		var final_angle := angle_offset + random_variation
 		var direction := Vector2(cos(final_angle), sin(final_angle))
 		
-		var speed := randf_range(25.0, 50.0)
+		var launch_speed := randf_range(25.0, 50.0)
 		
 		await get_tree().create_timer(i * 0.05).timeout
 		if pick_up.has_method("launch"):
-			pick_up.launch(direction, speed)
+			pick_up.launch(direction, launch_speed)
 
 
-func spawn_corpse() -> void:
-	var corpse := CORPSE_SCENE.instantiate()
-	if corpse:
-		corpse.corpse_sprite = death_sprite
-		if corpse is RigidBody2D:
-			(corpse as RigidBody2D).global_position = global_position
-			(corpse as RigidBody2D).linear_velocity = velocity
-		else:
-			(corpse as Node2D).global_position = global_position
-		#var target_parent: Node2D = Level.corpse_layer if Level.corpse_layer else get_parent()
-		var target_parent: Node2D = get_tree().get_first_node_in_group("ysort")
-		if target_parent:
-			target_parent.add_child(corpse)

@@ -99,7 +99,7 @@ func shoot_projectile() -> void:
 	if "damage" in proj:
 		proj.damage = attack_damage
 		
-	var target_parent = get_tree().get_first_node_in_group("ysort")
+	var target_parent = get_parent()
 	if not target_parent:
 		target_parent = get_parent()
 		

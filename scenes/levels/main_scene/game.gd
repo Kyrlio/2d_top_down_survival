@@ -39,8 +39,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
-	y_sort = get_tree().get_first_node_in_group("ysort")
+	player = level_container.find_child("Player", true, false)
+	if not player:
+		player = get_tree().get_first_node_in_group("player")
+	_update_y_sort_reference()
 	
 	hub_scene_instance = level_container.get_child(0)
 	
@@ -187,9 +189,17 @@ func _bind_player_inventory(new_player: Player) -> void:
 
 func _refresh_runtime_bindings() -> void:
 	await get_tree().process_frame
-	var active_player := get_tree().get_first_node_in_group("player") as Player
+	var active_player: Player = null
+	for child in level_container.get_children():
+		var found = child.find_child("Player", true, false)
+		if found:
+			active_player = found as Player
+			break
+	
+	if not active_player:
+		active_player = get_tree().get_first_node_in_group("player") as Player
 	_bind_player_inventory(active_player)
-	y_sort = get_tree().get_first_node_in_group("ysort") as Node2D
+	_update_y_sort_reference()
 	
 	if hot_bar_inventory.selected_slot_index != -1:
 		var slot_data = active_player.inventory_data.slot_datas[hot_bar_inventory.selected_slot_index]
@@ -227,8 +237,8 @@ func _on_inventory_interface_drop_slot_data(slot_data: SlotData) -> void:
 	var start_pos := player.get_drop_position()
 	pick_up.global_position = start_pos
 
-	if not y_sort or not y_sort.is_inside_tree():
-		y_sort = get_tree().get_first_node_in_group("ysort") as Node2D
+	if not y_sort or not is_instance_valid(y_sort):
+		_update_y_sort_reference()
 
 	if y_sort and y_sort.is_inside_tree():
 		y_sort.add_child(pick_up)
@@ -269,3 +279,15 @@ func _open_settings() -> void:
 func _quit_game() -> void:
 	_resume_game()
 	get_tree().quit()
+
+func _update_y_sort_reference() -> void:
+	# On cherche le Node YSort dans le niveau actif (enfant de level_container)
+	# pour éviter de pointer vers le YSort du Hub qui reste en mémoire.
+	for child in level_container.get_children():
+		var found = child.find_child("YSort", true, false)
+		if found:
+			y_sort = found as Node2D
+			return
+	
+	# Fallback au groupe global si rien trouvé localement
+	y_sort = get_tree().get_first_node_in_group("ysort") as Node2D

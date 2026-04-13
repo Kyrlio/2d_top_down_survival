@@ -12,7 +12,6 @@ enum STATE {
 	DEAD
 }
 
-const CORPSE_SCENE: PackedScene = preload("uid://mwfnfkya6aqp")
 const PICK_UP = preload("uid://1atsbj7ft3su")
 const COIN = preload("uid://cx1v2d5h66kjh")
 
@@ -27,7 +26,6 @@ const COIN = preload("uid://cx1v2d5h66kjh")
 
 @export_category("Related Scene")
 @export var death_packed: PackedScene
-@export var death_sprite: CompressedTexture2D
 
 @onready var spawn_point: Vector2 = global_position
 @onready var animation_player: AnimationPlayer = get_node_or_null("%AnimationPlayer")
@@ -197,9 +195,8 @@ func _enter_state_dead() -> void:
 	if hit_area:
 		hit_area.enabled.call_deferred(false)
 		
-	# On spawne immédiatement le cadavre au sol et les particules
+	# On spawne immédiatement les particules de mort
 	spawn_death_particles()
-	#spawn_corpse.call_deferred()
 	
 	var die_tween := create_tween()
 	die_tween.tween_property(visuals, "scale", Vector2.ZERO, .5).set_ease(Tween.EASE_IN).set_trans(Tween.TransitionType.TRANS_BACK)
@@ -334,7 +331,7 @@ func spawn_death_particles() -> void:
 	var die_particles: Node2D = death_packed.instantiate()
 	die_particles.global_position = global_position
 	
-	var target_parent: Node2D = get_tree().get_first_node_in_group("ysort")
+	var target_parent: Node2D = get_parent()
 	if not target_parent:
 		target_parent = get_parent()
 	target_parent.add_child(die_particles)
@@ -396,22 +393,6 @@ func drop_loot() -> void:
 			
 		if pick_up.has_method("launch"):
 			pick_up.launch(direction, launch_speed)
-
-
-func spawn_corpse() -> void:
-	var corpse := CORPSE_SCENE.instantiate()
-	if corpse:
-		corpse.corpse_sprite = death_sprite
-		if corpse is RigidBody2D:
-			(corpse as RigidBody2D).global_position = global_position
-			(corpse as RigidBody2D).linear_velocity = velocity
-		else:
-			(corpse as Node2D).global_position = global_position
-		#var target_parent: Node2D = Level.corpse_layer if Level.corpse_layer else get_parent()
-		var target_parent: Node2D = get_tree().get_first_node_in_group("ysort")
-		if target_parent:
-			target_parent.add_child(corpse)
-
 
 
 func get_active_state() -> STATE:

@@ -466,7 +466,7 @@ func _check_common_state_transitions() -> void:
 	if Input.is_action_pressed("attack") and current_tool.cooldown_timer.is_stopped():
 		#print(active_state)
 		switch_state(STATE.ATTACK)
-	#if Input.is_action_just_pressed("parry"):
+	#if Input.is_action_just_pressed("parry"):ds
 		#switch_state(STATE.PARRY)
 
 

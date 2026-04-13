@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_qys3g")
 tool_scene = ExtResource("3_uqkqw")
-base_damage = 50
+base_damage = 100
 name = "Sword"
 description = "SWORD GOES SWISH SWISH"
 texture = ExtResource("2_egsda")

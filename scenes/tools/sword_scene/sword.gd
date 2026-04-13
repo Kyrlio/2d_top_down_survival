@@ -1,12 +1,15 @@
 @icon("uid://cd083uunbism8")
 class_name Sword extends Node2D
 
+const SKIN_FRAME_COUNT: int = 3
+
 @export var slash3_dash_speed: int = 600
 
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var hit_area: HitArea2D = $Sprite/HitArea2D
 @onready var combo_timer: Timer = $ComboTimer
 @onready var cooldown_timer: Timer = $CooldownTimer
+@onready var sprite: Sprite2D = $Sprite
 
 var attack_speed: float = 1.0:
 	set(value):
@@ -41,7 +44,18 @@ func setup(new_wielder: CharacterBody2D, tool_data: ItemDataTool = null) -> void
 	
 	if tool_data:
 		current_tool_data = tool_data
+		_apply_persistent_skin()
 		apply_stats()
+
+
+func _apply_persistent_skin() -> void:
+	if not current_tool_data:
+		return
+
+	if current_tool_data.runtime_skin_frame < 0:
+		current_tool_data.runtime_skin_frame = randi() % SKIN_FRAME_COUNT
+
+	sprite.frame = current_tool_data.runtime_skin_frame
 
 
 func apply_stats() -> void:

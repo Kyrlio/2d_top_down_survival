@@ -27,7 +27,7 @@ func _ready() -> void:
 	calculate_doors()
 	print_dungeon_console()
 	#print(dungeon_grid)
-	y_sort_node = get_tree().get_first_node_in_group("ysort")
+	y_sort_node = $YSort
 	
 	# Build the dungeon
 	build_dungeon()

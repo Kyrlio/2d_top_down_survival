@@ -5,6 +5,9 @@ class_name ItemDataTool extends ItemData
 @export var attack_speed: float = 1.0
 @export var range_multiplier: float = 1.0
 
+# Runtime-only visual variant used by tool scenes (ex: sword skin/frame).
+var runtime_skin_frame: int = -1
+
 #var current_level: int = 1
 
 ## Use the tool 

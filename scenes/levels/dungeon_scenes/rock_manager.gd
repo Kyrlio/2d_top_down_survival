@@ -7,7 +7,11 @@ var spawn_root: Node2D
 
 
 func _ready() -> void:
-	spawn_root = get_tree().get_first_node_in_group("ysort")
+	# RockManager est enfant de la room; la room est enfant du YSort du donjon actif.
+	spawn_root = get_parent().get_parent() as Node2D if get_parent() else null
+	if not spawn_root:
+		push_error("RockManager could not resolve a local spawn root")
+		spawn_root = get_parent() as Node2D
 
 
 func start_for_room(room_type: String, depth: int = 1) -> void:

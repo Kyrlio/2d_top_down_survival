@@ -34,7 +34,12 @@ var current_depth: int = 1
 
 
 func _ready() -> void:
-	enemy_spawn_root = get_tree().get_first_node_in_group("ysort")
+	# L'EnemyManager est un enfant de la Room, qui est elle-même enfant du YSort du donjon.
+	# On évite le groupe global "ysort" qui peut pointer vers la mauvaise scène.
+	enemy_spawn_root = get_parent().get_parent() as Node2D if get_parent() else null
+	if not enemy_spawn_root:
+		push_error("EnemyManager could not resolve a local spawn root")
+		enemy_spawn_root = get_parent() as Node2D
 	room_completed.connect(_on_room_completed)
 
 
