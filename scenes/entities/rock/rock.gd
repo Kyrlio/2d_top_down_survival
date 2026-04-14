@@ -28,6 +28,7 @@ const DIAMOND_Y_REGION: int = 400
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var hurt_area: Area2D = $HurtArea2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var point_light: PointLight2D = $PointLight2D
 
 var region_x_size: int
 var minerals_name: Array[String] = ["Rock", "Iron", "Coal", "Gold", "Diamond"]
@@ -41,7 +42,25 @@ func _ready() -> void:
 	
 	_update_size()
 	_update_mineral()
+	_update_point_light()
 	animation_player.play("idle")
+
+
+func _update_point_light() -> void:
+	match mineral:
+		"Rock":
+			point_light.enabled = false
+		"Iron":
+			point_light.enabled = true
+			point_light.color = Color(1.0, 1.0, 1.0, 1.0)
+		"Coal":
+			point_light.enabled = false
+		"Gold":
+			point_light.enabled = true
+			point_light.color = Color(1.0, 0.855, 0.0, 1.0)
+		"Diamond":
+			point_light.enabled = true
+			point_light.color = Color(0.0, 0.804, 0.918, 1.0)
 
 
 func _update_size() -> void:

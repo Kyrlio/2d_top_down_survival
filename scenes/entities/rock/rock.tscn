@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dmfe7iukd1nge" path="res://scenes/entities/rock/rock.gd" id="1_5sdrd"]
 [ext_resource type="PackedScene" uid="uid://bj1tq4yx1wf6i" path="res://components/health_component/health_component.tscn" id="2_tssbb"]
-[ext_resource type="Texture2D" uid="uid://djg515yvkjp78" path="res://assets/spotlight.png" id="3_xppi7"]
 
 [sub_resource type="Animation" id="Animation_mxru5"]
 length = 0.001
@@ -265,6 +264,15 @@ load_path = "res://.godot/imported/spr_tileset_sunnysideworld_16px.png-f6f8725c0
 atlas = SubResource("CompressedTexture2D_iarth")
 region = Rect2(784, 464, 32, 32)
 
+[sub_resource type="Gradient" id="Gradient_036pf"]
+offsets = PackedFloat32Array(0, 0.23664123, 0.64122134)
+colors = PackedColorArray(1, 1, 1, 1, 0.13499999, 0.13499999, 0.13499999, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xppi7"]
+gradient = SubResource("Gradient_036pf")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Rock" type="StaticBody2D" unique_id=685374245 groups=["rock"]]
 collision_layer = 4
 script = ExtResource("1_5sdrd")
@@ -304,10 +312,8 @@ texture = SubResource("AtlasTexture_3lgo4")
 offset = Vector2(0, -4)
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=2107966123]
-energy = 0.2
-shadow_enabled = false
 shadow_filter = 1
-texture = ExtResource("3_xppi7")
-texture_scale = 1.5
+texture = SubResource("GradientTexture2D_xppi7")
+offset = Vector2(0, -3)
 
 [connection signal="area_entered" from="HurtArea2D" to="." method="_on_hurt_area_area_entered"]

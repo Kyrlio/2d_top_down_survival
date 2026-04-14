@@ -9,7 +9,9 @@
 [ext_resource type="Script" uid="uid://ca4sfqhm1305q" path="res://components/inventory_component/inventory_data_equip.gd" id="10_a11f7"]
 [ext_resource type="Script" uid="uid://hrmydbr77vkh" path="res://components/inventory_component/inventory_data.gd" id="10_w52jh"]
 [ext_resource type="Script" uid="uid://dpu5vnxymo6op" path="res://components/inventory_component/slot_data.gd" id="11_fagb8"]
-[ext_resource type="Resource" uid="uid://cahhtwha76a12" path="res://resources/tools/weapons/sword.tres" id="14_qrrpx"]
+[ext_resource type="Script" uid="uid://cuflfmppf2vl5" path="res://resources/tools/item_data_tool.gd" id="12_8ti2q"]
+[ext_resource type="Texture2D" uid="uid://dh30st0wjsbyv" path="res://assets/UI/sword.png" id="13_qrrpx"]
+[ext_resource type="PackedScene" uid="uid://xdl4mrc4p3qy" path="res://scenes/tools/sword_scene/sword.tscn" id="14_0wwx2"]
 [ext_resource type="Resource" uid="uid://cg4hqlsijbhcs" path="res://resources/tools/axe.tres" id="15_0wwx2"]
 [ext_resource type="PackedScene" uid="uid://bpl2aobl860vx" path="res://scenes/entities/dungeon_entrance/dungeon_entrance.tscn" id="15_a11f7"]
 [ext_resource type="Resource" uid="uid://br6fp2baqc2w3" path="res://resources/tools/pickaxe.tres" id="16_xq1y4"]
@@ -6284,9 +6286,17 @@ script = ExtResource("10_a11f7")
 slot_datas = Array[ExtResource("11_fagb8")]([null, null])
 metadata/_custom_type_script = "uid://ca4sfqhm1305q"
 
+[sub_resource type="Resource" id="Resource_ny0lv"]
+script = ExtResource("12_8ti2q")
+tool_scene = ExtResource("14_0wwx2")
+name = "Sword"
+description = "SWORD GOES SWISH SWISH"
+texture = ExtResource("13_qrrpx")
+metadata/_custom_type_script = "uid://cuflfmppf2vl5"
+
 [sub_resource type="Resource" id="Resource_0wwx2"]
 script = ExtResource("11_fagb8")
-item_data = ExtResource("14_qrrpx")
+item_data = SubResource("Resource_ny0lv")
 metadata/_custom_type_script = "uid://dpu5vnxymo6op"
 
 [sub_resource type="Resource" id="Resource_qrrpx"]
@@ -6394,3 +6404,6 @@ mineral = "Diamond"
 
 [node name="DungeonEntrance" parent="YSort" unique_id=798044616 instance=ExtResource("15_a11f7")]
 position = Vector2(144, -135)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1503473332]
+color = Color(0, 0.01710304, 0.034206066, 1)
